@@ -12,4 +12,10 @@
 
 ActiveRecord::Schema.define(version: 0) do
 
+<<<<<<< HEAD
+=======
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+>>>>>>> c4ca09e... Add postgres to project
 end
