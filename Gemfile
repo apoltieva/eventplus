@@ -5,6 +5,8 @@ ruby '3.0.0'
 
 gem 'active_storage-postgresql'
 
+gem "image_processing", ">= 1.2"
+
 gem 'pg', '~> 1.2.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'

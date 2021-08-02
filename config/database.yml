@@ -23,6 +23,7 @@ default: &default
   host: localhost
   username: eventplus
   password: Ahha546372819!
+  url: postgres://eventplus:Ahha546372819!@localhost:5432/eventplus
 
 development:
   <<: *default
