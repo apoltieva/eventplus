@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_02_162653) do
+ActiveRecord::Schema.define(version: 2021_08_03_134457) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,12 +37,6 @@ ActiveRecord::Schema.define(version: 2021_08_02_162653) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "active_storage_postgresql_files", force: :cascade do |t|
-    t.oid "oid"
-    t.string "key"
-    t.index ["key"], name: "index_active_storage_postgresql_files_on_key", unique: true
-  end
-
   create_table "active_storage_variant_records", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
@@ -52,18 +46,23 @@ ActiveRecord::Schema.define(version: 2021_08_02_162653) do
   create_table "events", force: :cascade do |t|
     t.string "title", null: false
     t.string "description"
-    t.binary "picture"
-    t.integer "venue_id"
     t.string "artist", null: false
-    t.date "date", null: false
-    t.time "start_time"
-    t.time "end_time"
     t.integer "ticket_price", default: 0
     t.integer "total_number_of_tickets"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "start_time", precision: 6, null: false
+    t.datetime "end_time", precision: 6, null: false
+    t.bigint "venue_id"
+    t.index ["venue_id"], name: "index_events_on_venue_id"
+  end
+
+  create_table "venues", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "events", "venues"
 end
