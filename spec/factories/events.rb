@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'faker'
 
 FactoryBot.define do
@@ -10,4 +12,3 @@ FactoryBot.define do
     venue_id { 1 }
   end
 end
-

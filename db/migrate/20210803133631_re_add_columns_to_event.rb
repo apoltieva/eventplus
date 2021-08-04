@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ReAddColumnsToEvent < ActiveRecord::Migration[6.1]
   def change
     add_column :events, :start_time, :timestamp, precision: 6, null: false
