@@ -1,17 +1,9 @@
 class EventsController < ApplicationController
-  def index
+  def index; end
 
-  end
+  def new; end
 
-  def new
+  def update; end
 
-  end
-
-  def update
-
-  end
-
-  def destroy
-
-  end
+  def destroy; end
 end

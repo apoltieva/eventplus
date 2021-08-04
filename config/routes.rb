@@ -4,4 +4,3 @@ Rails.application.routes.draw do
   resources :events, except: [:edit]
   root 'events#index'
 end
-
