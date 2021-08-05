@@ -3,4 +3,7 @@
 Rails.application.routes.draw do
   resources :events, except: [:edit]
   root 'events#index'
+  resources :users, only: %i[new create]
+  get 'login', to: 'sessions#login'
+  post 'login', to: 'sessions#create'
 end
