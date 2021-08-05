@@ -8,15 +8,11 @@ and venues.
 
 Venues consist of name, picture, location and maximum capacity
 
-Events consist of title, description, picture, venue, artist (musician, band, lector etc, a string for the moment), date, start time, end time, ticket price (not required, tickets may be free) and the total number of tickets
-
-( database.yaml)
-
+Events consist of title, description, picture, venue, artist (musician, band, lector etc, a string for the moment), start and end date-time, ticket price (not required, tickets may be free) and the total number of tickets
 
 Anyone can see a list of future events (sorted by date and start time) with a number of available tickets
 
 Users can register using email (confirmation is required) and password, sign in and sign out.
-
 
 Users can buy tickets for events, more than one per person (at first we need a prototype where there is no actual buying flow, so the ticket is “bought” when a user pushes the “buy” button). Tickets are sent to the user’s email consisting of basic event information along with ticket ID (randomised human-readable string) and QR code with a unique long hash
 

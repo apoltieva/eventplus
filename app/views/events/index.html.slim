@@ -1,7 +1,12 @@
-- if @events.empty?
-  | No events :(
-- else
-  div
-    ul
-      - @events.each do |e|
-        li #{ e.title }
+div
+  - if @events.empty?
+    | No events :(
+  - else
+    - @events.each do |e|
+      div
+        p #{ e.title }
+        p #{ e.description }
+        p Ticket price - #{ e.ticket_price / 100 }
+        / TODO number of available tickets
+
+
