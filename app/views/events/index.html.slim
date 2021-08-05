@@ -1,0 +1,7 @@
+- if @events.empty?
+  | No events :(
+- else
+  div
+    ul
+      - @events.each do |e|
+        li #{ e.title }
