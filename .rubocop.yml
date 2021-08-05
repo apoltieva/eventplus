@@ -9,8 +9,7 @@ Metrics/MethodLength:
 
 AllCops:
   Exclude:
-    - bin/bundle
-    - config/initializers/secret_token.rb
-    - db/schema.rb
-    - db/migrate
-    - db/migrate/20210802155930_create_active_storage_tables.active_storage.rb
+    - 'bin/**/*'
+    - 'config/initializers/secret_token.rb'
+    - 'db/schema.rb'
+    - 'db/migrate/*'
