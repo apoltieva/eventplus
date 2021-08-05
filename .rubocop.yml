@@ -9,7 +9,10 @@ Metrics/MethodLength:
 
 AllCops:
   Exclude:
+    - 'config/initializers/devise.rb'
+    - 'config/environments/development.rb'
     - 'bin/**/*'
     - 'config/initializers/secret_token.rb'
     - 'db/schema.rb'
     - 'db/migrate/*'
+
