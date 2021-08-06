@@ -5,9 +5,6 @@ AllCops:
     - 'db/**/*.rb'
     - 'doc/**/*.xml'
     - '.pryrc'
-require:
-  - rubocop-rails
-  - rubocop-performance
 Metrics/BlockLength:
   Exclude:
     - 'config/environments/*.rb'
@@ -105,10 +102,4 @@ Style/SlicingWithRange:
   Enabled: true
 Style/StringConcatenation:
   Enabled: false
-# Rails Cops:
-Rails/ApplicationController:
-  Enabled: false
-Rails/InverseOf:
-  Enabled: false
-Rails/HasManyOrHasOneDependent:
-  Enabled: false
+
