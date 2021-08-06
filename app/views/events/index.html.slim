@@ -4,8 +4,8 @@ div
   - else
     - @events.each do |e|
       div
-        p #{ e.title }
-        p #{ e.description }
+        p = e.title
+        p = e.description
         p Ticket price - #{ e.ticket_price / 100 }
         / TODO number of available tickets
 
