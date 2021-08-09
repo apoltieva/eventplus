@@ -10,6 +10,7 @@ Bundler.require(*Rails.groups)
 
 module Eventplus
   class Application < Rails::Application
+    require_relative "../lib/settings"
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
 

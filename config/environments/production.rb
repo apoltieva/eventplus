@@ -119,4 +119,17 @@ Rails.application.configure do
   # config.active_record.database_selector = { delay: 2.seconds }
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
+
+  # Default url for devise
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 } # TODO: change to actual host later
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: Settings.smtp_settings.adress,
+    port: 587,
+    domain: Settings.smtp_settings.domain,
+    user_name: Settings.smtp_settings.user_name,
+    password: Settings.smtp_settings.password,
+    authentication: 'plain',
+    enable_starttls_auto: true
+  }
 end
