@@ -49,11 +49,7 @@ group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'rspec-rails'
   gem 'rubocop-rspec', '~> 2.3', require: false
-  gem 'mailcatcher'
 end
-gem 'actionview-encoded_mail_to'
-gem 'sidekiq'
-gem 'redis-rails'
 
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
