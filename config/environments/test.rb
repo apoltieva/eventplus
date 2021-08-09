@@ -61,11 +61,11 @@ Rails.application.configure do
   # config.action_view.annotate_rendered_view_with_filenames = true
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address: 'smtp.gmail.com',
+    address: Settings.smtp_settings.adress,
     port: 587,
-    domain: 'gmail.com',
-    user_name: 'eventplus.mailer@gmail.com',
-    password: 'Ahha546372819!',
+    domain: Settings.smtp_settings.domain,
+    user_name: Settings.smtp_settings.user_name,
+    password: Settings.smtp_settings.password,
     authentication: 'plain',
     enable_starttls_auto: true
   }
