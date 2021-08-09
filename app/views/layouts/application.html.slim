@@ -15,21 +15,22 @@ html class="h-100" lang="en"
           ul class="navbar-nav mr-auto"
             li class="nav-item active"
               .margin
-                = button_to "Home",    '#', method: 'get'
+                = button_to "Home", '/events', method: 'get'
             li class="nav-item active"
               .margin
                 = button_to 'Help',    'help_path'
             - if user_signed_in?
               li class="nav-item active"
                 .margin
-                  = button_to 'Logout'
+                  = button_to 'Logout','/users/sign_out', method: 'delete'
+              p.email = current_user.email
             - else
               li class="nav-item active"
                 .margin
-                  = button_to 'Register', '/users/new', method: 'get'
+                  = button_to 'Register', '/users/sign_up', method: 'get'
               li
                 .margin
-                  = button_to 'Login', 'login', method: 'get'
+                  = button_to 'Login', '/users/sign_in', method: 'get'
           form class="form-inline mt-2 mt-md-0"
             input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"
             button class="btn btn-outline-success my-2 my-sm-0" type="submit" Search
