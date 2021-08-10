@@ -1,12 +1,17 @@
-div
+.u-clearfix.u-sheet.u-valign-middle.u-block-d040-2[data-height-lg="408.2105263157894" data-height-md="342.42105263157885"]
   - if @events.empty?
     | No events :(
   - else
     - @events.each do |e|
-      div
-        p = e.title
-        p = e.description
-        p Ticket price - #{ e.ticket_price / 100 }
-        / TODO number of available tickets
+      .u-list.u-block-d040-3
+        .u-repeater.u-block-d040-25
+          .u-container-style.u-list-item.u-repeater-item.u-block-d040-4
+            .u-container-layout.u-similar-container.u-block-d040-5
+              - if e.pictures.empty?
+                = image_tag 'default-image.jpg', alt: "img.jpg", size: "200x133", class: 'u-expanded-width u-image u-image-default u-block-d040-6'
+              - else
+                - e.pictures.each do |picture|
+                  = image_tag(e.picture)
 
-
+              h3.u-text.u-text-default.u-block-d040-7 = e.title
+              p.u-text.u-block-d040-17 = e.description

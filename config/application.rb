@@ -13,6 +13,7 @@ module Eventplus
     require_relative '../lib/settings'
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
+    config.assets.enabled = true
 
     # Configuration for the application, engines, and railties goes here.
     #
