@@ -8,10 +8,14 @@
           .u-container-style.u-list-item.u-repeater-item.u-block-d040-4
             .u-container-layout.u-similar-container.u-block-d040-5
               - if e.pictures.empty?
-                = image_tag 'default-image.jpg', alt: "img.jpg", size: "200x133", class: 'u-expanded-width u-image u-image-default u-block-d040-6'
+                - 2.times do
+                  = image_tag 'default-image.jpg', alt: "img.jpg", size: "200x133",
+                              class: 'u-image'
               - else
                 - e.pictures.each do |picture|
-                  = image_tag(e.picture)
+                  = image_tag(e.picture, alt: "img.jpg", size: "200x133",
+                              class: 'u-image')
 
               h3.u-text.u-text-default.u-block-d040-7 = e.title
               p.u-text.u-block-d040-17 = e.description
+

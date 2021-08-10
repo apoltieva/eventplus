@@ -21,6 +21,11 @@
 {
     max-width: 90%;
 }
+.u-image
+{
+    cursor:pointer;
+    margin-right: 10px;
+}
 main
 {
     padding: 60px 15px 0;
