@@ -66,7 +66,8 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 
-  # configure shoulda matchers to use rspec as the test framework and full matcher libraries for rails
+  # configure shoulda matchers to use rspec
+  # as the test framework and full matcher libraries for rails
   Shoulda::Matchers.configure do |conf|
     conf.integrate do |with|
       with.test_framework :rspec
@@ -79,7 +80,8 @@ RSpec.configure do |config|
     # add `FactoryBot` methods
     conf.include FactoryBot::Syntax::Methods
 
-    # start by truncating all the tables but then use the faster transaction strategy the rest of the time.
+    # start by truncating all the tables
+    # but then use the faster transaction strategy the rest of the time.
     conf.before(:suite) do
       DatabaseCleaner.clean_with(:truncation)
       DatabaseCleaner.strategy = :transaction
@@ -93,4 +95,3 @@ RSpec.configure do |config|
     end
   end
 end
-

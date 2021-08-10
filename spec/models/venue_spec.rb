@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe Venue, type: :model do
-  context "with valid attributes" do
-    it "should be valid" do
+  context 'with valid attributes' do
+    it 'should be valid' do
       expect(create(:venue)).to be_valid
     end
   end
