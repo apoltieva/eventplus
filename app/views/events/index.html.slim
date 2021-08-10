@@ -18,6 +18,7 @@
         p.u-block-d040-17 Venue: #{Venue.find(e.venue_id).name}
         p.u-block-d040-17 From: #{e.start_time} till: #{e.end_time}
         p.u-block-d040-17 = e.description
-        p.u-block-d040-17 Ticket price: #{e.ticket_price == 0 ? 'FREE' : "#{e.ticket_price} UAH"}
+        p.u-block-d040-17 Ticket price:
+                #{e.ticket_price_cents == 0 ? 'FREE' : "#{Money.new(e.ticket_price_cents)} UAH"}
         p.u-block-d040-17 Number of tickets: #{e.total_number_of_tickets}
 

@@ -21,6 +21,8 @@ gem 'devise'
 
 gem 'settingslogic'
 
+gem 'money-rails', '~>1.12'
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 6.1.4'
 # Use sqlite3 as the database for Active Record
