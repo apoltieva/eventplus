@@ -1,21 +1,23 @@
-.u-clearfix.u-sheet.u-valign-middle.u-block-d040-2[data-height-lg="408.2105263157894" data-height-md="342.42105263157885"]
+.u-block-d040-2
   - if @events.empty?
     | No events :(
   - else
     - @events.each do |e|
-      .u-list.u-block-d040-3
-        .u-repeater.u-block-d040-25
-          .u-container-style.u-list-item.u-repeater-item.u-block-d040-4
-            .u-container-layout.u-similar-container.u-block-d040-5
-              - if e.pictures.empty?
-                - 2.times do
-                  = image_tag 'default-image.jpg', alt: "img.jpg", size: "200x133",
-                              class: 'u-image'
-              - else
-                - e.pictures.each do |picture|
-                  = image_tag(e.picture, alt: "img.jpg", size: "200x133",
-                              class: 'u-image')
+      .u-block-d040-3
+        - if e.pictures.empty?
+          - 2.times do
+            = image_tag 'default-image.jpg', alt: "img.jpg", size: "200x133",
+                        class: 'u-image'
+        - else
+          - e.pictures.each do |picture|
+            = image_tag(e.picture, alt: "img.jpg", size: "200x133",
+                        class: 'u-image')
 
-              h3.u-text.u-text-default.u-block-d040-7 = e.title
-              p.u-text.u-block-d040-17 = e.description
+        h3.u-block-d040-7 = e.title
+        p.u-block-d040-17 On stage: #{e.artist}
+        p.u-block-d040-17 Venue: #{Venue.find(e.venue_id).name}
+        p.u-block-d040-17 From: #{e.start_time} till: #{e.end_time}
+        p.u-block-d040-17 = e.description
+        p.u-block-d040-17 Ticket price: #{e.ticket_price == 0 ? 'FREE' : "#{e.ticket_price} UAH"}
+        p.u-block-d040-17 Number of tickets: #{e.total_number_of_tickets}
 
