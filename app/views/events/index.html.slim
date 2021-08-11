@@ -21,3 +21,5 @@
         p.u-block-d040-17 Ticket price:
                 #{e.ticket_price_cents == 0 ? 'FREE' : "#{Money.new(e.ticket_price_cents)} UAH"}
         p.u-block-d040-17 Number of tickets: #{e.total_number_of_tickets}
+        - if user_signed_in?
+          button.btn.btn-primary type="button" Buy
