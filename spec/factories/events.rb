@@ -7,14 +7,18 @@ FactoryBot.define do
     title { Faker::Movie.title }
     description { Faker::Lorem.paragraph }
     artist { Faker::Name.name }
-    start_time do
-      Faker::Time.between(from: DateTime.new(2001, 2, 3, 4, 5, 6),
-                          to: DateTime.new(2021, 2, 3, 4, 5, 6))
-    end
-    end_time do
-      Faker::Time.between(from: DateTime.new(2022, 2, 3, 4, 5, 6),
-                          to: DateTime.new(2023, 2, 3, 4, 5, 6))
-    end
+    start_time { 
+      Faker::Time.between(
+        from: DateTime.new(2001),
+        to: DateTime.new(2021)
+      )
+    }
+    end_time { 
+      Faker::Time.between(
+        from: DateTime.new(2022),
+        to: DateTime.new(2023)
+      )
+    }
     association :venue
   end
 end
