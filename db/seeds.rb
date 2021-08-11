@@ -28,6 +28,9 @@ if Event.none?
                   end_time: Faker::Time.between(from: DateTime.new(2022, 2, 3, 4, 5, 6),
                                                 to: DateTime.new(2023,
                                                                  2, 3, 4, 5, 6)),
-                  venue_id: Venue.all.sample.id)
+                  venue_id: Venue.all.sample.id,
+                  total_number_of_tickets: rand(100000),
+                  ticket_price_cents: rand(100000)
+                  )
   end
 end
