@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_06_074842) do
+ActiveRecord::Schema.define(version: 2021_08_10_161148) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,13 +47,14 @@ ActiveRecord::Schema.define(version: 2021_08_06_074842) do
     t.string "title", null: false
     t.string "description"
     t.string "artist", null: false
-    t.integer "ticket_price", default: 0
     t.integer "total_number_of_tickets"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "start_time", precision: 6, null: false
     t.datetime "end_time", precision: 6, null: false
     t.bigint "venue_id"
+    t.integer "ticket_price_cents", default: 0, null: false
+    t.string "ticket_price_currency", default: "UAH", null: false
     t.index ["venue_id"], name: "index_events_on_venue_id"
   end
 

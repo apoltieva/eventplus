@@ -2,7 +2,7 @@
 
 class EventsController < ApplicationController
   def index
-    @events = Event.all.order('start_time ASC')
+    @events = Event.all.order(:start_time)
   end
 
   def new; end

@@ -1,13 +1,23 @@
-div
+.u-block-d040-2
   - if @events.empty?
     | No events :(
   - else
     - @events.each do |e|
-      div
-        p #{ e.title }
-        p #{ e.description }
-        p #{ e.venue }
-        p Ticket price - #{ e.ticket_price / 100 }
-        / TODO number of available tickets
+      .u-block-d040-3
+        - if e.pictures.empty?
+          - 2.times do
+            = image_tag 'default-image.jpg', alt: "img.jpg", size: "200x133",
+                        class: 'u-image'
+        - else
+          - e.pictures.each do |picture|
+            = image_tag(e.picture, alt: "img.jpg", size: "200x133",
+                        class: 'u-image')
 
-
+        h3.u-block-d040-7 = e.title
+        p.u-block-d040-17 On stage: #{e.artist}
+        p.u-block-d040-17 Venue: #{Venue.find(e.venue_id).name}
+        p.u-block-d040-17 From: #{e.start_time} till: #{e.end_time}
+        p.u-block-d040-17 = e.description
+        p.u-block-d040-17 Ticket price:
+                #{e.ticket_price_cents == 0 ? 'FREE' : "#{Money.new(e.ticket_price_cents)} UAH"}
+        p.u-block-d040-17 Number of tickets: #{e.total_number_of_tickets}
