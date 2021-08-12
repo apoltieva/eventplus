@@ -12,14 +12,13 @@
           - e.pictures.each do |picture|
             = image_tag(e.picture, alt: "img.jpg", size: "200x133",
                         class: 'u-image')
-
-        h3.u-block-d040-7 = e.title
-        p.u-block-d040-17 On stage: #{e.artist}
-        p.u-block-d040-17 Venue: #{e.venue.name}
-        p.u-block-d040-17 From: #{e.start_time} till: #{e.end_time}
-        p.u-block-d040-17 = e.description
-        p.u-block-d040-17 Ticket price:
-                #{e.ticket_price_cents == 0 ? 'FREE' : "#{Money.new(e.ticket_price_cents)} UAH"}
-        p.u-block-d040-17 Number of tickets: #{e.total_number_of_tickets}
+        - event = e.decorate
+        h3.u-block-d040-7 = event.title
+        p.u-block-d040-17 On stage: #{event.artist}
+        p.u-block-d040-17 Venue: #{event.venue.name}
+        p.u-block-d040-17 = event.start_end
+        p.u-block-d040-17 = event.description
+        p.u-block-d040-17 Ticket price: #{event.fee}
+        p.u-block-d040-17 Number of tickets: #{event.total_number_of_tickets}
         - if user_signed_in?
           button.btn.btn-primary type="button" Buy
