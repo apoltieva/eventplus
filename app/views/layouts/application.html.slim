@@ -32,6 +32,9 @@ html class="h-100" lang="en"
               li
                 .margin
                   = button_to 'Login', '/users/sign_in', method: 'get', class: "btn btn-outline-light"
+          - if current_user&.admin?
+            ul class="navbar-nav mr-auto justify-content-between"
+              li = button_to 'Venues', '/venues', class: "btn btn-outline-light"
           form class="form-inline mt-2 mt-md-0"
             input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"
             button class="btn btn-outline-success my-2 my-sm-0" type="submit" Search
