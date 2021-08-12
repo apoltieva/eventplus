@@ -1,0 +1,18 @@
+.u-block-d040-2
+  = button_to 'Create venue', new_venue_path, method: 'get', class: "btn btn-primary"
+  - if @venues.empty?
+    | No venues :(
+  - else
+    - @venues.each do |venue|
+      .u-block-d040-3.card
+        .card-body
+          h3.u-block-d040-7 = venue.name
+          - if venue.pictures.empty?
+            - 2.times do
+              = image_tag 'default-image.jpg', size: "200x133", class: 'u-image'
+          - else
+            - venue.pictures.each do |picture|
+              = image_tag(venue.picture, size: "200x133", class: 'u-image')
+          p.u-block-d040-17 #{venue.latitude}° latitude, #{venue.longitude}° longitude
+          = button_to 'Edit', "/venues/#{venue.id}/edit", method: 'get', class: "btn btn-primary"
+          = button_to 'Delete', "/venues/#{venue.id}", method: 'delete', class: "btn btn-outline-danger"

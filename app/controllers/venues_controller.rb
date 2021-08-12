@@ -2,28 +2,34 @@ class VenuesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @venues = Venue.all
+    @venues = Venue.all.includes(:pictures_attachments)
   end
 
   def new
-    @user = Venue.new
+    @venue = Venue.new
   end
 
   def create
     @venue = Venue.new(venue_params)
     if @venue.save
-      render :index, notice: "Created successfully"
+      redirect_to action: "index", notice: "Created successfully"
     else
-      render :new, notice: "#{@venue.errors.full_messages}"
+      flash[:alert] = "#{@venue.errors.full_messages}"
+      render :new
     end
+  end
+
+  def edit
+    @venue = Venue.find(params[:id])
   end
 
   def update
     @venue = Venue.find(params[:id])
     if @venue.update(venue_params)
-      render :index, notice: "Updated successfully"
+      redirect_to action: "index", notice: "Updated successfully"
     else
-      render :new, notice: "#{@venue.errors.full_messages}"
+      flash[:alert] = "#{@venue.errors.full_messages}"
+      render :edit
     end
   end
 
