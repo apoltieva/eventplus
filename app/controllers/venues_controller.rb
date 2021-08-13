@@ -1,5 +1,7 @@
 class VenuesController < ApplicationController
   load_and_authorize_resource
+  before_action find_venue, only: %i[destroy update edit]
+
 
   def index
     @venues = Venue.all.includes(:pictures_attachments)
@@ -19,12 +21,9 @@ class VenuesController < ApplicationController
     end
   end
 
-  def edit
-    @venue = Venue.find(params[:id])
-  end
+  def edit; end
 
   def update
-    @venue = Venue.find(params[:id])
     if @venue.update(venue_params)
       redirect_to action: "index", notice: "Updated successfully"
     else
@@ -34,11 +33,14 @@ class VenuesController < ApplicationController
   end
 
   def destroy
-    @venue = Venue.find(params[:id])
     @venue.destroy
   end
 
   private
+
+  def find_event
+    venue = Venue.find(params[:id])
+  end
 
   def venue_params
     params.require(:venue).permit(:name, :latitude, :longitude)
