@@ -3,7 +3,7 @@
     | No events :(
   - else
     - if current_user&.admin?
-      = button_to 'Create', "/events/new", method: 'get', class: "btn btn-outline-info"
+      = button_to 'Create', new_event_path, method: 'get', class: "btn btn-outline-info"
     - @events.each do |e|
       .u-block-d040-3
         - if e.pictures.empty?
@@ -29,5 +29,5 @@
             title="You need to register or log in to buy tickets"]  Buy
 
         - if current_user&.admin?
-          = button_to 'Edit', "/events/#{event.id}/edit", method: 'get', class: "btn btn-outline-primary"
-          = button_to 'Delete', "/events/#{event.id}", method: 'delete', class: "btn btn-outline-danger", rel: 'no-follow'
+          = button_to 'Edit', edit_event_path(event.id), method: 'get', class: "btn btn-outline-primary"
+          = button_to 'Delete', event_path(event.id), data: {confirm: "Are you sure?"}, method: 'delete', class: "btn btn-outline-danger", rel: 'no-follow'
