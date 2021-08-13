@@ -8,6 +8,6 @@ class Customers::RegistrationsController < Devise::RegistrationsController
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: %i[type]).merge(type: 'Customer')
+    devise_parameter_sanitizer.permit(:sign_up, keys: %i[role]).merge(type: 'Customer')
   end
 end

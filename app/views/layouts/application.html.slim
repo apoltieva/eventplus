@@ -23,6 +23,8 @@ html class="h-100" lang="en"
               li class="nav-item active"
                 .margin
                   = button_to 'Logout','/users/sign_out', method: 'delete', class: "btn btn-outline-light"
+                .margin
+                  = button_to "Cart (" + "#{current_user.cart_count}" + ")", cart_path, method: 'get'
               div style="margin-top:5px"
                 p.email = current_user.email
             - else

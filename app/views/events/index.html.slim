@@ -23,7 +23,7 @@
         p.u-block-d040-17 Ticket price: #{event.fee}
         p.u-block-d040-17 Number of tickets: #{event.total_number_of_tickets}
         - if user_signed_in?
-          button.btn.btn-primary type="button" Buy
+          = button_to 'Add to cart', add_to_cart_path(event.id), method: 'get', class: 'btn btn-primary'
         - else
           button.btn.btn-secondary [disabled="" type="button" data-toggle="tooltip" data-placement="top"
             title="You need to register or log in to buy tickets"]  Buy
