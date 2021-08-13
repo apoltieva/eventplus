@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class EventsController < ApplicationController
-  before_action find_event, only: %i[destroy update edit]
+  before_action :find_event, only: %i[destroy update edit]
 
   def index
     @events = Event.all.order(:start_time).includes(:venue, :pictures_attachments)
@@ -34,6 +34,7 @@ class EventsController < ApplicationController
 
   def destroy
     @event.destroy
+    redirect_to action: "index", notice: "Deleted successfully"
   end
 
   private
@@ -43,7 +44,7 @@ class EventsController < ApplicationController
   end
 
   def event_params
-    params.require(:event).permit(:title, :description, :artist, :total_number_of_tickets, :start_time,
-                                  :end_time, :venue_id, :ticket_price_cents, :ticket_price_currency)
+    params.require(:event).permit(:ticket_price_cents, :title, :description, :artist, :total_number_of_tickets, :start_time,
+                                  :end_time, :venue_id, :ticket_price_currency)
   end
 end

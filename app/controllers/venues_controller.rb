@@ -1,6 +1,6 @@
 class VenuesController < ApplicationController
   load_and_authorize_resource
-  before_action find_venue, only: %i[destroy update edit]
+  before_action :find_venue, only: %i[destroy update edit]
 
 
   def index
@@ -34,12 +34,13 @@ class VenuesController < ApplicationController
 
   def destroy
     @venue.destroy
+    redirect_to action: "index", notice: "Deleted successfully"
   end
 
   private
 
   def find_event
-    venue = Venue.find(params[:id])
+    @venue = Venue.find(params[:id])
   end
 
   def venue_params
