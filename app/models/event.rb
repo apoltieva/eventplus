@@ -7,7 +7,7 @@ class Event < ApplicationRecord
   monetize :ticket_price_cents, numericality: { greater_than_or_equal_to: 0 }
   validates :total_number_of_tickets, numericality: { greater_than_or_equal_to: 1 }
   belongs_to :venue
-  belongs_to :order
+  has_many :orders
   has_many :users, through: :orders
   has_many_attached :pictures
 

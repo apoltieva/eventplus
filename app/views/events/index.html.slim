@@ -23,7 +23,11 @@
         p.u-block-d040-17 Ticket price: #{event.fee}
         p.u-block-d040-17 Number of tickets: #{event.total_number_of_tickets}
         - if user_signed_in?
-          = button_to 'Add to cart', add_to_cart_path(event.id), method: 'put', class: 'btn btn-primary'
+          = form_with url: orders_path do |f|
+            = f.hidden_field :event_id, value: event.id
+            = f.hidden_field :user_id, value: current_user.id
+            = f.number_field :quantity, step: 1, min: 1
+            = f.submit "Buy"
         - else
           button.btn.btn-secondary [disabled="" type="button" data-toggle="tooltip" data-placement="top"
             title="You need to register or log in to buy tickets"]  Buy
