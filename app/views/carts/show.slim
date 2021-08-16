@@ -21,6 +21,7 @@ h3.jumbotron Your shopping cart
           td colspan="3"
             h5 Total
             h5 = @cart_total
-  = button_to "Buy"
+  = button_to "Buy", new_transaction_path, method: 'get',
+      class: 'btn btn-success' unless current_user.cart_products_with_qty.blank?
 
 
