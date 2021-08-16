@@ -23,6 +23,8 @@ Metrics/MethodLength:
     - Gemfile
 Style/Documentation:
   Enabled: false
+Style/GlobalVars:
+  Enabled: false
 Style/Lambda:
   EnforcedStyle: literal
 Style/FormatStringToken:

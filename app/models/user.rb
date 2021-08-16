@@ -25,14 +25,14 @@ class User < ApplicationRecord
 
   def cart_count
     quantities = $redis.hvals "cart#{id}"
-    quantities.reduce(0) { |sum, qty| sum += qty.to_i }
+    quantities.reduce(0) { |sum, qty| sum + qty.to_i }
   end
 
   def cart_total_price
-    get_cart_products_with_qty.map { |event, qty| event.ticket_price * qty.to_i }.reduce(:+)
+    cart_products_with_qty.map { |event, qty| event.ticket_price * qty.to_i }.reduce(:+)
   end
 
-  def get_cart_products_with_qty
+  def cart_products_with_qty
     cart_ids = []
     cart_qtys = []
     ($redis.hgetall current_user_cart).map do |key, value|
@@ -44,7 +44,7 @@ class User < ApplicationRecord
   end
 
   def purchase_cart_products!
-    get_cart_products_with_qty do |event, qty|
+    cart_products_with_qty do |event, qty|
       orders.create(user: self, event: event, quantity: qty)
     end
     $redis.del current_user_cart
