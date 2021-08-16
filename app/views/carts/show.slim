@@ -14,12 +14,13 @@ h3.jumbotron Your shopping cart
             td.align-middle = event.ticket_price
             td.align-middle = qty
             td.align-middle
-              = link_to "+", add_to_cart_path(event_id), method: 'put', class: 'btn'
-              = link_to "-", remove_one_cart_path(event_id), method: 'put', class: 'btn'
-              = link_to "Remove", remove_from_cart_path(event_id), method: 'put', class: 'btn btn-danger'
-          tr.font-weight-bold
-            td colspan="3"
-              h5 Total
-              h5 = @cart_total
+              = button_to "+", add_to_cart_path(event.id), method: 'put', class: 'btn'
+              = button_to "-", remove_one_cart_path(event.id), method: 'put', class: 'btn'
+              = button_to "Remove", remove_from_cart_path(event.id), method: :put, class: 'btn btn-danger'
+        tr.font-weight-bold
+          td colspan="3"
+            h5 Total
+            h5 = @cart_total
+  = button_to "Buy"
 
 

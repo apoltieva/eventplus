@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CartsController < ApplicationController
   before_action :authenticate_user!
 
@@ -20,5 +22,4 @@ class CartsController < ApplicationController
     current_user.remove_one_from_cart(params[:event_id])
     redirect_to cart_path
   end
-
 end

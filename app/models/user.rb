@@ -3,7 +3,9 @@
 class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :validatable
-  enum role: [:customer, :admin]
+  enum role: %i[customer admin]
+  has_many :orders
+  has_many :events, through: :orders
 
   def current_user_cart
     "cart#{id}"
@@ -14,7 +16,7 @@ class User < ApplicationRecord
   end
 
   def remove_from_cart(event_id)
-    $redis.hincdel current_user_cart, event_id
+    $redis.hdel current_user_cart, event_id
   end
 
   def remove_one_from_cart(event_id)
@@ -23,7 +25,7 @@ class User < ApplicationRecord
 
   def cart_count
     quantities = $redis.hvals "cart#{id}"
-    quantities.reduce(0) { |sum, qty| sum += qty.to_i}
+    quantities.reduce(0) { |sum, qty| sum += qty.to_i }
   end
 
   def cart_total_price
@@ -43,7 +45,7 @@ class User < ApplicationRecord
 
   def purchase_cart_products!
     get_cart_products_with_qty do |event, qty|
-      self.orders.create(user: self, event: event, quantity: qty)
+      orders.create(user: self, event: event, quantity: qty)
     end
     $redis.del current_user_cart
   end

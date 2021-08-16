@@ -7,12 +7,14 @@ class Event < ApplicationRecord
   monetize :ticket_price_cents, numericality: { greater_than_or_equal_to: 0 }
   validates :total_number_of_tickets, numericality: { greater_than_or_equal_to: 1 }
   belongs_to :venue
+  belongs_to :order
+  has_many :users, through: :orders
   has_many_attached :pictures
 
   private
 
   def convert_money_to_cents
     # self.ticket_price_cents = (self.ticket_price_cents.to_f * 100).to_i
-    p self.ticket_price_cents
+    p ticket_price_cents
   end
 end

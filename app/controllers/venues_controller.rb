@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 class VenuesController < ApplicationController
   load_and_authorize_resource
   before_action :find_venue, only: %i[destroy update edit]
-
 
   def index
     @venues = Venue.all.includes(:pictures_attachments)
@@ -14,9 +15,9 @@ class VenuesController < ApplicationController
   def create
     @venue = Venue.new(venue_params)
     if @venue.save
-      redirect_to action: "index", notice: "Created successfully"
+      redirect_to action: 'index', notice: 'Created successfully'
     else
-      flash[:alert] = "#{@venue.errors.full_messages}"
+      flash[:alert] = @venue.errors.full_messages.to_s
       render :new
     end
   end
@@ -25,16 +26,16 @@ class VenuesController < ApplicationController
 
   def update
     if @venue.update(venue_params)
-      redirect_to action: "index", notice: "Updated successfully"
+      redirect_to action: 'index', notice: 'Updated successfully'
     else
-      flash[:alert] = "#{@venue.errors.full_messages}"
+      flash[:alert] = @venue.errors.full_messages.to_s
       render :edit
     end
   end
 
   def destroy
     @venue.destroy
-    redirect_to action: "index", notice: "Deleted successfully"
+    redirect_to action: 'index', notice: 'Deleted successfully'
   end
 
   private

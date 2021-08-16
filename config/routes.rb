@@ -12,4 +12,6 @@ Rails.application.routes.draw do
     put 'remove/:event_id', to: 'carts#remove', as: :remove_from
     put 'remove_one/:event_id', to: 'carts#removeone', as: :remove_one
   end
+
+  resources :transactions, only: %i[new create]
 end

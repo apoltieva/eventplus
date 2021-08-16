@@ -14,9 +14,9 @@ class EventsController < ApplicationController
   def create
     @event = Event.new(event_params)
     if @event.save
-      redirect_to action: "index", notice: "Created successfully"
+      redirect_to action: 'index', notice: 'Created successfully'
     else
-      flash[:alert] = "#{@event.errors.full_messages}"
+      flash[:alert] = @event.errors.full_messages.to_s
       render :new
     end
   end
@@ -25,16 +25,16 @@ class EventsController < ApplicationController
 
   def update
     if @event.update(event_params)
-      redirect_to action: "index", notice: "Updated successfully"
+      redirect_to action: 'index', notice: 'Updated successfully'
     else
-      flash[:alert] = "#{@event.errors.full_messages}"
+      flash[:alert] = @event.errors.full_messages.to_s
       render :edit
     end
   end
 
   def destroy
     @event.destroy
-    redirect_to action: "index", notice: "Deleted successfully"
+    redirect_to action: 'index', notice: 'Deleted successfully'
   end
 
   private

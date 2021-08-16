@@ -66,7 +66,6 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 
-
   # configure shoulda matchers to use rspec
   # as the test framework and full matcher libraries for rails
   Shoulda::Matchers.configure do |conf|
