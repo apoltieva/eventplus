@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_12_085842) do
+ActiveRecord::Schema.define(version: 2021_08_16_071614) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,15 @@ ActiveRecord::Schema.define(version: 2021_08_12_085842) do
     t.integer "ticket_price_cents", default: 0, null: false
     t.string "ticket_price_currency", default: "UAH", null: false
     t.index ["venue_id"], name: "index_events_on_venue_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer "event_id"
+    t.integer "user_id"
+    t.integer "quantity"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["event_id", "user_id"], name: "index_orders_on_event_id_and_user_id"
   end
 
   create_table "users", force: :cascade do |t|
