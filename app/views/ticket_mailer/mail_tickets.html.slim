@@ -8,4 +8,8 @@ html
     - event = @event.decorate
     p #{event.start_end} we are waiting for you!
     = raw @qr
-    p Here are some pictures from the event
+    br
+    - unless event.pictures.empty?
+      p Here are some pictures from the event
+      - event.pictures.each do |picture|
+        = image_tag(event.picture, size: "200x133")
