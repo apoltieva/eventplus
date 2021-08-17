@@ -9,5 +9,4 @@ class TicketMailer < ApplicationMailer
     attachments.inline['qr.png'] = File.read(@qr)
     mail(to: @user.email, subject: 'Your Event+ tickets')
   end
-
 end
