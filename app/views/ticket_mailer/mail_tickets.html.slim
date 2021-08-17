@@ -7,7 +7,7 @@ html
     h1 Tickets for #{@event.title}, #{@user.email}!
     - event = @event.decorate
     p #{event.start_end} we are waiting for you!
-    = raw @qr
+    = image_tag attachments['image.png'].url
     br
     - unless event.pictures.empty?
       p Here are some pictures from the event

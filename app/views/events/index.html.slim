@@ -25,7 +25,6 @@
         - if user_signed_in?
           = form_with url: orders_path do |f|
             = f.hidden_field :event_id, value: event.id
-            = f.hidden_field :user_id, value: current_user.id
             = f.number_field :quantity, step: 1, min: 1
             = f.submit "Buy"
         - else

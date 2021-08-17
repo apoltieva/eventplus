@@ -7,5 +7,5 @@ Rails.application.routes.draw do
   devise_for :users, controllers: {
     sign_up: 'users/sign_up'
   }
-  resources :orders, only: [:create]
+  resources :orders, only: %i[create show]
 end
