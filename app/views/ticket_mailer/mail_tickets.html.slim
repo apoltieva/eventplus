@@ -5,11 +5,10 @@ html
     title Event+ tickets
   body
     h1 Tickets for #{@event.title}, #{@user.email}!
-    - event = @event.decorate
-    p #{event.start_end} we are waiting for you!
+    p #{@event.decorate.start_end} we are waiting for you!
     = image_tag attachments['qr.png'].url
     br
-    - unless event.pictures.empty?
+    - unless @event.pictures.empty?
       p Here are some pictures from the event
-      - event.pictures.each do |picture|
-        = image_tag(event.picture, size: "200x133")
+      - @event.pictures.each_with_index do |picture, i|
+        = image_tag(attachments["img_#{ i }.png"].url, size: '400x200')
