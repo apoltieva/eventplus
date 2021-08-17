@@ -11,4 +11,8 @@
   br
   = f.number_field :longitude, step: :any
   br
+  = f.label 'Upload pictures'
+  br
+  = f.file_field :pictures, accept: 'image/png, image/jpeg', multiple: true
+  br
   = f.submit "Submit venue"

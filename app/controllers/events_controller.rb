@@ -4,7 +4,7 @@ class EventsController < ApplicationController
   before_action :find_event, only: %i[destroy update edit]
 
   def index
-    @events = Event.all.order(:start_time).includes(:venue, :pictures_attachments)
+    @events = Event.all.order(:start_time).includes(:venue, pictures_attachments: :blob)
   end
 
   def new
@@ -46,6 +46,6 @@ class EventsController < ApplicationController
   def event_params
     params.require(:event).permit(:title, :description, :artist, :total_number_of_tickets,
                                   :start_time, :end_time, :venue_id,
-                                  :ticket_price_currency, :ticket_price)
+                                  :ticket_price_currency, :ticket_price, pictures: [])
   end
 end

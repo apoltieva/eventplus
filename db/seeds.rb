@@ -34,3 +34,19 @@ if Event.none?
                   )
   end
 end
+# Event.all.each do |e|
+#   unless e.pictures.attached?
+#     (1..3).each do |i|
+#       e.pictures.attach(io: File.open('node_modules/stream-http/test/server/static/browserify.png'),
+#                         filename: "#{i}.png")
+#     end
+#   end
+# end
+Venue.all.each do |v|
+  unless v.pictures.attached?
+    (1..3).each do |i|
+      v.pictures.attach(io: File.open('node_modules/stream-http/test/server/static/browserify.png'),
+        filename: "#{i}.png")
+    end
+  end
+end

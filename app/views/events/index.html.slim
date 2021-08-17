@@ -12,7 +12,7 @@
                         class: 'u-image'
         - else
           - e.pictures.each do |picture|
-            = image_tag(e.picture, alt: "img.jpg", size: "200x133",
+            = image_tag(picture, alt: "img.jpg", size: "200x133",
                         class: 'u-image')
         - event = e.decorate
         h3.u-block-d040-7 = event.title

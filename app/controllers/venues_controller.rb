@@ -5,7 +5,7 @@ class VenuesController < ApplicationController
   before_action :find_venue, only: %i[destroy update edit]
 
   def index
-    @venues = Venue.all.includes(:pictures_attachments)
+    @venues = Venue.all.includes(pictures_attachments: :blob)
   end
 
   def new
@@ -40,11 +40,11 @@ class VenuesController < ApplicationController
 
   private
 
-  def find_event
+  def find_venue
     @venue = Venue.find(params[:id])
   end
 
   def venue_params
-    params.require(:venue).permit(:name, :latitude, :longitude)
+    params.require(:venue).permit(:name, :latitude, :longitude, pictures: [])
   end
 end

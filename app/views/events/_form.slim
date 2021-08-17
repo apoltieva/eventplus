@@ -27,6 +27,10 @@
   br
   = f.number_field :ticket_price, step: 0.01, min: 0
   br
+  = f.label 'Upload pictures'
+  br
+  = f.file_field :pictures, accept: 'image/png, image/jpeg', multiple: true
+  br
   p Venue name
   - Venue.all.each do |venue|
     = f.radio_button :venue_id, venue.id
