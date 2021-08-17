@@ -4,4 +4,8 @@ html
     meta content=("text/html; charset=UTF-8") http-equiv="Content-Type" /
     title Event+ tickets
   body
-    h1 Tickets for your events, #{@user.email}!
+    h1 Tickets for #{@event.title}, #{@user.email}!
+    - event = @event.decorate
+    p #{event.start_end} we are waiting for you!
+    = raw @qr
+    p Here are some pictures from the event

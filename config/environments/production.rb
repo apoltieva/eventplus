@@ -124,7 +124,7 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 } # TODO: change to actual host later
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address: Settings.smtp_settings.adress,
+    address: Settings.smtp_settings.address,
     port: 587,
     domain: Settings.smtp_settings.domain,
     user_name: Settings.smtp_settings.user_name,
