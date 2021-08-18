@@ -9,6 +9,6 @@ html
     = image_tag attachments['qr.png'].url
     br
     - unless @event.pictures.empty?
-      p Here are some pictures from the event
+      p Here are some pictures of the upcoming event
       - @event.pictures.each_with_index do |picture, i|
-        = image_tag(attachments["img_#{ i }.png"].url, size: '400x200')
+        = image_tag(attachments["img_#{i}.png"].url, size: '200x133')

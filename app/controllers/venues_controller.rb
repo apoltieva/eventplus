@@ -17,7 +17,7 @@ class VenuesController < ApplicationController
     if @venue.save
       redirect_to action: 'index', notice: 'Created successfully'
     else
-      flash[:alert] = @venue.errors.full_messages.to_s
+      flash[:alert] = @venue.errors.full_messages.join('; ')
       render :new
     end
   end
@@ -28,7 +28,7 @@ class VenuesController < ApplicationController
     if @venue.update(venue_params)
       redirect_to action: 'index', notice: 'Updated successfully'
     else
-      flash[:alert] = @venue.errors.full_messages.to_s
+      flash[:alert] = @venue.errors.full_messages.join('; ')
       render :edit
     end
   end

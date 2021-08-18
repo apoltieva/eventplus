@@ -1,4 +1,5 @@
 .u-block-d040-2
+  h1 Welcome to Event+ website
   - if @events.empty?
     | No events :(
   - else
@@ -26,11 +27,11 @@
           = form_with url: orders_path do |f|
             = f.hidden_field :event_id, value: event.id
             = f.number_field :quantity, step: 1, min: 1
-            = f.submit "Buy"
+            = f.submit "Buy", class: 'btn btn-success'
         - else
           button.btn.btn-secondary [disabled="" type="button" data-toggle="tooltip" data-placement="top"
             title="You need to register or log in to buy tickets"]  Buy
 
         - if current_user&.admin?
           = button_to 'Edit', edit_event_path(event.id), method: 'get', class: "btn btn-outline-primary"
-          = button_to 'Delete', event_path(event.id), data: {confirm: "Are you sure?"}, method: 'delete', class: "btn btn-outline-danger", rel: 'no-follow'
+          = button_to 'Delete', event_path(event.id), method: 'delete', class: "btn btn-outline-danger", rel: 'no-follow'

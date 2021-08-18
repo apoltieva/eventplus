@@ -4,7 +4,6 @@ class TicketMailer < ApplicationMailer
   def mail_tickets
     @user = params[:user]
     @event = params[:event]
-    @uuid = params[:uuid]
     @qr = QrCode.generate("#{orders_url}/#{params[:uuid]}")
     attachments.inline['qr.png'] = File.read(@qr)
     @event.pictures.each_with_index do |picture, i|
