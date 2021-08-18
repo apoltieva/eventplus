@@ -41,3 +41,6 @@ yarn-debug.log*
 
 # Ignore RubyMine files
 /.idea
+
+# Ignore settings
+/config/application.yml

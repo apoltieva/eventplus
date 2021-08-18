@@ -1,4 +1,6 @@
-require "active_support/core_ext/integer/time"
+# frozen_string_literal: true
+
+require 'active_support/core_ext/integer/time'
 
 # The test environment is used exclusively to run your application's
 # test suite. You never need to work with it otherwise. Remember that
@@ -57,4 +59,14 @@ Rails.application.configure do
 
   # Annotate rendered view with file names.
   # config.action_view.annotate_rendered_view_with_filenames = true
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: Settings.smtp_settings.address,
+    port: 587,
+    domain: Settings.smtp_settings.domain,
+    user_name: Settings.smtp_settings.user_name,
+    password: Settings.smtp_settings.password,
+    authentication: 'plain',
+    enable_starttls_auto: true
+  }
 end

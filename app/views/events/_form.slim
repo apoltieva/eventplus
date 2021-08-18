@@ -1,0 +1,39 @@
+= form_for @event do |f|
+  = f.label "Event title"
+  br
+  = f.text_field :title
+  br
+  = f.label 'description'
+  br
+  = f.text_area :description
+  br
+  = f.label 'Performing artists'
+  br
+  = f.text_field :artist
+  br
+  = f.label 'Total number of tickets'
+  br
+  = f.number_field :total_number_of_tickets, step: 1, min: 1
+  br
+  = f.label 'Starting time'
+  br
+  = f.datetime_local_field :start_time
+  br
+  = f.label 'Ending time'
+  br
+  = f.datetime_local_field :end_time
+  br
+  = f.label 'Ticket price (0 for free events)'
+  br
+  = f.number_field :ticket_price, step: 0.01, min: 0
+  br
+  = f.label 'Upload pictures'
+  br
+  = f.file_field :pictures, accept: 'image/png, image/jpeg', multiple: true
+  br
+  p Venue name
+  - Venue.all.each do |venue|
+    = f.radio_button :venue_id, venue.id
+    = f.label :venue_id, venue.name
+    br
+  = f.submit "Submit event"
