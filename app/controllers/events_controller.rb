@@ -3,6 +3,12 @@
 class EventsController < ApplicationController
   before_action :find_event, only: %i[destroy update edit]
 
+  def current_user
+    @current_user ||= super.tap do |user|
+      ::ActiveRecord::Associations::Preloader.new.preload(user, :events)
+    end
+  end
+
   def index
     @events = Event.all.order(:start_time).includes(:venue, pictures_attachments: :blob)
   end
