@@ -327,7 +327,6 @@ DEPENDENCIES
   byebug
   cancancan
   capybara (>= 3.26)
-  chunky_png
   database_cleaner
   devise
   draper

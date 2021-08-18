@@ -10,11 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
+ActiveRecord::Schema.define(version: 0) do
+=======
 ActiveRecord::Schema.define(version: 2021_08_17_083625) do
+>>>>>>> user
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+<<<<<<< HEAD
+=======
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -98,4 +104,5 @@ ActiveRecord::Schema.define(version: 2021_08_17_083625) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "events", "venues"
+>>>>>>> user
 end
