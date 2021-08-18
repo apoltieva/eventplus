@@ -10,6 +10,7 @@ class Ability
       can :access, Venue
     else
       can :read, Event
+      can :create, Order
     end
   end
 end

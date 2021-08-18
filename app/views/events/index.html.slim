@@ -23,15 +23,17 @@
         p.u-block-d040-17 = event.description
         p.u-block-d040-17 Ticket price: #{event.fee}
         p.u-block-d040-17 Number of tickets: #{event.total_number_of_tickets}
-        - if user_signed_in?
+
+        - if current_user&.customer?
           = form_with url: orders_path do |f|
             = f.hidden_field :event_id, value: event.id
             = f.number_field :quantity, step: 1, min: 1
             = f.submit "Buy", class: 'btn btn-success'
+
+        - elsif current_user&.admin?
+          = button_to 'Edit', edit_event_path(event.id), method: 'get', class: "btn btn-outline-primary"
+          = button_to 'Delete', event_path(event.id), method: 'delete', class: "btn btn-outline-danger", rel: 'no-follow'
+
         - else
           button.btn.btn-secondary [disabled="" type="button" data-toggle="tooltip" data-placement="top"
             title="You need to register or log in to buy tickets"]  Buy
-
-        - if current_user&.admin?
-          = button_to 'Edit', edit_event_path(event.id), method: 'get', class: "btn btn-outline-primary"
-          = button_to 'Delete', event_path(event.id), method: 'delete', class: "btn btn-outline-danger", rel: 'no-follow'
