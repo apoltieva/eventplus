@@ -28,15 +28,3 @@ Admins are pre-seeded in the database and can use the same sign-in/sign-out flow
 ______________________________________________________________
 
 Users can see how many tickets they have bought for each event, filter events using tabs “All events” and “Your events” (those for which tickets were bought)
-
-Seed pictures (download from URL) - File.open
-
-Admins should not buy tickets
-
-
-Add admin to seeds
-
-
-
-
-7. Users can see how much tickets they have bought for each event, filter events using tabs “All events” and “Your events” (those for which tickets were bought)

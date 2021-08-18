@@ -103,6 +103,7 @@ GEM
       activerecord (>= 5.a)
       database_cleaner-core (~> 2.0.0)
     database_cleaner-core (2.0.1)
+    date (3.1.0)
     devise (4.8.0)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -159,6 +160,10 @@ GEM
     nio4r (2.5.7)
     nokogiri (1.11.7-x86_64-linux)
       racc (~> 1.4)
+    open-uri (0.1.0)
+      stringio
+      time
+      uri
     orm_adapter (0.5.0)
     parallel (1.20.1)
     parser (3.0.2.0)
@@ -286,15 +291,19 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     sqlite3 (1.4.2)
+    stringio (3.0.0)
     temple (0.8.2)
     thor (1.1.0)
     tilt (2.0.10)
+    time (0.1.0)
+      date
     turbolinks (5.2.1)
       turbolinks-source (~> 5.2)
     turbolinks-source (5.2.0)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.0.0)
+    uri (0.10.1)
     warden (1.2.9)
       rack (>= 2.0.9)
     web-console (4.1.0)
@@ -336,6 +345,7 @@ DEPENDENCIES
   jbuilder (~> 2.7)
   listen (~> 3.3)
   money-rails (~> 1.12)
+  open-uri
   pg (~> 1.2.3)
   puma (~> 5.0)
   rack-mini-profiler (~> 2.0)

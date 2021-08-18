@@ -1,13 +1,5 @@
 # frozen_string_literal: true
 
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)\
-#
 if Venue.none?
   10.times do
     Venue.create!(name: Faker::Mountain.name,
@@ -34,19 +26,20 @@ if Event.none?
                   )
   end
 end
-# Event.all.each do |e|
-#   unless e.pictures.attached?
-#     (1..3).each do |i|
-#       e.pictures.attach(io: File.open('node_modules/stream-http/test/server/static/browserify.png'),
-#                         filename: "#{i}.png")
-#     end
-#   end
-# end
-Venue.all.each do |v|
-  unless v.pictures.attached?
-    (1..3).each do |i|
-      v.pictures.attach(io: File.open('node_modules/stream-http/test/server/static/browserify.png'),
-        filename: "#{i}.png")
-    end
+Event.all.each do |e|
+  e.pictures.purge
+  (1..3).each do |i|
+    e.pictures.attach(io: URI.open(Faker::LoremFlickr.image(search_terms: ['events', 'parties'])),
+                      filename: "#{i}.png")
   end
+end
+Venue.all.each do |v|
+  v.pictures.purge
+  (1..3).each do |i|
+    v.pictures.attach(io: URI.open(Faker::LoremFlickr.image(search_terms: ['mountains'])),
+      filename: "#{i}.png")
+  end
+end
+5.times do
+  Admin.create!(email: Faker::Internet.email, password: "123456", confirmed_at: Time.now, role: 1)
 end
