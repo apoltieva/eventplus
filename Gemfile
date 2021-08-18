@@ -5,9 +5,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.0.0'
 
-<<<<<<< HEAD
-gem 'pg', '~> 1.2.3'
-=======
+
 gem 'active_storage-postgresql'
 
 gem 'image_processing', '>= 1.2'
@@ -31,7 +29,7 @@ gem 'draper'
 gem 'cancancan'
 
 gem 'rqrcode', '~> 2.0'
->>>>>>> user
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 6.1.4'
 # Use sqlite3 as the database for Active Record
