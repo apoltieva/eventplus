@@ -5,35 +5,63 @@
   - else
     - if current_user&.admin?
       = button_to 'Create', new_event_path, method: 'get', class: "btn btn-outline-info"
-    - @events.each do |e|
-      .u-block-d040-3
-        - if e.pictures.empty?
-          - 2.times do
-            = image_tag 'default-image.jpg', alt: "img.jpg", size: "200x133",
-                        class: 'u-image'
-        - else
-          - e.pictures.each do |picture|
-            = image_tag(picture, alt: "img.jpg", size: "200x133",
-                        class: 'u-image')
-        - event = e.decorate
-        h3.u-block-d040-7 = event.title
-        p.u-block-d040-17 On stage: #{event.artist}
-        p.u-block-d040-17 Venue: #{event.venue.name}
-        p.u-block-d040-17 = event.start_end
-        p.u-block-d040-17 = event.description
-        p.u-block-d040-17 Ticket price: #{event.fee}
-        p.u-block-d040-17 Number of tickets: #{event.total_number_of_tickets}
 
-        - if current_user&.customer?
-          = form_with url: orders_path do |f|
-            = f.hidden_field :event_id, value: event.id
-            = f.number_field :quantity, step: 1, min: 1
-            = f.submit "Buy", class: 'btn btn-success'
+    .eventsGroup
+      .filter
+        a class="all current" href="#" All events
+        a class="user" href="#" Your events
+      - @events.each do |e|
+        div.box class=(user_signed_in? && current_user.events.include?(e) ? "user" : "")
+          .u-block-d040-3
+            - if e.pictures.empty?
+              - 2.times do
+                = image_tag 'default-image.jpg', alt: "img.jpg", size: "200x133",
+                            class: 'u-image'
+            - else
+              - e.pictures.each do |picture|
+                = image_tag(picture, alt: "img.jpg", size: "200x133",
+                            class: 'u-image')
+            - event = e.decorate
+            h3.u-block-d040-7 = event.title
+            p.u-block-d040-17 On stage: #{event.artist}
+            p.u-block-d040-17 Venue: #{event.venue.name}
+            p.u-block-d040-17 = event.start_end
+            p.u-block-d040-17 = event.description
+            p.u-block-d040-17 Ticket price: #{event.fee}
+            p.u-block-d040-17 Number of tickets: #{event.total_number_of_tickets}
+            - if user_signed_in? && current_user.events.include?(e)
+              - num = current_user.orders.where(event_id: e.id).sum('quantity')
+              h5 You've bought #{num} ticket#{num == "1" ? "s" : ""} for this event
+            - if current_user&.customer?
+              = form_with url: orders_path do |f|
+                = f.hidden_field :event_id, value: event.id
+                = f.number_field :quantity, step: 1, min: 1
+                = f.submit "Buy", class: 'btn btn-success'
+            - elsif current_user&.admin?
+              = button_to 'Edit', edit_event_path(event.id), method: 'get', class: "btn btn-outline-primary"
+              = button_to 'Delete', event_path(event.id), method: 'delete', class: "btn btn-outline-danger", rel: 'no-follow'
+            - else
+              button.btn.btn-secondary [disabled="" type="button" data-toggle="tooltip" data-placement="top"
+                title="You need to register or log in to buy tickets"]  Buy
 
-        - elsif current_user&.admin?
-          = button_to 'Edit', edit_event_path(event.id), method: 'get', class: "btn btn-outline-primary"
-          = button_to 'Delete', event_path(event.id), method: 'delete', class: "btn btn-outline-danger", rel: 'no-follow'
-
-        - else
-          button.btn.btn-secondary [disabled="" type="button" data-toggle="tooltip" data-placement="top"
-            title="You need to register or log in to buy tickets"]  Buy
+coffee:
+  $ ->
+    $filter = $('.filter')
+    $tab = $('.filter a')
+    $offers = $('.eventsGroup .box')
+    $filter.on 'click touch', '.all', (e) ->
+      e.preventDefault()
+      $tab.removeClass 'current'
+      $(this).addClass 'current'
+      $offers.hide()
+      $offers.fadeIn 700
+      return
+    $filter.on 'click touch', '.user', (e) ->
+      e.preventDefault()
+      $tab.removeClass 'current'
+      $(this).addClass 'current'
+      $offers.show()
+      $offers.fadeOut 400
+      $offers.filter('.user').fadeIn 400
+      return
+    return

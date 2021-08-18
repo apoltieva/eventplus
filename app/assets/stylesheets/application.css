@@ -120,3 +120,15 @@ main
 {
     color: red;
 }
+.filter {
+    margin: 15px;
+}
+.filter a {
+    text-align: center;
+    padding: .7em 1em;
+    background: crimson;
+    color: white;
+    text-decoration: none;
+}
+
+.filter a.current { background: orangered; }

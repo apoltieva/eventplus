@@ -1,6 +1,6 @@
 h1 Tickets for #{@event.title}, #{@user.email}!
 div
-  p = @event.decription
+  p = @event.description
 p #{@event.decorate.start_end} we are waiting for you!
 = image_tag attachments['qr.png'].url
 br

@@ -16,7 +16,7 @@ Users can register using email (confirmation is required) and password, sign in 
 
 Users can buy tickets for events, more than one per person (at first we need a prototype where there is no actual buying flow, so the ticket is “bought” when a user pushes the “buy” button). Tickets are sent to the user’s email consisting of basic event information along with ticket ID (randomised human-readable string) and QR code with a unique long hash
 
-
+Users can see how many tickets they have bought for each event, filter events using tabs “All events” and “Your events” (those for which tickets were bought)
 
 Admins can CRUD events using appropriate buttons (links to new/edit pages and delete action that reloads the page) on the tickets list
 
@@ -27,4 +27,4 @@ Admins are pre-seeded in the database and can use the same sign-in/sign-out flow
 © SoftServe, creator - Anna Poltieva
 ______________________________________________________________
 
-Users can see how many tickets they have bought for each event, filter events using tabs “All events” and “Your events” (those for which tickets were bought)
+
