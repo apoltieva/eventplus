@@ -1,14 +1,10 @@
-doctype html
-html
-  head
-    meta content=("text/html; charset=UTF-8") http-equiv="Content-Type" /
-    title Event+ tickets
-  body
-    h1 Tickets for #{@event.title}, #{@user.email}!
-    p #{@event.decorate.start_end} we are waiting for you!
-    = image_tag attachments['qr.png'].url
-    br
-    - unless @event.pictures.empty?
-      p Here are some pictures of the upcoming event
-      - @event.pictures.each_with_index do |picture, i|
-        = image_tag(attachments["img_#{i}.png"].url, size: '200x133')
+h1 Tickets for #{@event.title}, #{@user.email}!
+div
+  p = @event.decription
+p #{@event.decorate.start_end} we are waiting for you!
+= image_tag attachments['qr.png'].url
+br
+- unless @event.pictures.empty?
+  p Here are some pictures of the upcoming event
+  - @event.pictures.each_with_index do |picture, i|
+    = image_tag(attachments["img_#{i}.png"].url, size: '200x133')
