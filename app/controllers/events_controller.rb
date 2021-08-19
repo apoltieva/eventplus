@@ -10,7 +10,19 @@ class EventsController < ApplicationController
   end
 
   def index
-    @events = Event.all.order(:start_time).includes(:venue,pictures_attachments: :blob)
+    @events = case params[:filter]
+              when 'user'
+                User.find(params[:user_id]).events.where('end_time > ?', Time.now)
+                    .order(:start_time).includes(:venue, pictures_attachments: :blob)
+              when 'user_past'
+                User.find(params[:user_id]).events.where('end_time <= ?', Time.now)
+                    .order(:start_time).includes(:venue, pictures_attachments: :blob)
+              when 'past'
+                Event.where('end_time <= ?', Time.now)
+                     .order(:start_time).includes(:venue, pictures_attachments: :blob)
+              else
+                Event.all.order(:start_time).includes(:venue, pictures_attachments: :blob)
+              end
   end
 
   def new
