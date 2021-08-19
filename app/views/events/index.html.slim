@@ -6,21 +6,22 @@
     - if current_user&.admin?
       = button_to 'Create', new_event_path, method: 'get', class: "btn btn-outline-info"
 
+    .filter
+      a class="all current" href="#" All events
+      a class="user" href="#" Your events
+      a class="past" href="#" Your past events
     .eventsGroup
-      .filter
-        a class="all current" href="#" All events
-        a class="user" href="#" Your events
       - @events.each do |e|
-        div.box class=(user_signed_in? && current_user.events.include?(e) ? "user" : "")
+        div.box class=(user_signed_in? && current_user.events.include?(e) ? (e.end_time < Time.now ? "past" : "user" ) : "")
           .u-block-d040-3
-            / - if e.pictures.empty?
-            /   - 2.times do
-            /     = image_tag 'default-image.jpg', alt: "img.jpg", size: "200x133",
-            /                 class: 'u-image'
-            / - else
-            /   - e.pictures.each do |picture|
-            /     = image_tag(picture, alt: "img.jpg", size: "200x133",
-            /                 class: 'u-image')
+            - if e.pictures.empty?
+              - 2.times do
+                = image_tag 'default-image.jpg', alt: "img.jpg", size: "200x133",
+                            class: 'u-image'
+            - else
+              - e.pictures.each do |picture|
+                = image_tag(picture, alt: "img.jpg", size: "200x133",
+                            class: 'u-image')
             - event = e.decorate
             h3.u-block-d040-7 = event.title
             p.u-block-d040-17 On stage: #{event.artist}
@@ -45,23 +46,35 @@
                 title="You need to register or log in to buy tickets"]  Buy
 
 coffee:
+  show_and_filter = (cls, $offers) ->
+    $offers.show()
+    $offers.fadeOut 400
+    $offers.filter(cls).fadeIn 400
+    return
+
+  add_current =(e, $tab) ->
+    e.preventDefault()
+    $tab.removeClass 'current'
+    return
+
   $ ->
     $filter = $('.filter')
     $tab = $('.filter a')
     $offers = $('.eventsGroup .box')
     $filter.on 'click touch', '.all', (e) ->
-      e.preventDefault()
-      $tab.removeClass 'current'
+      add_current(e, $tab)
       $(this).addClass 'current'
       $offers.hide()
       $offers.fadeIn 700
       return
     $filter.on 'click touch', '.user', (e) ->
-      e.preventDefault()
-      $tab.removeClass 'current'
+      add_current(e, $tab)
       $(this).addClass 'current'
-      $offers.show()
-      $offers.fadeOut 400
-      $offers.filter('.user').fadeIn 400
+      show_and_filter('.user', $offers)
+      return
+    $filter.on 'click touch', '.past', (e) ->
+      add_current(e, $tab)
+      $(this).addClass 'current'
+      show_and_filter('.past', $offers)
       return
     return
