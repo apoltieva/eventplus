@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class EventsController < ApplicationController
-  before_action :find_event, only: %i[destroy update edit]
+  before_action :find_event, only: %i[destroy update edit show]
 
   def current_user
     @current_user ||= super.tap do |user|
@@ -10,11 +10,17 @@ class EventsController < ApplicationController
   end
 
   def index
-    @events = Event.all.order(:start_time).includes(:venue, pictures_attachments: :blob)
+    @events = Event.all.order(:start_time).includes(:venue,pictures_attachments: :blob)
   end
 
   def new
     @event = Event.new
+  end
+
+  def show
+    ActiveRecord::Associations::Preloader.new.preload(@event, [{ pictures_attachments: :blob },
+                                                               { venue:
+                                                                   { pictures_attachments: :blob } }])
   end
 
   def create

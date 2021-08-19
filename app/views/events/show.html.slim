@@ -1,0 +1,22 @@
+h3 = @event.title
+p = @event.description
+p = @event.decorate.start_end
+- if user_signed_in? && current_user.events.include?(@event)
+  - num = current_user.orders.where(event_id: @event.id).sum('quantity')
+  h5 You've bought #{num} ticket#{num == "1" ? "s" : ""} for this event
+p Total number of tickets #{@event.total_number_of_tickets}
+p Price: #{@event.decorate.fee}
+p Pictures:
+- unless @event.pictures.empty?
+  - @event.pictures.each do |picture|
+    = image_tag(picture, class: 'u-image')
+div
+  h3 Venue
+  h3 = @event.venue.name
+  p #{@event.venue.latitude}° latitude, #{@event.venue.longitude}° longitude
+  - unless @event.venue.pictures.empty?
+    - @event.venue.pictures.each do |picture|
+      = image_tag(picture, class: 'u-image')
+  - if current_user&.admin?
+    = button_to 'Edit', edit_event_path(@event.id), method: 'get', class: "btn btn-outline-primary"
+    = button_to 'Delete', event_path(@event.id), method: 'delete', class: "btn btn-outline-danger"
