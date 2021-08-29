@@ -5,6 +5,10 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.0.0'
 
+gem 'jquery-rails'
+
+gem 'jquery-ui-rails'
+
 gem 'active_storage-postgresql'
 
 gem 'image_processing', '>= 1.2'
