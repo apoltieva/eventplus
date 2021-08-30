@@ -37,6 +37,12 @@ gem 'coffee-rails'
 
 gem 'will_paginate'
 
+gem 'datetimepicker-rails', github: 'zpaulovics/datetimepicker-rails', branch: 'master', submodules: true
+
+gem 'momentjs-rails', '~> 2.9',  github: 'derekprior/momentjs-rails'
+
+gem 'simple_form'
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 6.1.4'
 # Use sqlite3 as the database for Active Record

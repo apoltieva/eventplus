@@ -1,39 +1,14 @@
-= form_for @event do |f|
-  = f.label "Event title"
-  br
-  = f.text_field :title
-  br
-  = f.label 'description'
-  br
-  = f.text_area :description
-  br
-  = f.label 'Performing artists'
-  br
-  = f.text_field :artist
-  br
-  = f.label 'Total number of tickets'
-  br
-  = f.number_field :total_number_of_tickets, step: 1, min: 1
-  br
-  = f.label 'Starting time'
-  br
-  = f.datetime_local_field :start_time
-  br
-  = f.label 'Ending time'
-  br
-  = f.datetime_local_field :end_time
-  br
-  = f.label 'Ticket price (0 for free events)'
-  br
-  = f.number_field :ticket_price, step: 0.01, min: 0
-  br
-  = f.label 'Upload pictures'
-  br
-  = f.file_field :pictures, accept: 'image/png, image/jpeg', multiple: true
-  br
-  p Venue name
-  - Venue.all.each do |venue|
-    = f.radio_button :venue_id, venue.id
-    = f.label :venue_id, venue.name
-    br
-  = f.submit "Submit event"
+= simple_form_for @event do |f|
+  = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
+  .form-inputs
+    = f.input :title, label: 'Title of the event', error: 'Title is mandatory, please specify one'
+    = f.input :description, as: :text
+    = f.input :artist, label: 'Performing artist', error: 'Artist is mandatory'
+    = f.input :total_number_of_tickets, as: :integer, input_html: { min: '1', step: '1' }
+    = f.input :ticket_price, as: :float, input_html: { min: '0.00', step: '0.01' }, hint: 'Enter "0" for free events'
+    = f.input :start_time, as: :datetime_picker, label: 'Starting time'
+    = f.input :end_time, as: :datetime_picker, label: 'Ending time'
+    = f.input :pictures, as: :file, accept: 'image/png, image/jpeg', input_html: { multiple: true }
+    = f.association :venue, collection: Venue.all, priority: @event.venue
+  .form-actions
+    = f.button :submit, class: 'btn btn-primary'
