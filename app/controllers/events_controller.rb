@@ -33,9 +33,10 @@ class EventsController < ApplicationController
   end
 
   def show
-    ActiveRecord::Associations::Preloader.new.preload(@event, [{ pictures_attachments: :blob },
-                                                               { venue:
-                                                                   { pictures_attachments: :blob } }])
+    ActiveRecord::Associations::Preloader
+      .new.preload(@event, [{ pictures_attachments: :blob },
+                            { venue:
+                                { pictures_attachments: :blob } }])
   end
 
   def create
@@ -48,7 +49,9 @@ class EventsController < ApplicationController
     end
   end
 
-  def edit; end
+  def edit
+    authorize! :edit, @event
+  end
 
   def update
     if @event.update(event_params)
