@@ -1,26 +1,10 @@
 GIT
-  remote: https://github.com/derekprior/momentjs-rails.git
-  revision: e2b2dd166b121ded02cdcc54f49fa1f0146c7094
-  specs:
-    momentjs-rails (2.20.1)
-      railties (>= 3.1)
-
-GIT
   remote: https://github.com/faker-ruby/faker.git
   revision: 1a53fb2ca7a560f287b966aa117d353de827b191
   branch: master
   specs:
     faker (2.18.0)
       i18n (>= 1.6, < 2)
-
-GIT
-  remote: https://github.com/zpaulovics/datetimepicker-rails.git
-  revision: 36d21cec5da7f5b214925804f60e63c61c747023
-  branch: master
-  submodules: true
-  specs:
-    datetimepicker-rails (4.7.16)
-      momentjs-rails (>= 2.9.0)
 
 GEM
   remote: https://rubygems.org/
@@ -363,7 +347,6 @@ DEPENDENCIES
   capybara (>= 3.26)
   coffee-rails
   database_cleaner
-  datetimepicker-rails!
   devise
   draper
   factory_bot_rails
@@ -373,7 +356,6 @@ DEPENDENCIES
   jquery-rails
   jquery-ui-rails
   listen (~> 3.3)
-  momentjs-rails (~> 2.9)!
   money-rails (~> 1.12)
   pg (~> 1.2.3)
   puma (~> 5.0)

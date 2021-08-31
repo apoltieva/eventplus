@@ -4,9 +4,6 @@
 //= require jquery_ujs
 //= require_self
 //= require activestorage
-//= require moment
-//= require bootstrap-datetimepicker
-//= require pickers
 
 $(document).ready(function() {
   if ($('.pagination').length) {
