@@ -132,7 +132,7 @@ main
 }
 
 .filter a.current { background: orangered; }
-.map {
+#map {
     width: 600px;
     height: 400px;
 }

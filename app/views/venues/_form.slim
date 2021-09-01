@@ -17,22 +17,4 @@
   br
   = f.submit "Submit venue"
 
-div class="map"
-javascript:
-    $(document).ready(function() {
-        function initMap() {
-            // The location of Uluru
-            const uluru = {lat: #{@venue.latitude}, lng: #{@venue.longitude}};
-            // The map, centered at Uluru
-            const map = new google.maps.Map(document.getElementsByClassName("map")[0], {
-                zoom: 4,
-                center: uluru,
-            });
-            // The marker, positioned at Uluru
-            const marker = new google.maps.Marker({
-                position: uluru,
-                map: map,
-            });
-        }
-        initMap()
-    });
+= render 'map'
