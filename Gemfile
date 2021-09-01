@@ -37,7 +37,7 @@ gem 'coffee-rails'
 
 gem 'will_paginate'
 
-gem 'simple_form'
+gem 'geocoder'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 6.1.4'
