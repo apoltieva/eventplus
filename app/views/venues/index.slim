@@ -10,6 +10,10 @@
           - unless venue.pictures.empty?
             - venue.pictures.each do |picture|
               = image_tag(picture, size: "200x133", class: 'u-image')
-          p.u-block-d040-17 #{venue.latitude}° latitude, #{venue.longitude}° longitude
+          - v = venue.decorate
+          - if v.location
+            p.u-block-d040-17 = v.location
+          - else
+            p.u-block-d040-17 = v.coordinates
           = button_to 'Edit', edit_venue_path(venue.id), method: 'get', class: "btn btn-outline-primary"
           = button_to 'Delete', venue_path(venue.id), method: 'delete', class: "btn btn-outline-danger"

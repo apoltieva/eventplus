@@ -1,3 +1,4 @@
+h1 = request.location
 .u-block-d040-2
   h1 Welcome to Event+ website
   - if @events.empty?
@@ -7,13 +8,13 @@
       = button_to 'Create', new_event_path, method: 'get', class: "btn btn-outline-info"
 
     .filter
-      a class="all" href="#" All events
-      a class="past" href=events_url+"?filter=past" Past events
+      a.all href="#" All events
+      a.nearest href=events_url+"filter=nearest" Near you
+      a.past href=events_url+"?filter=past" Past events
       - if user_signed_in?
-        a class="user" href=events_url+"?filter=user&user_id="+current_user.id.to_s Your events
-        a class="user_past" href=events_url+"?filter=user_past&user_id="+current_user.id.to_s Your past events
+        a.user href=events_url+"?filter=user&user_id="+current_user.id.to_s Your events
+        a.user_past href=events_url+"?filter=user_past&user_id="+current_user.id.to_s Your past events
 
     .eventsGroup#events
       = render @events
     = will_paginate @events
-    
