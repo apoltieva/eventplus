@@ -17,8 +17,13 @@ class EventsController < ApplicationController
                 User.find(params[:user_id]).events.where('end_time <= ?', Time.now)
               when 'past'
                 Event.where('end_time <= ?', Time.now)
-              # when 'nearest'
-              #   Venue.near(request.remote_ip)
+              when 'nearest'
+                location = if !request.remote_ip || request.remote_ip == '127.0.0.1'
+                             'Kiev, Ukraine'
+                           else
+                             request.safe_location
+                           end
+                Event.where(venue: Venue.near(location, 900_000, order: 'distance').map(&:id))
               else
                 Event.all
               end
