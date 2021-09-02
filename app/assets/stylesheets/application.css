@@ -132,3 +132,4 @@ main
 }
 
 .filter a.current { background: orangered; }
+.pagination { visibility: hidden }
