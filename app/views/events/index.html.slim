@@ -5,8 +5,8 @@
     a.nearest href="#{events_url}?filter=nearest" Near you
     a.past href="#{events_url}?filter=past" Past events
     - if user_signed_in?
-      a.user href="#{events_url}?filter=user&user_id=#{current_user.id}" Your events
-      a.user_past href="#{events_url}?filter=user_past&user_id=#{current_user.id}" Your past events
+      a.user href="#{events_url}?filter=user" Your events
+      a.user_past href="#{events_url}?filter=user_past" Your past events
   - if @events.empty?
     | No events :(
   - else
