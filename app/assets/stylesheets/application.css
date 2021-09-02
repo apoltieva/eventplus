@@ -136,3 +136,4 @@ main
     width: 600px;
     height: 400px;
 }
+.pagination { visibility: hidden }
