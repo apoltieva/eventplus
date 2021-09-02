@@ -12,9 +12,9 @@ class EventsController < ApplicationController
   def index
     @events = case params[:filter]
               when 'user'
-                User.find(params[:user_id]).events.where('end_time > ?', Time.now).order(:start_time)
+                User.find(current_user.id).events.where('end_time > ?', Time.now).order(:start_time)
               when 'user_past'
-                User.find(params[:user_id]).events.where('end_time <= ?', Time.now).order(:start_time)
+                User.find(current_user.id).events.where('end_time <= ?', Time.now).order(:start_time)
               when 'past'
                 Event.where('end_time <= ?', Time.now).order(:start_time)
               when 'nearest'
