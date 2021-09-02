@@ -8,6 +8,7 @@ class Ability
     if user.admin?
       can :manage, :all
       can :access, Venue
+      can :update, Event
     else
       can :read, Event
       can :create, Order
