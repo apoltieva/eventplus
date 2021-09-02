@@ -10,7 +10,6 @@ class Venue < ApplicationRecord
 
   reverse_geocoded_by :latitude, :longitude
   after_validation :reverse_geocode, if: ->(obj) {
-    (obj.latitude.present? and obj.longitude.present?) and
-      (obj.latitude_changed? || obj.longitude_changed?)
+    (obj.latitude_changed? || obj.longitude_changed?)
   }
 end
