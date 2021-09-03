@@ -1,16 +1,18 @@
 .event.u-block-d040-3
   - if event.pictures.empty?
     - 2.times do
-      = image_tag 'default-imagevent.jpg', alt: "img.jpg", size: "200x133",
+      = image_tag 'default-image.jpg', alt: "img.jpg", size: "200x133",
         class: 'u-image'
   - else
     - event.pictures.each do |picture|
       = image_tag(picture, alt: "img.jpg", size: "200x133",
-                  class: 'u-image')
+          class: 'u-image')
   - e = event.decorate
   h3.u-block-d040-7 = link_to event.title, event_path(event.id), method: 'get'
   p.u-block-d040-17 On stage: #{event.artist}
   p.u-block-d040-17 Venue: #{event.venue.name}
+  - if event.try :distance
+    = sprintf("%0.02f km from you", event.distance)
   p.u-block-d040-17 = e.start_end
   p.u-block-d040-17 = event.description
   p.u-block-d040-17 Ticket price: #{e.fee}
@@ -25,8 +27,8 @@
       = f.submit "Buy", class: 'btn btn-success'
   - elsif current_user&.admin?
     = button_to 'Edit', edit_event_path(event.id), method: 'get', class: "btn btn-outline-primary"
-    = button_to 'Delete', event_path(event.id), method: 'delete', class: "btn btn-outline-danger", rel: 'no-follow'
+    = button_to 'Delete', event_path(event.id), method: 'delete', class: "btn btn-outline-danger",
+      rel: 'no-follow'
   - else
     button.btn.btn-secondary [disabled="" type="button" data-toggle="tooltip" data-placement="top"
-      title="You need to register or log in to buy tickets"]  Buy
-
+      title="You need to register or log in to buy tickets"] Buy

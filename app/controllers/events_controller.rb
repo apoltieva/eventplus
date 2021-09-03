@@ -11,7 +11,6 @@ class EventsController < ApplicationController
 
   def index
     @events = Event.filter_by(params[:filter], request, current_user.id)
-                   .includes(:venue, pictures_attachments: :blob)
                    .paginate(page: params[:page], per_page: 2)
     respond_to do |format|
       format.html

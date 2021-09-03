@@ -14,7 +14,10 @@ class Event < ApplicationRecord
   scope :future, -> { where('end_time > ?', Time.now) }
   scope :user, ->(id) { merge(User.find(id).events) if id }
   scope :nearest, ->(location) {
-
+                    select('events.*, venues.*')
+                      .joins(:venue)
+                      .merge(Venue.near(location, 20_000, units: :km))
+                      .order('distance')
                   }
   scope :filter_by, ->(filter, request, user_id) do
     case filter
@@ -30,7 +33,7 @@ class Event < ApplicationRecord
                  else
                    request.safe_location
                  end
-      nearest(location)
+      future.nearest(location)
     else
       all.order(:start_time)
     end
