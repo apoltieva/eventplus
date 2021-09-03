@@ -10,26 +10,9 @@ class EventsController < ApplicationController
   end
 
   def index
-    @events = case params[:filter]
-              when 'user'
-                User.find(current_user.id).events.where('end_time > ?', Time.now).order(:start_time)
-              when 'user_past'
-                User.find(current_user.id).events.where('end_time <= ?',
-                                                        Time.now).order(:start_time)
-              when 'past'
-                Event.where('end_time <= ?', Time.now).order(:start_time)
-              when 'nearest'
-                location = if !request.remote_ip || request.remote_ip == '127.0.0.1'
-                             'Kiev, Ukraine'
-                           else
-                             request.safe_location
-                           end
-                Event.where(venue: Venue.near(location, 900_000, order: 'distance').map(&:id))
-              else
-                Event.all.order(:start_time)
-              end
-    @events = @events.includes(:venue, pictures_attachments: :blob)
-                     .paginate(page: params[:page], per_page: 2)
+    @events = Event.filter_by(params[:filter], request, current_user.id)
+                   .includes(:venue, pictures_attachments: :blob)
+                   .paginate(page: params[:page], per_page: 2)
     respond_to do |format|
       format.html
       format.js
