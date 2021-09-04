@@ -3,17 +3,17 @@
   - if @events.empty?
     | No events :(
   - else
+    .filter
+      a.all href=events_url class=(request.original_url == events_url || request.original_url == root_url ? 'current' : '') All events
+      a.past href="#{events_url}?filter=past" class=(request.original_url == "#{events_url}?filter=past" ? 'current' : '') Past events
+      - if user_signed_in?
+        a.user href="#{events_url}?filter=user" class=(request.original_url == "#{events_url}?filter=user" ? 'current' : '') Your events
+        a.user_past href="#{events_url}?filter=user_past" class=(request.original_url == "#{events_url}?filter=user_past" ? 'current' : '') Your past events
+
     - if current_user&.admin?
       = button_to 'Create', new_event_path, method: 'get', class: "btn btn-outline-info"
-
-    .filter
-      a class="all" href="#" All events
-      a class="past" href=events_url+"?filter=past" Past events
-      - if user_signed_in?
-        a class="user" href=events_url+"?filter=user&user_id="+current_user.id.to_s Your events
-        a class="user_past" href=events_url+"?filter=user_past&user_id="+current_user.id.to_s Your past events
 
     .eventsGroup#events
       = render @events
     = will_paginate @events
-    
+
