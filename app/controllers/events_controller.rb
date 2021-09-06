@@ -10,7 +10,18 @@ class EventsController < ApplicationController
   end
 
   def index
-    @events = Event.filter_by(params[:filter], request, current_user.id)
+    location = if !request.remote_ip || request.remote_ip == '127.0.0.1'
+                 'Kiev, Ukraine'
+               else
+                 request.safe_location
+               end
+    if current_user
+      id = current_user.id
+      @events_num_of_tickets = current_user.orders.group(:event_id).sum(:quantity)
+    else
+      @events_num_of_tickets = {}
+    end
+    @events = Event.filter_by(params[:filter], location, id)
                    .paginate(page: params[:page], per_page: 2)
     respond_to do |format|
       format.html

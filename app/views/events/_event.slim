@@ -9,7 +9,7 @@
           class: 'u-image')
   - e = event.decorate
   h3.u-block-d040-7 = link_to event.title, event_path(event.id), method: 'get'
-  p.u-block-d040-17 On stage: #{event.artist}
+  / p.u-block-d040-17 On stage: #{event.artist}
   p.u-block-d040-17 Venue: #{event.venue.name}
   - if event.try :distance
     = sprintf("%0.02f km from you", event.distance)
@@ -17,8 +17,8 @@
   p.u-block-d040-17 = event.description
   p.u-block-d040-17 Ticket price: #{e.fee}
   p.u-block-d040-17 Number of tickets: #{event.total_number_of_tickets}
-  - if user_signed_in? && current_user.events.include?(event)
-    - num = current_user.orders.where(event_id: event.id).sum('quantity')
+  - num = @events_num_of_tickets.fetch(event.id) { nil }
+  - if num
     h5 You've bought #{num} ticket#{num == "1" ? "s" : ""} for this event
   - if current_user&.customer?
     = form_with url: orders_path do |f|
