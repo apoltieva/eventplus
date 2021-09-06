@@ -10,7 +10,7 @@
           class: 'u-image')
     - e = event.decorate
     h3.u-block-d040-7 = link_to event.title, event_path(event.id), method: 'get'
-    p.u-block-d040-17 On stage: #{event.artist}
+    / p.u-block-d040-17 On stage: #{event.artist}
     p.u-block-d040-17 Venue: #{event.venue.name}
     p.u-block-d040-17 = e.start_end
     p.u-block-d040-17 = event.description

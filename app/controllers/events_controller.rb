@@ -22,6 +22,8 @@ class EventsController < ApplicationController
               end
     @events = @events.order(:start_time).includes(:venue, pictures_attachments: :blob)
                      .paginate(page: params[:page], per_page: 2)
+    @original_url = request.original_url
+    @filter = params[:filter]
     respond_to do |format|
       format.html
       format.js
