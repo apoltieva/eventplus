@@ -8,4 +8,6 @@ class Event < ApplicationRecord
   has_many :orders
   has_many :users, through: :orders
   has_many_attached :pictures
+
+  scope :future, -> { where('end_time > ?', Time.now) }
 end

@@ -34,8 +34,13 @@ class VenuesController < ApplicationController
   end
 
   def destroy
-    @venue.destroy
-    redirect_to action: 'index', notice: 'Deleted successfully'
+    if @venue.events.future.any? { |event| event.orders.any? }
+      flash[:alert] = "You can't delete venues with future events that have tickets!"
+      redirect_back fallback_location: venues_path
+    else
+      @venue.destroy
+      redirect_to action: 'index', notice: 'Deleted successfully'
+    end
   end
 
   private

@@ -20,7 +20,7 @@ class EventsController < ApplicationController
               else
                 Event.all
               end
-    @events = @events.order(:start_time).includes(:venue, pictures_attachments: :blob)
+    @events = @events.order(:start_time).includes(:venue)
                      .paginate(page: params[:page], per_page: 2)
     respond_to do |format|
       format.html
@@ -60,8 +60,14 @@ class EventsController < ApplicationController
   end
 
   def destroy
-    @event.destroy
-    redirect_to action: 'index', notice: 'Deleted successfully'
+    if @event.end_time > Time.now && @event.orders.any?
+      flash[:alert] = "You can't delete future events that have tickets!"
+      redirect_back fallback_location: events_path
+    else
+      @event.destroy
+      flash[:notice] = 'Deleted successfully'
+      redirect_to action: 'index'
+    end
   end
 
   private
