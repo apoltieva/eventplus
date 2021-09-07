@@ -1,7 +1,7 @@
 .event.u-block-d040-3
     - if event.pictures.empty?
         - 2.times do
-            = image_tag 'default-imagevent.jpg', alt: "img.jpg", size: "200x133",
+            = image_tag 'default-image.jpg', alt: "img.jpg", size: "200x133",
                     class: 'u-image'
     - else
         - event.pictures.each do |picture|
@@ -9,10 +9,10 @@
                     class: 'u-image')
     - e = event.decorate
     h3.u-block-d040-7 = link_to event.title, event_path(event.id), method: 'get'
-    p.u-block-d040-17 On stage: #{event.artist}
+    p.u-block-d040-17 On stage: #{event.performers.pluck(:name).join(", ")}
     p.u-block-d040-17 Venue: #{event.venue.name}
     p.u-block-d040-17 = e.start_end
-    p.u-block-d040-17 = event.description
+    p.u-block-d040-17 = event.description.truncate(500, separator: ' ')
     p.u-block-d040-17 Ticket price: #{e.fee}
     p.u-block-d040-17 Number of tickets: #{event.total_number_of_tickets}
     - if user_signed_in? && current_user.events.include?(event)

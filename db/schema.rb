@@ -10,8 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+ActiveRecord::Schema.define(version: 2021_09_07_115933) do
 
-ActiveRecord::Schema.define(version: 2021_08_17_083625) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -46,7 +46,6 @@ ActiveRecord::Schema.define(version: 2021_08_17_083625) do
   create_table "events", force: :cascade do |t|
     t.string "title", null: false
     t.string "description"
-    t.string "artist", null: false
     t.integer "total_number_of_tickets"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -58,6 +57,13 @@ ActiveRecord::Schema.define(version: 2021_08_17_083625) do
     t.index ["venue_id"], name: "index_events_on_venue_id"
   end
 
+  create_table "listings", force: :cascade do |t|
+    t.bigint "event_id"
+    t.bigint "performer_id"
+    t.index ["event_id"], name: "index_listings_on_event_id"
+    t.index ["performer_id"], name: "index_listings_on_performer_id"
+  end
+
   create_table "orders", force: :cascade do |t|
     t.integer "event_id"
     t.integer "user_id"
@@ -66,6 +72,12 @@ ActiveRecord::Schema.define(version: 2021_08_17_083625) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "uuid"
     t.index ["event_id", "user_id"], name: "index_orders_on_event_id_and_user_id"
+  end
+
+  create_table "performers", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -93,9 +105,10 @@ ActiveRecord::Schema.define(version: 2021_08_17_083625) do
     t.float "latitude", null: false
     t.float "longitude", null: false
     t.integer "max_capacity"
+    t.text "address"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "events", "venues"
+  add_foreign_key "events", "venues", on_delete: :cascade
 end
