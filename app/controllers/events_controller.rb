@@ -21,7 +21,7 @@ class EventsController < ApplicationController
                 Event.all
               end
     @events = @events.order(:start_time).includes(:venue)
-                     .paginate(page: params[:page], per_page: 2)
+                     .paginate(page: params[:page], per_page: 3)
     respond_to do |format|
       format.html
       format.js
@@ -61,12 +61,11 @@ class EventsController < ApplicationController
 
   def destroy
     if @event.end_time > Time.now && @event.orders.any?
-      flash[:alert] = "You can't delete future events that have tickets!"
-      redirect_back fallback_location: events_path
+      render json: { error: "You can't delete future events that have tickets!" },
+             status: :method_not_allowed
     else
       @event.destroy
-      flash[:notice] = 'Deleted successfully'
-      redirect_to action: 'index'
+      render json: { id: @event.id }
     end
   end
 
@@ -77,7 +76,7 @@ class EventsController < ApplicationController
   end
 
   def event_params
-    params.require(:event).permit(:title, :description, :artist, :total_number_of_tickets,
+    params.require(:event).permit(:title, :description, :total_number_of_tickets,
                                   :start_time, :end_time, :venue_id,
                                   :ticket_price_currency, :ticket_price, pictures: [])
   end

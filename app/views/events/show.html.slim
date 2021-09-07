@@ -19,5 +19,3 @@ div
       = image_tag(picture, class: 'u-image')
   - if current_user&.admin?
     = button_to 'Edit', edit_event_path(@event.id), method: 'get', class: "btn btn-outline-primary"
-    = button_to 'Delete', event_path(@event.id), method: 'delete',
-      class: "btn btn-outline-danger", rel: 'no-follow', remote: true

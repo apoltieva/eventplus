@@ -1,33 +1,36 @@
-.event.u-block-d040-3
-    - if event.pictures.empty?
-        - 2.times do
-            = image_tag 'default-imagevent.jpg', alt: "img.jpg", size: "200x133",
-                    class: 'u-image'
-    - else
-        - event.pictures.each do |picture|
-            = image_tag(picture, alt: "img.jpg", size: "200x133",
-                    class: 'u-image')
-    - e = event.decorate
-    h3.u-block-d040-7 = link_to event.title, event_path(event.id), method: 'get'
-    p.u-block-d040-17 On stage: #{event.artist}
-    p.u-block-d040-17 Venue: #{event.venue.name}
-    p.u-block-d040-17 = e.start_end
-    p.u-block-d040-17 = event.description
-    p.u-block-d040-17 Ticket price: #{e.fee}
-    p.u-block-d040-17 Number of tickets: #{event.total_number_of_tickets}
-    - if user_signed_in? && current_user.events.include?(event)
-        - num = current_user.orders.where(event_id: event.id).sum('quantity')
-        h5 You've bought #{num} ticket#{num == "1" ? "s" : ""} for this event
-    - if current_user&.customer?
-        = form_with url: orders_path do |f|
-            = f.hidden_field :event_id, value: event.id
-            = f.number_field :quantity, step: 1, min: 1
-            = f.submit "Buy", class: 'btn btn-success'
-    - elsif current_user&.admin?
-        = button_to 'Edit', edit_event_path(event.id), method: 'get',
-          class: "btn btn-outline-primary"
-        = button_to 'Delete', event_path(event.id), method: 'delete',
-          class: "btn btn-outline-danger", rel: 'no-follow', remote: true
-    - else
-        button.btn.btn-secondary [disabled="" type="button" data-toggle="tooltip" data-placement="top"
-            title="You need to register or log in to buy tickets"]  Buy
+.event.u-block-d040-3 id=(event.id)
+  - if event.pictures.empty?
+    - 2.times do
+      = image_tag 'default-image.jpg', alt: "img.jpg", size: "200x133",
+              class: 'u-image'
+  - else
+    - event.pictures.each do |picture|
+      = image_tag(picture, alt: "img.jpg", size: "200x133",
+                class: 'u-image')
+  - e = event.decorate
+  h3.u-block-d040-7 = link_to event.title, event_path(event.id), method: 'get'
+  / p.u-block-d040-17 On stage: #{event.artist}
+  p.u-block-d040-17 Venue: #{event.venue.name}
+  p.u-block-d040-17 = e.start_end
+  p.u-block-d040-17 = event.description
+  p.u-block-d040-17 Ticket price: #{e.fee}
+  p.u-block-d040-17 Number of tickets: #{event.total_number_of_tickets}
+  - if user_signed_in? && current_user.events.include?(event)
+    - num = current_user.orders.where(event_id: event.id).sum('quantity')
+    h5 You've bought #{num} ticket#{num == "1" ? "s" : ""} for this event
+  - if current_user&.customer?
+    = form_with url: orders_path do |f|
+      = f.hidden_field :event_id, value: event.id
+      = f.number_field :quantity, step: 1, min: 1
+      = f.submit "Buy", class: 'btn btn-success'
+  - elsif current_user&.admin?
+    = button_to 'Edit', edit_event_path(event.id), method: 'get',
+      class: "btn btn-outline-primary"
+    = button_to 'Delete', event_path(event.id), method: 'delete',
+      class: "btn btn-outline-danger", rel: 'no-follow', remote: true
+  - else
+    button.btn.btn-secondary [disabled="" type="button" data-toggle="tooltip" data-placement="top"
+      title="You need to register or log in to buy tickets"]  Buy
+
+- content_for :head do
+  = javascript_include_tag "delete.js"

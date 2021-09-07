@@ -4,7 +4,7 @@
     | No venues :(
   - else
     - @venues.each do |venue|
-      .u-block-d040-3.card
+      .u-block-d040-3.card id=(venue.id)
         .card-body
           h3.u-block-d040-7 = venue.name
           - unless venue.pictures.empty?
@@ -14,3 +14,6 @@
           = button_to 'Edit', edit_venue_path(venue.id), method: 'get', class: "btn btn-outline-primary"
           = button_to 'Delete', venue_path(venue.id), method: 'delete',
             class: "btn btn-outline-danger", rel: 'no-follow', remote: true
+
+- content_for :head do
+  = javascript_include_tag "delete.js"
