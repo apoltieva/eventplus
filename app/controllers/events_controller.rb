@@ -10,20 +10,15 @@ class EventsController < ApplicationController
   end
 
   def index
-    @events = case params[:filter]
-              when 'user'
-                User.find(params[:user_id]).events.where('end_time > ?', Time.now)
-              when 'user_past'
-                User.find(params[:user_id]).events.where('end_time <= ?', Time.now)
-              when 'past'
-                Event.where('end_time <= ?', Time.now)
-              else
-                Event.all
-              end
-    @events = @events.order(:start_time).includes(:venue, pictures_attachments: :blob)
-                     .paginate(page: params[:page], per_page: 2)
-    @original_url = request.original_url
     @filter = params[:filter]
+    @events_num_of_tickets = if current_user
+                               current_user.orders.group(:event_id).sum(:quantity)
+                             else
+                               {}
+                             end
+    @events = Event.filter_by(params[:filter], event_filter_parameters)
+                   .preload(:performers, :venue)
+                   .paginate(page: params[:page], per_page: 3)
     respond_to do |format|
       format.html
       format.js
@@ -76,8 +71,19 @@ class EventsController < ApplicationController
   end
 
   def event_params
-    params.require(:event).permit(:title, :description, :artist, :total_number_of_tickets,
+    params.require(:event).permit(:title, :description, :total_number_of_tickets,
                                   :start_time, :end_time, :venue_id,
-                                  :ticket_price_currency, :ticket_price, pictures: [])
+                                  :ticket_price_currency, :ticket_price,
+                                  pictures: [], performers: [])
+  end
+
+  def event_filter_parameters
+    user_id = current_user.id if current_user
+    location = if !request.remote_ip || request.remote_ip == '127.0.0.1'
+                 'Kiev, Ukraine'
+               else
+                 request.safe_location
+               end
+    { location: location, user_id: user_id }
   end
 end

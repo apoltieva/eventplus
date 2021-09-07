@@ -5,5 +5,5 @@ class Venue < ApplicationRecord
   validates :longitude, inclusion: -180..180
   validates :latitude, inclusion: -90..90
   has_many_attached :pictures
-  has_many :events
+  has_many :events, dependent: :destroy
 end
