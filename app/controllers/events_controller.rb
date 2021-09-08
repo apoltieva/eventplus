@@ -17,7 +17,7 @@ class EventsController < ApplicationController
                                {}
                              end
     @events = Event.filter_by(params[:filter], event_filter_parameters)
-                   .preload(:performers, :venue)
+                   .preload(:performer, :venue, pictures_attachments: :blob)
                    .paginate(page: params[:page], per_page: 3)
     respond_to do |format|
       format.html
@@ -57,6 +57,9 @@ class EventsController < ApplicationController
       flash[:alert] = @event.errors.full_messages.join('; ')
       render :edit
     end
+  rescue PG::NotNullViolation
+    flash[:alert] = "Performer's name can't be blank!"
+    render :edit
   end
 
   def destroy
@@ -71,15 +74,22 @@ class EventsController < ApplicationController
   end
 
   def event_params
+    name = params.require(:event).fetch(:performer_name) { nil }
+    performer = if name
+                  name = nil if name == ''
+                  Performer.new(name: name)
+                else
+                  Performer.find params.require(:event).fetch(:performer_id)
+                end
     params.require(:event).permit(:title, :description, :total_number_of_tickets,
                                   :start_time, :end_time, :venue_id,
                                   :ticket_price_currency, :ticket_price,
-                                  pictures: [], performers: [])
+                                  pictures: []).merge!(performer: performer)
   end
 
   def event_filter_parameters
     user_id = current_user.id if current_user
-    location = if !request.remote_ip || request.remote_ip == '127.0.0.1'
+    location = if !request.remote_ip || request.remote_ip == '127.0.0.1' || request.remote_ip == '::1'
                  'Kiev, Ukraine'
                else
                  request.safe_location

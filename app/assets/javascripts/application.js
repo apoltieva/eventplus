@@ -5,7 +5,7 @@
 //= require_self
 //= require activestorage
 
-$(document).ready(function() {
+$(document).on('turbolinks:load', function() {
   if ($('.pagination').length) {
     $(window).scroll(function() {
       var url = $('.pagination .next_page').attr('href');
