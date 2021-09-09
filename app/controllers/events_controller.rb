@@ -10,7 +10,12 @@ class EventsController < ApplicationController
   end
 
   def index
-    location = request.safe_location || 'Kiev, Ukraine'
+    # location = request.safe_location || 'Kiev, Ukraine'
+    location = if !request.remote_ip || request.remote_ip == '127.0.0.1'
+                 'Kiev, Ukraine'
+               else
+                 request.safe_location
+               end
     if current_user
       id = current_user.id
       @events_num_of_tickets = current_user.orders.group(:event_id).sum(:quantity)
