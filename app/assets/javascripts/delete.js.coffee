@@ -4,6 +4,5 @@ $(document).on 'turbolinks:load', ->
     return
   document.body.addEventListener 'ajax:error', (event) ->
     alert event.detail[0].error
-    console.log(1)
     return
   return
