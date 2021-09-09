@@ -89,11 +89,8 @@ class EventsController < ApplicationController
 
   def event_filter_parameters
     user_id = current_user.id if current_user
-    location = if !request.remote_ip || request.remote_ip == '127.0.0.1' || request.remote_ip == '::1'
-                 'Kiev, Ukraine'
-               else
-                 request.safe_location
-               end
+    location = request.safe_location || 'Kiev, Ukraine'
+
     { location: location, user_id: user_id }
   end
 end
