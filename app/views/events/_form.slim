@@ -3,7 +3,6 @@
   .form-inputs
     = f.input :title, label: 'Title of the event', error: 'Title is mandatory, please specify one'
     = f.input :description, as: :text
-    = f.input :artist, label: 'Performing artist', error: 'Artist is mandatory'
     = f.input :total_number_of_tickets, as: :integer, input_html: { min: '1', step: '1' }
     = f.input :ticket_price, as: :float, input_html: { min: '0.00', step: '0.01' }, hint: 'Enter "0" for free events'
     = f.input :start_time, as: :datetime, label: 'Starting time', html5: true

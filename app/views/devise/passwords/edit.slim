@@ -6,7 +6,7 @@ h2 Change your password
     = f.label :password, "New password"
     br
     - if @minimum_password_length
-      em (#{@minimum_password_length} characters minimum)
+      p #{@minimum_password_length} characters minimum
       br
     = f.password_field :password, autofocus: true, autocomplete: "new-password"
   .field

@@ -6,7 +6,7 @@ class Venue < ApplicationRecord
   validates :latitude, inclusion: -90..90
 
   has_many_attached :pictures
-  has_many :events
+  has_many :events, dependent: :destroy
 
   reverse_geocoded_by :latitude, :longitude
   after_validation :reverse_geocode, if: ->(obj) {

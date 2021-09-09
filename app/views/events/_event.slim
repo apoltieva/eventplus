@@ -1,4 +1,4 @@
-.event.u-block-d040-3.card
+.event.u-block-d040-3.card id=(event.id)
   .card-body
     - if event.pictures.empty?
       - 2.times do
@@ -10,7 +10,6 @@
             class: 'u-image')
     - e = event.decorate
     h3.u-block-d040-7 = link_to event.title, event_path(event.id), method: 'get'
-    / p.u-block-d040-17 On stage: #{event.artist}
     p.u-block-d040-17 Venue: #{event.venue.name}
     - if event.try :distance
       = sprintf("%0.02f km from you", event.distance)
@@ -29,7 +28,10 @@
     - elsif current_user&.admin?
       = button_to 'Edit', edit_event_path(event.id), method: 'get', class: "btn btn-outline-primary"
       = button_to 'Delete', event_path(event.id), method: 'delete', class: "btn btn-outline-danger",
-        rel: 'no-follow'
+        rel: 'no-follow', remote: true
     - else
       button.btn.btn-secondary [disabled="" type="button" data-toggle="tooltip" data-placement="top"
         title="You need to register or log in to buy tickets"] Buy
+
+- content_for :head do
+  = javascript_include_tag "delete.js"

@@ -23,7 +23,7 @@ class EventsController < ApplicationController
       @events_num_of_tickets = {}
     end
     @events = Event.filter_by(params[:filter], location, id)
-                   .paginate(page: params[:page], per_page: 2)
+                   .paginate(page: params[:page], per_page: 3)
     @original_url = request.original_url
     @filter = params[:filter]
     respond_to do |format|
@@ -67,8 +67,13 @@ class EventsController < ApplicationController
   end
 
   def destroy
-    @event.destroy
-    redirect_to action: 'index', notice: 'Deleted successfully'
+    if @event.end_time > Time.now && @event.orders.any?
+      render json: { error: "You can't delete future events that have tickets!" },
+             status: :method_not_allowed
+    else
+      @event.destroy
+      render json: { id: @event.id }
+    end
   end
 
   private
@@ -78,7 +83,7 @@ class EventsController < ApplicationController
   end
 
   def event_params
-    params.require(:event).permit(:title, :description, :artist, :total_number_of_tickets,
+    params.require(:event).permit(:title, :description, :total_number_of_tickets,
                                   :start_time, :end_time, :venue_id,
                                   :ticket_price_currency, :ticket_price, pictures: [])
   end
