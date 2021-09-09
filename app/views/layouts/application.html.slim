@@ -8,48 +8,51 @@ html class="h-100" lang="en"
     = javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=#{Rails.application.credentials.google_maps_api_key}"
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
     = content_for :head
-    script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-    script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+    script src="https://code.jquery.com/jquery-3.2.1.min.js"
+    script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"
+    script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"
 
     = csrf_meta_tags
     = csp_meta_tag
-  body class="d-flex flex-column h-100"
+  body.d-flex.flex-column.h-100
     header.navbar
-      nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark"
-        div class="collapse navbar-collapse" id="navbarCollapse"
-          ul class="navbar-nav mr-auto"
-            li class="nav-item active"
+      nav.navbar.navbar-expand-md.navbar-dark.fixed-top.bg-dark
+        .collapse.navbar-collapse#navbarCollapse
+          ul.navbar-nav.mr-auto
+            li.nav-item.active
               .margin
-                = button_to "Home", '/events', method: 'get', class: "btn btn-outline-light"
-            li class="nav-item active"
+                = button_to "Home", root_path, method: 'get', class: "btn btn-light"
+            li.nav-item.active
               .margin
-                = button_to 'Help',    'help_path', class: "btn btn-outline-light"
+                = button_to 'Help', 'help_path', method: 'get', class: "btn btn-light"
             - if user_signed_in?
-              li class="nav-item active"
+              li.nav-item.active
                 .margin
-                  = button_to 'Logout','/users/sign_out', method: 'delete', class: "btn btn-outline-light"
-              div style="margin-top:5px"
-                p.email = current_user.email
+                  = button_to 'Logout', destroy_user_session_path, method: 'delete', class: "btn btn-light"
             - else
-              li class="nav-item active"
+              li.nav-item.active
                 .margin
-                  = button_to 'Register', '/users/sign_up', method: 'get', class: "btn btn-outline-light"
-              li
+                  = button_to 'Register', new_user_registration_path, method: 'get', class: "btn btn-light"
+              li.nav-item.active
                 .margin
-                  = button_to 'Login', '/users/sign_in', method: 'get', class: "btn btn-outline-light"
-          - if current_user&.admin?
-            ul class="navbar-nav mr-auto justify-content-between"
-              li = button_to 'Venues', '/venues', method: 'get', class: "btn btn-outline-light"
-          form class="form-inline mt-2 mt-md-0"
-            input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"
-            button class="btn btn-outline-success my-2 my-sm-0" type="submit" Search
-    main role="main" class="flex-shrink-0"
+                  = button_to 'Login', '/users/sign_in', method: 'get', class: "btn btn-light"
+            - if current_user&.admin?
+              li.nav-item.active
+                .margin
+                  = button_to 'Venues', '/venues', method: 'get', class: "btn btn-outline-light"
+          - if user_signed_in?
+            ul.navbar-nav.mr-auto.justify-content-between
+              div.email
+                p = current_user.email
+          form.form-inline.mt-2.mt-md-0
+            input.form-control.mr-sm-2 type="text" placeholder="Search" aria-label="Search"
+            button.btn.btn-success.my-2.my-sm-0 type="submit" Search
+    main.flex-shrink-0 role="main"
       - flash.each do |type, msg|
         .alert.alert-info
           = msg
       .container
         = yield
-    footer class="footer mt-auto py-3"
+    footer.footer.mt-auto.py-3
       .container
         span.text-muted © SoftServe, creator - Anna Poltieva

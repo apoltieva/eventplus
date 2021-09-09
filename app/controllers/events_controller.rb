@@ -24,6 +24,8 @@ class EventsController < ApplicationController
     end
     @events = Event.filter_by(params[:filter], location, id)
                    .paginate(page: params[:page], per_page: 2)
+    @original_url = request.original_url
+    @filter = params[:filter]
     respond_to do |format|
       format.html
       format.js
