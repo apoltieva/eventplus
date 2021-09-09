@@ -132,6 +132,7 @@ GEM
       factory_bot (~> 6.2.0)
       railties (>= 5.0.0)
     ffi (1.15.3)
+    geocoder (1.6.7)
     globalid (0.5.1)
       activesupport (>= 5.0)
     i18n (1.8.10)
@@ -284,6 +285,9 @@ GEM
     settingslogic (2.0.9)
     shoulda-matchers (5.0.0)
       activesupport (>= 5.2.0)
+    simple_form (5.1.0)
+      actionpack (>= 5.2)
+      activemodel (>= 5.2)
     slim (4.1.0)
       temple (>= 0.7.6, < 0.9)
       tilt (>= 2.0.6, < 2.1)
@@ -348,6 +352,7 @@ DEPENDENCIES
   draper
   factory_bot_rails
   faker!
+  geocoder
   image_processing (>= 1.2)
   jbuilder (~> 2.7)
   jquery-rails
@@ -365,6 +370,7 @@ DEPENDENCIES
   selenium-webdriver
   settingslogic
   shoulda-matchers
+  simple_form
   slim
   slim-rails
   spring

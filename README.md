@@ -24,6 +24,14 @@ Admins can CRUD venues in the same manner as events
 
 Admins are pre-seeded in the database and can use the same sign-in/sign-out flow
 
+Calendar input for start-end time of events
+
+Map input for venue location
+
+Scroll pagination for events
+
+Filter for past events
+
 © SoftServe, creator - Anna Poltieva
 ______________________________________________________________
 
