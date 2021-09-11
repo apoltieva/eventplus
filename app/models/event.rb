@@ -14,12 +14,18 @@ class Event < ApplicationRecord
   scope :past, -> { where('end_time <= ?', Time.now) }
   scope :future, -> { where('end_time > ?', Time.now) }
   scope :by_user, ->(id) { merge(User.find(id).events) if id }
-  scope :nearest, ->(location) {
-                    select('events.*, venues.*')
-                      .joins(:venue)
-                      .merge(Venue.near(location, 20_000, units: :km))
-                      .order('distance')
-                  }
+  def self.order_by_ids(ids)
+    t = Event.arel_table
+    condition = Arel::Nodes::Case.new(t[:id])
+    ids.each_with_index do |id, index|
+      condition.when(id).then(index)
+    end
+    order(condition)
+  end
+  scope :nearest, ->(location) do
+    venue_ids = Venue.near(location, 20_000, units: :km).map(&:id)
+    where(venue_id: venue_ids).order_by_ids(venue_ids)
+  end
   scope :filter_by, ->(filter, location, user_id) do
     case filter
     when 'user'
