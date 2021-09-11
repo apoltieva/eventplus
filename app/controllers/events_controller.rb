@@ -89,7 +89,7 @@ class EventsController < ApplicationController
 
   def event_filter_parameters
     user_id = current_user.id if current_user
-    location = request.safe_location || 'Kiev, Ukraine'
+    location = 'Kiev, Ukraine'
 
     { location: location, user_id: user_id }
   end
