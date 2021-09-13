@@ -22,8 +22,16 @@ class EventsController < ApplicationController
     else
       @events_num_of_tickets = {}
     end
-    @events = Event.filter_by(params[:filter], location, id)
-                   .paginate(page: params[:page], per_page: 3)
+    @events = if params[:filter] == 'nearest'
+                coords = Geocoder.search(location).first.coordinates
+                @venues_with_distance = Venue.near(
+                  coords, 20_000, units: :km, select: 'venues.id'
+                ).each_with_object({}) { |v, h| h[v.id] = v.distance }
+                Event.nearest(@venues_with_distance.keys)
+              else
+                Event.filter_by(params[:filter], id)
+              end
+    @events = @events.paginate(page: params[:page], per_page: 3)
     @original_url = request.original_url
     @filter = params[:filter]
     respond_to do |format|

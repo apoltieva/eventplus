@@ -16,10 +16,10 @@ class Event < ApplicationRecord
   scope :past, -> { where('end_time <= ?', Time.now) }
   scope :future, -> { where('end_time > ?', Time.now) }
   scope :by_user, ->(id) { merge(User.find(id).events) if id }
-  scope :nearest, ->(location) do
-    order_as_specified venue_id: Venue.near(location, 20_000, units: :km).map(&:id)
+  scope :nearest, ->(ids) do
+    future.order_as_specified(venue_id: ids)
   end
-  scope :filter_by, ->(filter, location, user_id) do
+  scope :filter_by, ->(filter, user_id) do
     case filter
     when 'user'
       by_user(user_id).future.order(:start_time)
@@ -27,8 +27,6 @@ class Event < ApplicationRecord
       by_user(user_id).past.order(:start_time)
     when 'past'
       past.order(:start_time)
-    when 'nearest'
-      future.nearest(location)
     else
       order(:start_time)
     end
