@@ -1,18 +1,18 @@
 .u-block-d040-2
   h1 Welcome to Event+ website
+  .filter
+    a.all href=events_url class=(!@filter ? 'current' : '') All events
+    a.past href=events_url(filter: 'nearest') class=(@filter == "nearest" ? 'current' : '') Near you
+    a.past href=events_url(filter: 'past') class=(@filter == "past" ? 'current' : '') Past events
+    - if user_signed_in?
+      a.user href=events_url(filter: 'user') class=(@filter == "user" ? 'current' : '') Your events
+      a.user_past href=events_url(filter: 'user_past') class=(@filter == "user_past" ? 'current' : '') Your past events
+
+  - if current_user&.admin?
+    = button_to 'Create', new_event_path, method: 'get', class: "btn btn-outline-info"
   - if @events.empty?
     | No events :(
   - else
-    .filter
-      a.all href=events_url class=(!@filter ? 'current' : '') All events
-      a.past href=events_url(filter: 'past') class=(@filter == "past" ? 'current' : '') Past events
-      - if user_signed_in?
-        a.user href=events_url(filter: 'user') class=(@filter == "user" ? 'current' : '') Your events
-        a.user_past href=events_url(filter: 'user_past') class=(@filter == "user_past" ? 'current' : '') Your past events
-
-    - if current_user&.admin?
-      = button_to 'Create', new_event_path, method: 'get', class: "btn btn-outline-info"
-
     .eventsGroup#events
       = render @events
     = will_paginate @events

@@ -34,8 +34,13 @@ class VenuesController < ApplicationController
   end
 
   def destroy
-    @venue.destroy
-    redirect_to action: 'index', notice: 'Deleted successfully'
+    if @venue.events.future.any? { |event| event.orders.any? }
+      render json: { error: "You can't delete venues with future events that have tickets!" },
+             status: :method_not_allowed
+    else
+      @venue.destroy
+      render json: { id: @venue.id }
+    end
   end
 
   private
