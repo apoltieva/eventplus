@@ -31,7 +31,7 @@ class EventsController < ApplicationController
               else
                 Event.filter_by(params[:filter], id)
               end
-    @events = @events.preload(:venue, pictures_attachments: :blob)
+    @events = @events.preload(:venue, :orders, pictures_attachments: :blob)
                      .paginate(page: params[:page], per_page: 3)
     @original_url = request.original_url
     @filter = params[:filter]
