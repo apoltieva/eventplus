@@ -5,8 +5,6 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.0.0'
 
-gem 'cocoon'
-
 gem 'jquery-rails'
 
 gem 'jquery-ui-rails'
