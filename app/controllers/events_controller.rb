@@ -57,9 +57,6 @@ class EventsController < ApplicationController
       flash[:alert] = @event.errors.full_messages.join('; ')
       render :edit
     end
-  rescue PG::NotNullViolation
-    flash[:alert] = "Performer's name can't be blank!"
-    render :edit
   end
 
   def destroy
@@ -76,7 +73,6 @@ class EventsController < ApplicationController
   def event_params
     name = params.require(:event).fetch(:performer_name) { nil }
     performer = if name
-                  name = nil if name == ''
                   Performer.new(name: name)
                 else
                   Performer.find params.require(:event).fetch(:performer_id)
