@@ -13,10 +13,17 @@ p Pictures:
 div
   h3 Venue
   h3 = @event.venue.name
-  p #{@event.venue.latitude}° latitude, #{@event.venue.longitude}° longitude
+  - if @event.venue.address
+    p.u-block-d040-17 @event.venue.address
+  - else
+    p.u-block-d040-17 #{@event.venue.latitude}° latitude, #{@event.venue.longitude}° longitude
+  = render 'venues/map'
   - unless @event.venue.pictures.empty?
     - @event.venue.pictures.each do |picture|
       = image_tag(picture, class: 'u-image')
   - if current_user&.admin?
     = button_to 'Edit', edit_event_path(@event.id), method: 'get', class: "btn btn-outline-primary"
     = button_to 'Delete', event_path(@event.id), method: 'delete', class: "btn btn-outline-danger"
+.hidden
+  input#venue_latitude value=(@event.venue.latitude)
+  input#venue_longitude value=(@event.venue.longitude)
