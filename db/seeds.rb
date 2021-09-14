@@ -1,19 +1,29 @@
 # frozen_string_literal: true
 
+DESCRIPTIONS = File.read('db/descriptions.txt').split("\n\n\n")
+
 if Venue.none?
   10.times do
     Venue.create!(name: Faker::Mountain.name,
-                  latitude: rand(50..51),
-                  longitude: rand(30..31))
+                  latitude: rand(50.0..51.0),
+                  longitude: rand(30.0..31.0),
+                  max_capacity: rand(10000))
   end
 end
 
-if Event.none?
+if Performer.none?
   10.times do
+    Performer.create!(name: Faker::Name.name)
+  end
+end
+
+performers = Performer.all
+if Event.none?
+  DESCRIPTIONS.each do | descr |
     Event.create!(title: Faker::Movie.title,
-                  description: Faker::Lorem.paragraph,
-                  artist: Faker::Name.name,
-                  start_time: Faker::Time.between(from: DateTime.new(2021, 9, 3, 4, 5, 6),
+                  description: descr,
+                  performer_id: performers.sample.id,
+                  start_time: Faker::Time.between(from: DateTime.new(2021, 8, 3, 4, 5, 6),
                                                   to: DateTime.new(
                                                     2021, 12, 3, 4, 5, 6
                                                   )),
@@ -26,20 +36,24 @@ if Event.none?
                   )
   end
 end
+
 Event.all.each do |e|
-  e.pictures.purge
-  (1..3).each do |i|
-    e.pictures.attach(io: URI.open(Faker::LoremFlickr.image(search_terms: ['events', 'parties'])),
-                      filename: "#{i}.png")
+  if e.pictures.empty?
+    (1..3).each do |i|
+      e.pictures.attach(io: URI.open(Faker::LoremFlickr.image(search_terms: ['events', 'parties'])),
+                        filename: "#{i}.png")
+    end
   end
 end
 Venue.all.each do |v|
-  v.pictures.purge
-  (1..3).each do |i|
-    v.pictures.attach(io: URI.open(Faker::LoremFlickr.image(search_terms: ['mountains'])),
-      filename: "#{i}.png")
+  if v.pictures.empty?
+    (1..3).each do |i|
+      v.pictures.attach(io: URI.open(Faker::LoremFlickr.image(search_terms: ['mountains'])),
+        filename: "#{i}.png")
+    end
   end
 end
 5.times do
   Admin.create!(email: Faker::Internet.email, password: "123456", confirmed_at: Time.now, role: 1)
 end
+
