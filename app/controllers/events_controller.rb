@@ -10,18 +10,23 @@ class EventsController < ApplicationController
   end
 
   def index
-    @events = case params[:filter]
-              when 'user'
-                User.find(params[:user_id]).events.where('end_time > ?', Time.now)
-              when 'user_past'
-                User.find(params[:user_id]).events.where('end_time <= ?', Time.now)
-              when 'past'
-                Event.where('end_time <= ?', Time.now)
-              else
-                Event.all
-              end
-    @events = @events.order(:start_time).includes(:venue, pictures_attachments: :blob)
-                     .paginate(page: params[:page], per_page: 2)
+    # location = request.safe_location || 'Kiev, Ukraine'
+    location = if !request.remote_ip || request.remote_ip == '127.0.0.1'
+                 'Kiev, Ukraine'
+               else
+                 request.safe_location
+               end
+    if current_user
+      id = current_user.id
+      @events_num_of_tickets = current_user.orders.group(:event_id).sum(:quantity)
+    else
+      @events_num_of_tickets = {}
+    end
+    @original_url = request.original_url
+    @filter = params[:filter]
+    @events = Event.filter_by(params[:filter], {location: location, user_id: user_id})
+                   .preload(:performer, :venue, pictures_attachments: :blob)
+                   .paginate(page: params[:page], per_page: 3)
     respond_to do |format|
       format.html
       format.js
@@ -63,8 +68,13 @@ class EventsController < ApplicationController
   end
 
   def destroy
-    @event.destroy
-    redirect_to action: 'index', notice: 'Deleted successfully'
+    if @event.end_time > Time.now && @event.orders.any?
+      render json: { error: "You can't delete future events that have tickets!" },
+             status: :method_not_allowed
+    else
+      @event.destroy
+      render json: { id: @event.id }
+    end
   end
 
   private
@@ -74,8 +84,17 @@ class EventsController < ApplicationController
   end
 
   def event_params
-    params.require(:event).permit(:title, :description, :artist, :total_number_of_tickets,
+
+    name = params.require(:event).fetch(:performer_name) { nil }
+    performer = if name
+                  Performer.new(name: name)
+                else
+                  Performer.find params.require(:event).fetch(:performer_id)
+                end
+
+    params.require(:event).permit(:title, :description, :total_number_of_tickets,
                                   :start_time, :end_time, :venue_id,
-                                  :ticket_price_currency, :ticket_price, pictures: [])
+                                  :ticket_price_currency, :ticket_price,
+                                  pictures: []).merge!(performer: performer)
   end
 end

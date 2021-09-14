@@ -3,14 +3,22 @@
   - if @venues.empty?
     | No venues :(
   - else
-    - @venues.each_with_index do |venue, n|
-      .u-block-d040-3.card
+    - @venues.each do |venue|
+      .u-block-d040-3.card id=(venue.id)
         .card-body
           h3.u-block-d040-7 = venue.name
           - unless venue.pictures.empty?
             - venue.pictures.each do |picture|
               = image_tag(picture, size: "200x133", class: 'u-image')
-          p.u-block-d040-17 #{venue.latitude}° latitude, #{venue.longitude}° longitude
-          br
+          - if venue.address
+            p.u-block-d040-17 = venue.address
+          - else
+            p.u-block-d040-17 #{venue.latitude}° latitude, #{venue.longitude}° longitude
+          - if venue.max_capacity
+            p.u-block-d040-17 = venue.max_capacity
           = button_to 'Edit', edit_venue_path(venue.id), method: 'get', class: "btn btn-outline-primary"
-          = button_to 'Delete', venue_path(venue.id), method: 'delete', class: "btn btn-outline-danger"
+          = button_to 'Delete', venue_path(venue.id), method: 'delete',
+            class: "btn btn-outline-danger", rel: 'no-follow', remote: true
+
+- content_for :head do
+  = javascript_include_tag "delete.js"
