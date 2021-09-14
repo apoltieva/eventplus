@@ -141,6 +141,7 @@ main
     height: 400px;
 }
 .pagination { visibility: hidden }
+.hidden { visibility: hidden }
 form.button_to { display: inline }
 .event-btn { margin-right: 10px }
 .btn-outline-danger.event-btn { float: right }
