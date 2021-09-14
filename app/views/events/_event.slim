@@ -16,7 +16,6 @@
     p.u-block-d040-17 = e.start_end
     p.u-block-d040-17 = event.description
     p.u-block-d040-17 Ticket price: #{e.fee}
-    p.u-block-d040-17 Number of tickets: #{event.total_number_of_tickets}
     - tickets_left = event.total_number_of_tickets - event.orders.sum(:quantity)
     p.u-block-d040-17 Tickets left: #{tickets_left}
     - num = @events_num_of_tickets.fetch(event.id) { nil }
