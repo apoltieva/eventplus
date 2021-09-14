@@ -5,7 +5,7 @@ p = @event.decorate.start_end
   - num = @events_num_of_tickets.fetch(@event.id) { nil }
   - if num
     h5 You've bought #{num} ticket#{num == "1" ? "" : "s"} for this event
-p.u-block-d040-17 Tickets left: #{@event.total_number_of_tickets - @event.orders.size}
+p.u-block-d040-17 Tickets left: #{@event.total_number_of_tickets - @event.orders_count}
 p Price: #{@event.decorate.fee}
 - if current_user&.admin?
   = render 'list_of_users_for_admin', orders: @event.orders
