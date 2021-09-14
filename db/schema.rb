@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_06_113459) do
+ActiveRecord::Schema.define(version: 2021_09_14_073226) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,14 +54,10 @@ ActiveRecord::Schema.define(version: 2021_09_06_113459) do
     t.bigint "venue_id"
     t.integer "ticket_price_cents", default: 0, null: false
     t.string "ticket_price_currency", default: "UAH", null: false
-    t.index ["venue_id"], name: "index_events_on_venue_id"
-  end
-
-  create_table "events_performers", force: :cascade do |t|
-    t.bigint "event_id"
     t.bigint "performer_id"
-    t.index ["event_id"], name: "index_events_performers_on_event_id"
-    t.index ["performer_id"], name: "index_events_performers_on_performer_id"
+    t.integer "orders_count", default: 0, null: false
+    t.index ["performer_id"], name: "index_events_on_performer_id"
+    t.index ["venue_id"], name: "index_events_on_venue_id"
   end
 
   create_table "orders", force: :cascade do |t|
@@ -75,9 +71,10 @@ ActiveRecord::Schema.define(version: 2021_09_06_113459) do
   end
 
   create_table "performers", force: :cascade do |t|
-    t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "name", null: false
+    t.index ["name"], name: "index_performers_on_name", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -110,5 +107,6 @@ ActiveRecord::Schema.define(version: 2021_09_06_113459) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "events", "venues"
+  add_foreign_key "events", "performers"
+  add_foreign_key "events", "venues", on_delete: :cascade
 end

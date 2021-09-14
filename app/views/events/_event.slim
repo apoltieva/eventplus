@@ -30,10 +30,6 @@
       - else
         button.btn.btn-secondary disabled="" type="button" Sold Out
     - elsif current_user&.admin?
-      - if event.orders.any?
-        h5 List of customers
-        - event.orders.group(:user).sum(:quantity).each do |user, quantity|
-          li #{user.email}: #{quantity}
       = button_to 'Edit', edit_event_path(event.id), method: 'get', class: "btn btn-outline-primary"
       = button_to 'Delete', event_path(event.id), method: 'delete', class: "btn btn-outline-danger",
         rel: 'no-follow', remote: true

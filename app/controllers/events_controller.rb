@@ -2,6 +2,7 @@
 
 class EventsController < ApplicationController
   before_action :find_event, only: %i[destroy update edit show]
+  before_action :find_events_num_of_tickets, only: %i[index show]
 
   def current_user
     @current_user ||= super.tap do |user|
@@ -16,12 +17,7 @@ class EventsController < ApplicationController
                else
                  request.safe_location
                end
-    if current_user
-      id = current_user.id
-      @events_num_of_tickets = current_user.orders.group(:event_id).sum(:quantity)
-    else
-      @events_num_of_tickets = {}
-    end
+    id = current_user.id if current_user
     @events = if params[:filter] == 'nearest'
                 coords = Geocoder.search(location).first.coordinates
                 @venues_with_distance = Venue.near(
@@ -86,6 +82,14 @@ class EventsController < ApplicationController
   end
 
   private
+
+  def find_events_num_of_tickets
+    @events_num_of_tickets = if current_user
+                               current_user.orders.group(:event_id).sum(:quantity)
+                             else
+                               {}
+                             end
+  end
 
   def find_event
     @event = Event.find(params[:id])
