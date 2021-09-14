@@ -1,0 +1,5 @@
+class AddNotNullForPerformerName < ActiveRecord::Migration[6.1]
+  def change
+    change_column_null :performers, :name, false
+  end
+end

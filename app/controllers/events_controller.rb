@@ -22,10 +22,11 @@ class EventsController < ApplicationController
     else
       @events_num_of_tickets = {}
     end
-    @events = Event.filter_by(params[:filter], location, id)
-                   .paginate(page: params[:page], per_page: 3)
     @original_url = request.original_url
     @filter = params[:filter]
+    @events = Event.filter_by(params[:filter], {location: location, user_id: user_id})
+                   .preload(:performer, :venue, pictures_attachments: :blob)
+                   .paginate(page: params[:page], per_page: 3)
     respond_to do |format|
       format.html
       format.js
@@ -83,8 +84,17 @@ class EventsController < ApplicationController
   end
 
   def event_params
+
+    name = params.require(:event).fetch(:performer_name) { nil }
+    performer = if name
+                  Performer.new(name: name)
+                else
+                  Performer.find params.require(:event).fetch(:performer_id)
+                end
+
     params.require(:event).permit(:title, :description, :total_number_of_tickets,
                                   :start_time, :end_time, :venue_id,
-                                  :ticket_price_currency, :ticket_price, pictures: [])
+                                  :ticket_price_currency, :ticket_price,
+                                  pictures: []).merge!(performer: performer)
   end
 end

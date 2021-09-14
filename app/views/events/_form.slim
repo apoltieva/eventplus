@@ -3,11 +3,15 @@
   .form-inputs
     = f.input :title, label: 'Title of the event', error: 'Title is mandatory, please specify one'
     = f.input :description, as: :text
+    = f.association :performer, collection: Performer.all,
+      priority: @event.performer, include_blank: false,
+      input_html: { id: 'existing_performer' }
+    = link_to 'Create performer', '#', id: 'create'
     = f.input :total_number_of_tickets, as: :integer, input_html: { min: '1', step: '1' }
     = f.input :ticket_price, as: :float, input_html: { min: '0.00', step: '0.01' }, hint: 'Enter "0" for free events'
     = f.input :start_time, as: :datetime, label: 'Starting time', html5: true
     = f.input :end_time, as: :datetime, label: 'Ending time', html5: true
     = f.input :pictures, as: :file, accept: 'image/png, image/jpeg', input_html: { multiple: true }
-    = f.association :venue, collection: Venue.all, priority: @event.venue
+    = f.association :venue, collection: Venue.all, priority: @event.venue, include_blank: false
   .form-actions
-    = f.button :submit
+    = f.button :submit, id: 'submit', remote: true

@@ -10,11 +10,12 @@
             class: 'u-image')
     - e = event.decorate
     h3.u-block-d040-7 = link_to event.title, event_path(event.id), method: 'get'
+    p.u-block-d040-17 On stage: #{event.performer.name}
     p.u-block-d040-17 Venue: #{event.venue.name}
     - if event.try :distance
       = sprintf("%0.02f km from you", event.distance)
     p.u-block-d040-17 = e.start_end
-    p.u-block-d040-17 = event.description
+    p.u-block-d040-17 = event.description.truncate(500, separator: ' ')
     p.u-block-d040-17 Ticket price: #{e.fee}
     p.u-block-d040-17 Number of tickets: #{event.total_number_of_tickets}
     - num = @events_num_of_tickets.fetch(event.id) { nil }
