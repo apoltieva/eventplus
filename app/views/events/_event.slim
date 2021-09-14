@@ -17,15 +17,24 @@
     p.u-block-d040-17 = event.description
     p.u-block-d040-17 Ticket price: #{e.fee}
     p.u-block-d040-17 Number of tickets: #{event.total_number_of_tickets}
+    - tickets_left = event.total_number_of_tickets - event.orders.sum(:quantity)
+    p.u-block-d040-17 Tickets left: #{tickets_left}
     - num = @events_num_of_tickets.fetch(event.id) { nil }
     - if num
       h5 You've bought #{num} ticket#{num == "1" ? "" : "s"} for this event
     - if current_user&.customer?
-      = form_with url: orders_path do |f|
-        = f.hidden_field :event_id, value: event.id
-        = f.number_field :quantity, step: 1, min: 1
-        = f.submit "Buy", class: 'btn btn-success'
+      - if tickets_left > 0
+        = form_with url: orders_path do |f|
+          = f.hidden_field :event_id, value: event.id
+          = f.number_field :quantity, step: 1, min: 1
+          = f.submit "Buy", class: 'btn btn-success'
+      - else
+        button.btn.btn-secondary disabled="" type="button" Sold Out
     - elsif current_user&.admin?
+      - if event.orders.any?
+        h5 List of customers
+        - event.orders.group(:user).sum(:quantity).each do |user, quantity|
+          li #{user.email}: #{quantity}
       = button_to 'Edit', edit_event_path(event.id), method: 'get', class: "btn btn-outline-primary"
       = button_to 'Delete', event_path(event.id), method: 'delete', class: "btn btn-outline-danger",
         rel: 'no-follow', remote: true
