@@ -2,5 +2,5 @@
 
 class Order < ApplicationRecord
   belongs_to :user
-  belongs_to :event, counter_cache: true
+  belongs_to :event
 end
