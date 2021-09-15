@@ -17,14 +17,14 @@ class EventsController < ApplicationController
                  request.safe_location
                end
     if current_user
-      id = current_user.id
+      user_id = current_user.id
       @events_num_of_tickets = current_user.orders.group(:event_id).sum(:quantity)
     else
       @events_num_of_tickets = {}
     end
     @original_url = request.original_url
     @filter = params[:filter]
-    @events = Event.filter_by(params[:filter], {location: location, user_id: user_id})
+    @events = Event.filter_by(params[:filter], { location: location, user_id: user_id })
                    .preload(:performer, :venue, pictures_attachments: :blob)
                    .paginate(page: params[:page], per_page: 3)
     respond_to do |format|
@@ -84,7 +84,6 @@ class EventsController < ApplicationController
   end
 
   def event_params
-
     name = params.require(:event).fetch(:performer_name) { nil }
     performer = if name
                   Performer.new(name: name)

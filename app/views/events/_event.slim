@@ -13,6 +13,9 @@
     p.u-block-d040-17 On stage: #{event.performer.name}
     p.u-block-d040-17 Venue: #{event.venue.name}
     p.u-block-d040-17 = e.start_end
+    - if event.keywords
+      .keywords
+        p.u-block-d040-17 = event.keywords.join(" ")
     p.u-block-d040-17 = event.description.truncate(500, separator: ' ')
     p.u-block-d040-17 Ticket price: #{e.fee}
     p.u-block-d040-17 Number of tickets: #{event.total_number_of_tickets}
