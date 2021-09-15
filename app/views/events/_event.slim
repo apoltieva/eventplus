@@ -15,7 +15,7 @@
     p.u-block-d040-17 = e.start_end
     - if event.keywords
       .keywords
-        - event.keywords.each do |kwd|
+        - event.keywords.sort_by! {|kwrd| @keywords_rating.index(kwrd)}.each do |kwd|
           keyword
             strong = link_to kwd, events_url(filter: 'keyword', keyword: kwd), method: 'get'
     p.u-block-d040-17 = event.description.truncate(500, separator: ' ')

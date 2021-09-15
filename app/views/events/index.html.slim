@@ -8,7 +8,6 @@
       a.user href=events_url(filter: 'user') class=(@filter == "user" ? 'current' : '') Your events
       a.user_past href=events_url(filter: 'user_past') class=(@filter == "user_past" ? 'current' : '') Your past events
     a.keyword href='#' class=(@filter == "keyword" ? 'current' : '') With keyword
-
   - if current_user&.admin?
     = button_to 'Create', new_event_path, method: 'get', class: "btn btn-outline-info"
   - if @events.empty?
