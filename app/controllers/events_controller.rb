@@ -24,8 +24,14 @@ class EventsController < ApplicationController
     end
     @original_url = request.original_url
     @filter = params[:filter]
-    @events = Event.filter_by(params[:filter], { location: location, user_id: user_id })
-                   .preload(:performer, :venue, pictures_attachments: :blob)
+    @events = case params[:filter]
+              when 'keyword'
+                Event.filter_by_keyword params[:keyword]
+              else
+                Event.filter_by(params[:filter], user_id)
+              end
+
+    @events = @events.preload(:performer, :venue, pictures_attachments: :blob)
                    .paginate(page: params[:page], per_page: 3)
     respond_to do |format|
       format.html

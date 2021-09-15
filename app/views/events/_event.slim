@@ -15,7 +15,9 @@
     p.u-block-d040-17 = e.start_end
     - if event.keywords
       .keywords
-        p.u-block-d040-17 = event.keywords.join(" ")
+        - event.keywords.each do |kwd|
+          keyword
+            strong = link_to kwd, events_url(filter: 'keyword', keyword: kwd), method: 'get'
     p.u-block-d040-17 = event.description.truncate(500, separator: ' ')
     p.u-block-d040-17 Ticket price: #{e.fee}
     p.u-block-d040-17 Number of tickets: #{event.total_number_of_tickets}
