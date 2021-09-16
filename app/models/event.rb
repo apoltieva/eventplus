@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Event < ApplicationRecord
+  extend OrderAsSpecified
+
   validates_presence_of :title, :start_time, :end_time
   monetize :ticket_price_cents, numericality: { greater_than_or_equal_to: 0 }
   validates :total_number_of_tickets, numericality: { greater_than_or_equal_to: 1 }
@@ -15,8 +17,10 @@ class Event < ApplicationRecord
   scope :past, -> { where('end_time <= ?', Time.now) }
   scope :future, -> { where('end_time > ?', Time.now) }
   scope :by_user, ->(id) { merge(User.find(id).events) if id }
-
-  scope :filter_by, ->(filter, parameters) do
+  scope :nearest, ->(ids) do
+    future.order_as_specified(venue_id: ids)
+  end
+  scope :filter_by, ->(filter, user_id) do
     case filter
     when 'user'
       by_user(parameters[:user_id]).future.order(:start_time)

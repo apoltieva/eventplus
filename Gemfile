@@ -39,6 +39,8 @@ gem 'will_paginate'
 
 gem 'geocoder'
 
+gem 'order_as_specified'
+
 gem 'simple_form'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 6.1.4'
