@@ -92,7 +92,6 @@ class EventsController < ApplicationController
   end
 
   def event_params
-
     name = params.require(:event).fetch(:performer_name) { nil }
     performer = if name
                   Performer.new(name: name)
