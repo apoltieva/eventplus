@@ -32,10 +32,10 @@ class EventsController < ApplicationController
               end
 
     @events = @events.preload(:performer, :venue, pictures_attachments: :blob)
-                   .paginate(page: params[:page], per_page: 3)
+                     .paginate(page: params[:page], per_page: 3)
 
     keywords = Event.with_keywords.pluck(:keywords).flatten
-    @keywords_rating = keywords.uniq.sort_by {|e| -keywords.count(e) }
+    @keywords_rating = keywords.uniq.sort_by { |e| -keywords.count(e) }
     respond_to do |format|
       format.html
       format.js

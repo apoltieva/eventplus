@@ -32,11 +32,11 @@ class Event < ApplicationRecord
   end
 
   scope :filter_by_keyword, ->(keyword) { where(':kwd = ANY(keywords)', kwd: keyword) }
-  scope :with_keywords, -> {where('array_length(keywords, 1) > 0')}
+  scope :with_keywords, -> { where('array_length(keywords, 1) > 0') }
 
   private
 
   def set_keywords
-    self.keywords = DescriptionParser.keywords(description) if description_changed?
+    self.keywords = DescriptionParser.keywords(description.dup)
   end
 end
