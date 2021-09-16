@@ -10,12 +10,6 @@ gem 'stopwords'
 
 gem 'graph-rank'
 
-gem 'highscore'
-gem 'bloomfilter-rb'
-gem 'fast-stemmer'
-
-gem 'treat'
-
 gem 'jquery-rails'
 
 gem 'jquery-ui-rails'
