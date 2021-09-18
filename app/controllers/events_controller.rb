@@ -2,6 +2,7 @@
 
 class EventsController < ApplicationController
   before_action :find_event, only: %i[destroy update edit show]
+  authorize_resource
 
   def current_user
     @current_user ||= super.tap do |user|
@@ -55,20 +56,20 @@ class EventsController < ApplicationController
   def create
     @event = Event.new(event_params)
     if @event.save
-      redirect_to action: 'index', notice: 'Created successfully'
+      flash[:notice] = 'Created successfully'
+      redirect_to action: 'index'
     else
       flash[:alert] = @event.errors.full_messages.join('; ')
       render :new
     end
   end
 
-  def edit
-    authorize! :edit, @event
-  end
+  def edit; end
 
   def update
     if @event.update(event_params)
-      redirect_to action: 'index', notice: 'Updated successfully'
+      flash[:alert] = 'Updated successfully'
+      redirect_to action: 'index'
     else
       flash[:alert] = @event.errors.full_messages.join('; ')
       render :edit

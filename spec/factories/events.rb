@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'faker'
-
 FactoryBot.define do
   factory :event do
     title { Faker::Movie.title }
@@ -19,7 +17,7 @@ FactoryBot.define do
         to: DateTime.new(2023)
       )
     end
-    total_number_of_tickets { Faker::Number.between(from: 0, to: 10_000)}
+    total_number_of_tickets { Faker::Number.between(from: 0, to: 10_000) }
     association :venue
   end
 end

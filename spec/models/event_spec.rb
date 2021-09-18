@@ -28,13 +28,13 @@ RSpec.describe Event, type: :model do
       expect(build(:event, total_number_of_tickets: nil)).to_not be_valid
     end
     it 'is not valid if the total number of tickets is not a number' do
-      expect(build(:event, total_number_of_tickets: "not_a_number")).to_not be_valid
+      expect(build(:event, total_number_of_tickets: 'not_a_number')).to_not be_valid
     end
     it 'is not valid if the total number of tickets is less than 0' do
       expect(build(:event, total_number_of_tickets: -5)).to_not be_valid
     end
     it 'is not valid if the ticket price is not a number' do
-      expect(build(:event, ticket_price_cents: "not_a_number")).to_not be_valid
+      expect(build(:event, ticket_price_cents: 'not_a_number')).to_not be_valid
     end
     it 'is not valid if the ticket price is less than 0' do
       expect(build(:event, ticket_price_cents: -5)).to_not be_valid

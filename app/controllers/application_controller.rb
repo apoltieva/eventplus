@@ -2,6 +2,10 @@
 
 class ApplicationController < ActionController::Base
   rescue_from CanCan::AccessDenied, with: :deny_access
+  rescue_from ActiveRecord::RecordNotFound do |e|
+    flash[:alert] = e.message
+    render json: { error: e.message }, status: :unprocessable_entity
+  end
 
   private
 
