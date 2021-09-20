@@ -50,7 +50,10 @@ Venue.all.each do |v|
     end
   end
 end
-5.times do
-  Admin.create!(email: Faker::Internet.email, password: "123456", confirmed_at: Time.now, role: 1)
+if Admin.none?
+  5.times do
+    Admin.create!(email: Faker::Internet.email, password: "123456", confirmed_at: Time.now, role: 1)
+    end
 end
+
 
