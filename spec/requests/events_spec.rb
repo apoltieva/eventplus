@@ -209,7 +209,7 @@ RSpec.describe 'Events', type: :request do
           expect(response).to have_http_status :ok
           expect(response).to render_template :edit
         end
-        it 'should display the events' do
+        it 'should display the event' do
           get edit_event_path(event_shared.id)
           expect(response.body).to include(event_shared.title)
         end
