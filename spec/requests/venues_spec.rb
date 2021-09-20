@@ -4,16 +4,16 @@ require 'rails_helper'
 
 RSpec.describe 'Venues', type: :request do
   it 'should generate correct routes' do
-    # assert_routing({ path: 'venues', method: :post },
-    #                { controller: 'venues', action: 'create' })
-    # assert_routing({ path: 'venues', method: :get },
-    #                { controller: 'venues', action: 'index' })
-    # assert_routing({ path: 'venues/new', method: :get },
-    #                { controller: 'venues', action: 'new' })
-    # assert_routing({ path: 'venues/1', method: :patch },
-    #                { controller: 'venues', action: 'update', id: '1' })
-    # assert_routing({ path: 'venues/1', method: :put },
-    #                { controller: 'venues', action: 'update', id: '1' })
+    assert_routing({ path: 'venues', method: :post },
+                   { controller: 'venues', action: 'create' })
+    assert_routing({ path: 'venues', method: :get },
+                   { controller: 'venues', action: 'index' })
+    assert_routing({ path: 'venues/new', method: :get },
+                   { controller: 'venues', action: 'new' })
+    assert_routing({ path: 'venues/1', method: :patch },
+                   { controller: 'venues', action: 'update', id: '1' })
+    assert_routing({ path: 'venues/1', method: :put },
+                   { controller: 'venues', action: 'update', id: '1' })
     assert_routing({ path: 'venues/1', method: :delete },
                    { controller: 'venues', action: 'destroy', id: '1' })
     assert_routing({ path: 'venues/1/edit', method: :get },
