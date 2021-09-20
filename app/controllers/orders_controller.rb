@@ -14,12 +14,16 @@ class OrdersController < ApplicationController
 
   def show
     @order = Order.find_by uuid: params[:id]
-    render json: @order
+    if @order
+      render json: @order
+    else
+      render json: { error: 'No order with such uuid' }, status: :not_found
+    end
   end
 
   private
 
   def order_params
-    params.permit(:event_id, :quantity)
+    params.require(:order).permit(:event_id, :quantity)
   end
 end

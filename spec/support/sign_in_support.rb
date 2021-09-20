@@ -8,4 +8,9 @@ module ValidUserRequestHelper
     @user ||= create :user
     login_as @user
   end
+
+  def sign_in_as_a_valid_customer
+    @user ||= create(:user, role: 0)
+    login_as @user
+  end
 end

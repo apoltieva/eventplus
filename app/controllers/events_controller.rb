@@ -20,6 +20,7 @@ class EventsController < ApplicationController
     if current_user
       id = current_user.id
       @events_num_of_tickets = current_user.orders.group(:event_id).sum(:quantity)
+      @order = Order.new
     else
       @events_num_of_tickets = {}
     end
