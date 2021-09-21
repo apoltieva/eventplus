@@ -7,9 +7,8 @@ RSpec.describe Ability, type: :model do
   describe 'User' do
     describe 'abilities' do
       describe 'Admin' do
-        user = User.create!(email: 'admin@gmail.com', password: '23232323', role: 1)
-        subject(:ability) { Ability.new(user) }
-        let(:user) { create(:admin) }
+        admin = Admin.create!(email: 'admin@gmail.com', password: '23232323', role: 1)
+        subject(:ability) { Ability.new(admin) }
 
         it { is_expected.to be_able_to(:manage, :all) }
         context 'can manage Venue' do
@@ -33,9 +32,8 @@ RSpec.describe Ability, type: :model do
       end
 
       describe 'Customer' do
-        user = User.create!(email: 'customer@gmail.com', password: '23232323')
-        subject(:ability) { Ability.new(user) }
-        let(:user) { create(:customer) }
+        customer = Customer.create!(email: 'customer@gmail.com', password: '23232323')
+        subject(:ability) { Ability.new(customer) }
 
         it { is_expected.to be_able_to(:read, Event) }
         it { is_expected.to be_able_to(:create, Order) }
