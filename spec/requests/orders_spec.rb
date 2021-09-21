@@ -24,6 +24,7 @@ RSpec.describe 'Orders', type: :request do
     end
     context 'with invalid parameters' do
       context 'event_id errors' do
+        after(:each) { expect(flash[:alert].downcase).to include('event') }
         context 'with invalid event_id' do
           it 'should not save the order' do
             order_shared['event_id'] = 'dfdff'
@@ -39,6 +40,7 @@ RSpec.describe 'Orders', type: :request do
         end
       end
       context 'quantity errors' do
+        after(:each) { expect(flash[:alert].downcase).to include('quantity') }
         context 'with invalid quantity' do
           it 'should not save the order' do
             order_shared['quantity'] = 'dfdff'
@@ -69,7 +71,6 @@ RSpec.describe 'Orders', type: :request do
       it 'should return json with the error' do
         get order_path('not_uuid')
         expect(response).to have_http_status :not_found
-        expect(response.body).to include('error')
         expect(response.body).to include('uuid')
       end
     end

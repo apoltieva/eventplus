@@ -44,58 +44,62 @@ RSpec.describe 'Venues', type: :request do
       end
     end
     context 'with invalid parameters' do
-      context 'with existing name' do
-        it 'should explain error' do
-          expect do
-            post venues_path, params: { venue: JSON.parse(build(:venue, name: venue_shared.name)
-                                              .to_json) }
-          end.to change { Venue.count }.by(0)
-          expect(response.body).to include('name')
+      context 'name errors' do
+        after(:each) { expect(flash[:alert].downcase).to include('name') }
+        context 'with existing name' do
+          it 'should explain error' do
+            expect do
+              post venues_path, params: { venue: JSON.parse(build(:venue, name: venue_shared.name)
+                                                .to_json) }
+            end.to change { Venue.count }.by(0)
+          end
+        end
+        context 'without name' do
+          it 'should explain error' do
+            expect do
+              post venues_path, params: { venue: JSON.parse(build(:venue, name: nil)
+                                                .to_json) }
+            end.to change { Venue.count }.by(0)
+          end
         end
       end
-      context 'without name' do
-        it 'should explain error' do
-          expect do
-            post venues_path, params: { venue: JSON.parse(build(:venue, name: nil)
-                                              .to_json) }
-          end.to change { Venue.count }.by(0)
-          expect(response.body).to include('name')
+      context 'latitude errors' do
+        after(:each) { expect(flash[:alert].downcase).to include('latitude') }
+        context 'without latitude' do
+          it 'should explain error' do
+            expect do
+              post venues_path, params: { venue: JSON.parse(build(:venue, latitude: nil)
+                                                              .to_json) }
+            end.to change { Venue.count }.by(0)
+          end
+        end
+        context 'with invalid latitude' do
+          it 'should explain error' do
+            expect do
+              post venues_path, params: { venue: JSON.parse(build(:venue, latitude: -400)
+                                                              .to_json) }
+            end.to change { Venue.count }.by(0)
+          end
         end
       end
-      context 'without latitude' do
-        it 'should explain error' do
-          expect do
-            post venues_path, params: { venue: JSON.parse(build(:venue, latitude: nil)
-                                              .to_json) }
-          end.to change { Venue.count }.by(0)
-          expect(response.body).to include('latitude')
+
+      context 'longitude errors' do
+        after(:each) { expect(flash[:alert].downcase).to include('longitude') }
+        context 'without longitude' do
+          it 'should explain error' do
+            expect do
+              post venues_path, params: { venue: JSON.parse(build(:venue, longitude: nil)
+                                                              .to_json) }
+            end.to change { Venue.count }.by(0)
+          end
         end
-      end
-      context 'without longitude' do
-        it 'should explain error' do
-          expect do
-            post venues_path, params: { venue: JSON.parse(build(:venue, longitude: nil)
-                                              .to_json) }
-          end.to change { Venue.count }.by(0)
-          expect(response.body).to include('longitude')
-        end
-      end
-      context 'with invalid longitude' do
-        it 'should explain error' do
-          expect do
-            post venues_path, params: { venue: JSON.parse(build(:venue, longitude: -400)
-                                              .to_json) }
-          end.to change { Venue.count }.by(0)
-          expect(response.body).to include('longitude')
-        end
-      end
-      context 'with invalid latitude' do
-        it 'should explain error' do
-          expect do
-            post venues_path, params: { venue: JSON.parse(build(:venue, latitude: -400)
-                                              .to_json) }
-          end.to change { Venue.count }.by(0)
-          expect(response.body).to include('latitude')
+        context 'with invalid longitude' do
+          it 'should explain error' do
+            expect do
+              post venues_path, params: { venue: JSON.parse(build(:venue, longitude: -400)
+                                                              .to_json) }
+            end.to change { Venue.count }.by(0)
+          end
         end
       end
     end
@@ -119,15 +123,15 @@ RSpec.describe 'Venues', type: :request do
       end
     end
     context 'with invalid parameters' do
-      context 'with invalid it' do
+      context 'with invalid id' do
         it 'should explain error' do
           put venue_path(Venue.last.id + 1), params: { venue: JSON.parse(build(:venue).to_json) }
-          expect(response.body).to include('id')
+          expect(flash[:alert].downcase).to include('id')
         end
       end
       context 'name errors' do
         after(:each) do
-          expect(response.body).to include('name')
+          expect(flash[:alert].downcase).to include('name')
           expect(Venue.find(venue_shared.id).name).to eq venue_shared.name
         end
         context 'with existing name' do
@@ -148,7 +152,7 @@ RSpec.describe 'Venues', type: :request do
       end
       context 'latitude errors' do
         after(:each) do
-          expect(response.body).to include('latitude')
+          expect(flash[:alert].downcase).to include('latitude')
           expect(Venue.find(venue_shared.id).latitude).to eq venue_shared.latitude
         end
         context 'without latitude' do
@@ -166,7 +170,7 @@ RSpec.describe 'Venues', type: :request do
       end
       context 'longitude errors' do
         after(:each) do
-          expect(response.body).to include('longitude')
+          expect(flash[:alert].downcase).to include('longitude')
           expect(Venue.find(venue_shared.id).longitude).to eq venue_shared.longitude
         end
         context 'without latitude' do
@@ -200,8 +204,7 @@ RSpec.describe 'Venues', type: :request do
     context 'with invalid id' do
       it 'should explain error' do
         get edit_event_path(venue_shared.id + 10_000)
-        expect(response.body).to include('id')
-        expect(response.body).to include('error')
+        expect(flash[:alert].downcase).to include('id')
       end
     end
   end
@@ -219,7 +222,7 @@ RSpec.describe 'Venues', type: :request do
         it 'should explain error' do
           create(:order, event_id: future_event.id)
           expect { delete venue_path(venue_shared.id) }.to change { Event.count }.by(0)
-          expect(response.body)
+          expect(flash[:alert].downcase)
             .to include("You can't delete venues with future events that have tickets!")
         end
       end
@@ -227,8 +230,7 @@ RSpec.describe 'Venues', type: :request do
     context 'with invalid id' do
       it 'should explain error' do
         expect { delete venue_path(Venue.last.id + 1) }.to change { Event.count }.by 0
-        expect(response.body).to include('error')
-        expect(response.body).to include('id')
+        expect(flash[:alert].downcase).to include('id')
       end
     end
   end

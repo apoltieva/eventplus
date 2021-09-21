@@ -57,8 +57,7 @@ RSpec.describe 'Events', type: :request do
       context 'with invalid id' do
         it 'should explain error' do
           get event_path(event_shared.id + 10_000)
-          expect(response.body).to include('error')
-          expect(response.body).to include('id')
+          expect(flash[:alert].downcase).to include('id')
         end
       end
     end
@@ -88,7 +87,7 @@ RSpec.describe 'Events', type: :request do
                                         performer_id: performer.id,
                                         venue_id: venue.id).to_json) }
             expect(response).to render_template :new
-            expect(response.body).to include('title')
+            expect(flash[:alert].downcase).to include('title')
           end
         end
         context 'with invalid venue_id' do
@@ -98,7 +97,7 @@ RSpec.describe 'Events', type: :request do
                                         performer_id: performer.id,
                                         venue_id: nil).to_json) }
             expect(response).to render_template :new
-            expect(response.body).to include('venue')
+            expect(flash[:alert].downcase).to include('venue')
           end
         end
         context 'with invalid performer_id' do
@@ -107,8 +106,7 @@ RSpec.describe 'Events', type: :request do
               { event: JSON.parse(build(:event,
                                         performer_id: nil,
                                         venue_id: venue.id).to_json) }
-            expect(response.body).to include('Performer')
-            expect(response.body).to include('error')
+            expect(flash[:alert].downcase).to include('performer')
             expect(response).to have_http_status :unprocessable_entity
           end
         end
@@ -119,7 +117,7 @@ RSpec.describe 'Events', type: :request do
             event['performer_name'] = ''
             post events_path, params:
               { event: event }
-            expect(response.body).to include('performer')
+            expect(flash[:alert].downcase).to include('performer')
             expect(response).to render_template :new
           end
         end
@@ -154,8 +152,7 @@ RSpec.describe 'Events', type: :request do
               { event: JSON.parse(build(:event,
                                         performer_id: performer.id,
                                         venue_id: venue.id).to_json) }
-            expect(response.body).to include('error')
-            expect(response.body).to include('id')
+            expect(flash[:alert].downcase).to include('id')
           end
         end
         context 'with invalid event parameters' do
@@ -165,7 +162,7 @@ RSpec.describe 'Events', type: :request do
                                                 performer_id: performer.id,
                                                 venue_id: venue.id).to_json) }
             expect(response).to render_template :edit
-            expect(response.body).to include('title')
+            expect(flash[:alert].downcase).to include('title')
           end
         end
         context 'with invalid venue_id' do
@@ -175,7 +172,7 @@ RSpec.describe 'Events', type: :request do
                                         performer_id: performer.id,
                                         venue_id: nil).to_json) }
             expect(response).to render_template :edit
-            expect(response.body).to include('venue')
+            expect(flash[:alert].downcase).to include('venue')
           end
         end
         context 'with invalid performer_id' do
@@ -184,8 +181,7 @@ RSpec.describe 'Events', type: :request do
               { event: JSON.parse(build(:event,
                                         performer_id: nil,
                                         venue_id: venue.id).to_json) }
-            expect(response.body).to include('Performer')
-            expect(response.body).to include('error')
+            expect(flash[:alert].downcase).to include('performer')
             expect(response).to have_http_status :unprocessable_entity
           end
         end
@@ -196,7 +192,7 @@ RSpec.describe 'Events', type: :request do
             event['performer_name'] = ''
             put event_path(event_shared.id), params:
               { event: event }
-            expect(response.body).to include('Performer')
+            expect(flash[:alert].downcase).to include('performer')
           end
         end
       end
@@ -217,8 +213,7 @@ RSpec.describe 'Events', type: :request do
       context 'with invalid id' do
         it 'should explain error' do
           get edit_event_path(event_shared.id + 10_000)
-          expect(response.body).to include('id')
-          expect(response.body).to include('error')
+          expect(flash[:alert].downcase).to include('id')
         end
       end
     end
@@ -229,6 +224,8 @@ RSpec.describe 'Events', type: :request do
           it 'should not delete event' do
             create(:order, event_id: event_shared.id)
             expect { delete event_path(event_shared.id) }.to change { Event.count }.by(0)
+            expect(response.body).to include('future')
+            expect(response.body).to include("can't delete")
           end
         end
         context 'without orders for future event' do
@@ -241,8 +238,7 @@ RSpec.describe 'Events', type: :request do
       context 'with invalid id' do
         it 'should explain error' do
           delete event_path(event_shared.id + 10_000)
-          expect(response.body).to include('error')
-          expect(response.body).to include('id')
+          expect(flash[:alert].downcase).to include('id')
         end
       end
     end
