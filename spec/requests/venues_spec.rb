@@ -80,7 +80,7 @@ RSpec.describe 'Venues', type: :request do
           expect(response.body).to include('longitude')
         end
       end
-      context 'wit invalid longitude' do
+      context 'with invalid longitude' do
         it 'should explain error' do
           expect do
             post venues_path, params: { venue: JSON.parse(build(:venue, longitude: -400)
