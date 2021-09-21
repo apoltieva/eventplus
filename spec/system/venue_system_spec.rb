@@ -46,12 +46,12 @@ RSpec.describe 'Venue management', type: :system do
         expect(page).to have_text new_name
         expect(Venue.find(venue.id).name).to eq new_name
       end
-      scenario 'can create new events' do
+      scenario 'can create new venues' do
         click_button 'Create'
         expect(page).to have_current_path new_venue_path
       end
     end
-    scenario "can't delete events with tickets for future events" do
+    scenario "can't delete venues with tickets for future events" do
       create(:order, event_id: create(:event, venue_id: venue.id).id)
       expect { click_button 'Delete', match: :first }.to change { Venue.count }.by(0)
       expect(page).to have_text(/can't delete/i)
