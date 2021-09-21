@@ -4,11 +4,6 @@ class EventsController < ApplicationController
   before_action :find_event, only: %i[destroy update edit show]
   before_action :find_events_num_of_tickets, only: %i[index show]
 
-  def current_user
-    @current_user ||= super.tap do |user|
-      ::ActiveRecord::Associations::Preloader.new.preload(user, :events)
-    end
-  end
 
   def index
     # location = request.safe_location || 'Kiev, Ukraine'
@@ -27,7 +22,7 @@ class EventsController < ApplicationController
               else
                 Event.filter_by(params[:filter], id)
               end
-    @events = @events.preload(:venue, orders: :user, pictures_attachments: :blob)
+    @events = @events.preload(:venue, pictures_attachments: :blob)
                      .paginate(page: params[:page], per_page: 3)
     @original_url = request.original_url
     @filter = params[:filter]

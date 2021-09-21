@@ -74,6 +74,7 @@ group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'rspec-rails'
   gem 'rubocop-rspec', '~> 2.3', require: false
+  gem 'bullet'
 end
 
 group :development do
