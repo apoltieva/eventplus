@@ -15,7 +15,7 @@
           - else
             p.u-block-d040-17 #{venue.latitude}° latitude, #{venue.longitude}° longitude
           - if venue.max_capacity
-            p.u-block-d040-17 = venue.max_capacity
+            p.u-block-d040-17 Maximum capacity: #{venue.max_capacity}
           = button_to 'Edit', edit_venue_path(venue.id), method: 'get', class: "btn btn-outline-primary"
           = button_to 'Delete', venue_path(venue.id), method: 'delete',
             class: "btn btn-outline-danger", rel: 'no-follow', remote: true

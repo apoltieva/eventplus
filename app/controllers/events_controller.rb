@@ -4,12 +4,6 @@ class EventsController < ApplicationController
   before_action :find_event, only: %i[destroy update edit show]
   authorize_resource
 
-  def current_user
-    @current_user ||= super.tap do |user|
-      ::ActiveRecord::Associations::Preloader.new.preload(user, :events)
-    end
-  end
-
   def index
     # location = request.safe_location || 'Kiev, Ukraine'
     location = if !request.remote_ip || request.remote_ip == '127.0.0.1'
