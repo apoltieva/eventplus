@@ -20,12 +20,12 @@ class Event < ApplicationRecord
   scope :nearest, ->(ids) do
     future.order_as_specified(venue_id: ids)
   end
-  scope :filter_by, ->(filter, _user_id) do
+  scope :filter_by, ->(filter, user_id) do
     case filter
     when 'user'
-      by_user(parameters[:user_id]).future.order(:start_time)
+      by_user(user_id).future.order(:start_time)
     when 'user_past'
-      by_user(parameters[:user_id]).past.order(:start_time)
+      by_user(user_id).past.order(:start_time)
     when 'past'
       past.order(:start_time)
     else
