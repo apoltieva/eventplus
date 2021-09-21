@@ -64,7 +64,7 @@ RSpec.describe 'Events', type: :request do
   end
   ###############################################################################
   context 'with authentication' do
-    before(:each) { sign_in_as_a_valid_user }
+    before(:each) { sign_in_as_a_valid_admin }
     describe 'POST /index' do
       context 'with valid parameters' do
         it 'should save the event' do

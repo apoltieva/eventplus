@@ -20,7 +20,7 @@ RSpec.describe 'Venues', type: :request do
                    { controller: 'venues', action: 'edit', id: '1' })
   end
 
-  before(:each) { sign_in_as_a_valid_user }
+  before(:each) { sign_in_as_a_valid_admin }
   let!(:venue_shared) { create(:venue) }
 
   describe 'GET /venues' do
@@ -222,7 +222,7 @@ RSpec.describe 'Venues', type: :request do
         it 'should explain error' do
           create(:order, event_id: future_event.id)
           expect { delete venue_path(venue_shared.id) }.to change { Event.count }.by(0)
-          expect(flash[:alert].downcase)
+          expect(response.body)
             .to include("You can't delete venues with future events that have tickets!")
         end
       end

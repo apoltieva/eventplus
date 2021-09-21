@@ -4,8 +4,8 @@ module ValidUserRequestHelper
   include Warden::Test::Helpers
 
   # for use in request specs
-  def sign_in_as_a_valid_user
-    @user ||= create :user
+  def sign_in_as_a_valid_admin
+    @user ||= create(:user, role: 1)
     login_as @user
   end
 
