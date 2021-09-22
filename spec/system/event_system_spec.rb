@@ -100,9 +100,20 @@ RSpec.describe 'Event management', type: :system do
         expect(page).to have_text new_title
         expect(Event.find(event.id).title).to eq new_title
       end
-      scenario 'can create new events' do
+      scenario 'can create new events and a new performer', js: true do
         click_button 'Create'
         expect(page).to have_current_path new_event_path
+        expect do
+          fill_in 'event_title', with: 'Event title'
+          fill_in 'event_description', with: 'Event description'
+          click_link 'Create performer'
+          page.find_by_id('new_performer').fill_in with: 'New performer'
+          fill_in 'event_total_number_of_tickets', with: 2333
+          fill_in 'event_ticket_price', with: 23.35
+          fill_in 'event_start_time', with: Time.now + 2.days
+          fill_in 'event_end_time', with: Time.now + 3.days
+          expect {click_button 'Create Event'}. to change { Performer.count }.by 1
+        end.to change { Event.count }.by 1
       end
     end
     scenario "can't delete events with tickets for future events" do
