@@ -22,7 +22,7 @@ RSpec.describe 'Event management', type: :system do
   include ActionMailer::TestHelper
 
   before do
-    driven_by(:rack_test)
+    driven_by(:selenium_headless)
   end
 
   before(:each) do
@@ -45,7 +45,7 @@ RSpec.describe 'Event management', type: :system do
       visit events_path
       assert_enqueued_emails 1 do
         page.first('#order_quantity').fill_in with: 4
-        click_button 'Buy', match: :first
+        expect{click_button 'Buy', match: :first}.to change {Order.count}.by 1
       end
     end
     include_examples 'all events'
@@ -116,10 +116,11 @@ RSpec.describe 'Event management', type: :system do
         end.to change { Event.count }.by 1
       end
     end
-    scenario "can't delete events with tickets for future events" do
+    scenario "can't delete events with tickets for future events", js: true do
       create(:order, event_id: event.id)
-      expect { click_button 'Delete', match: :first }.to change { Event.count }.by(0)
-      expect(page).to have_text(/can't delete/i)
+      dismiss_confirm(/can't delete/i) do
+        expect { click_button 'Delete', match: :first }.to change { Event.count }.by(0)
+      end
     end
   end
 end
