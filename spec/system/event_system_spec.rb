@@ -15,7 +15,7 @@ RSpec.shared_examples 'all events' do |admin|
 end
 
 RSpec.describe 'Event management', type: :system do
-
+  include Warden::Test::Helpers
   before do
     driven_by(:selenium_headless)
   end
@@ -33,7 +33,8 @@ RSpec.describe 'Event management', type: :system do
   end
   context 'admin' do
     before(:each) do
-      sign_in create(:user, role: 1)
+      @user ||= create(:user, role: 1)
+      login_as @user
     end
     include_examples 'all events', true
   end
