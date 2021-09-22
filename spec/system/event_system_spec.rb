@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.shared_examples 'all events' do
   it 'can see all events' do
     expect(page).to have_text('Event+')
-    Event.all.each do |e|
+    Event.all.future.each do |e|
       expect(page).to have_text(e.title)
       expect(page).to have_text(e.description[0...100])
       expect(page).to have_text(e.performer.name)
@@ -30,6 +30,7 @@ RSpec.describe 'Event management', type: :system do
     create(:event)
     visit events_path
   end
+  let!(:past_event) { create(:event, start_time: 3.days.ago, end_time: 2.days.ago) }
   context 'unregistered user' do
     include_examples 'all events'
     scenario "can't buy tickets without registering" do
@@ -51,13 +52,27 @@ RSpec.describe 'Event management', type: :system do
     scenario 'can see how many tickets they have bought for each event' do
       expect(page).to have_text('4 tickets')
     end
-    scenario 'can filter events using tabs “All events” and “Your events”' do
+    let!(:event) { Event.order(:start_time).first }
+    scenario 'can filter events using tabs “All events”, “Past events”, ' \
+      '“Near you”, “Your events”, and “Your past events”' do
       click_link 'Your events'
       expect(page).to have_text('4 tickets')
+      expect(page).to have_text(event.title)
       click_link 'All events'
-      Event.all.each do |e|
+      Event.all.future.each do |e|
         expect(page).to have_text(e.title)
       end
+      click_link 'Past events'
+      expect(page).to have_text(past_event.title)
+      click_link 'Near you'
+      Event.all.future.each do |e|
+        expect(page).to have_text(e.title)
+      end
+      expect(page).to have_text('km from you')
+      create(:order, user_id: @user.id, event_id: past_event.id, quantity: 3)
+      click_link 'Your past events'
+      expect(page).to have_text(past_event.title)
+      expect(page).to have_text('3 tickets')
     end
     scenario 'can buy several ticket for one event' do
       expect(page).to have_text 'Your tickets will be sent to your email'

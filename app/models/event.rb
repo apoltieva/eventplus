@@ -29,7 +29,7 @@ class Event < ApplicationRecord
     when 'past'
       past.order(:start_time)
     else
-      order(:start_time)
+      future.order(:start_time)
     end
   end
 end

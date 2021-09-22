@@ -22,10 +22,11 @@
     - if num
       h5 You've bought #{num} ticket#{num == "1" ? "" : "s"} for this event
     - if current_user&.customer?
-      = form_for @order do |f|
-        = f.hidden_field :event_id, value: event.id
-        = f.number_field :quantity, step: 1, min: 1
-        = f.submit "Buy", class: 'btn btn-success'
+      - unless @filter == "past" || @filter == "user_past"
+        = form_for @order do |f|
+          = f.hidden_field :event_id, value: event.id
+          = f.number_field :quantity, step: 1, min: 1
+          = f.submit "Buy", class: 'btn btn-success'
     - elsif current_user&.admin?
       = button_to 'Edit', edit_event_path(event.id), method: 'get', class: "btn btn-outline-primary"
       = button_to 'Delete', event_path(event.id), method: 'delete', class: "btn btn-outline-danger",
