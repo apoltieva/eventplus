@@ -24,8 +24,7 @@ class EventsController < ApplicationController
     end
     @original_url = request.original_url
     @filter = params[:filter]
-    @events = case params[:filter]
-              when 'keyword'
+    @events = if params[:filter] == 'keyword'
                 Event.filter_by_keyword params[:keyword]
               else
                 Event.filter_by(params[:filter], user_id)
