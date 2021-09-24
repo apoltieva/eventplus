@@ -44,7 +44,11 @@ gem 'will_paginate'
 
 gem 'geocoder'
 
+gem 'order_as_specified'
+
 gem 'simple_form'
+
+gem 'bullet'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 6.1.4'
 # Use sqlite3 as the database for Active Record

@@ -12,6 +12,8 @@
     h3.u-block-d040-7 = link_to event.title, event_path(event.id), method: 'get'
     p.u-block-d040-17 On stage: #{event.performer.name}
     p.u-block-d040-17 Venue: #{event.venue.name}
+    - if @venues_with_distance
+      = sprintf("%0.02f km from you", @venues_with_distance[event.venue_id])
     p.u-block-d040-17 = e.start_end
     - if event.keywords
       .keywords
@@ -20,15 +22,19 @@
             strong = link_to kwd, events_url(filter: 'keyword', keyword: kwd), method: 'get'
     p.u-block-d040-17 = event.description.truncate(500, separator: ' ')
     p.u-block-d040-17 Ticket price: #{e.fee}
-    p.u-block-d040-17 Number of tickets: #{event.total_number_of_tickets}
+    - tickets_left = event.total_number_of_tickets - event.orders.sum(:quantity)
+    p.u-block-d040-17 Tickets left: #{tickets_left}
     - num = @events_num_of_tickets.fetch(event.id) { nil }
     - if num
-      h5 You've bought #{num} ticket#{num == "1" ? "s" : ""} for this event
+      h5 You've bought #{num} ticket#{num == "1" ? "" : "s"} for this event
     - if current_user&.customer?
-      = form_with url: orders_path do |f|
-        = f.hidden_field :event_id, value: event.id
-        = f.number_field :quantity, step: 1, min: 1
-        = f.submit "Buy", class: 'btn btn-success'
+      - if tickets_left > 0
+        = form_with url: orders_path do |f|
+          = f.hidden_field :event_id, value: event.id
+          = f.number_field :quantity, step: 1, min: 1
+          = f.submit "Buy", class: 'btn btn-success'
+      - else
+        button.btn.btn-secondary disabled="" type="button" Sold Out
     - elsif current_user&.admin?
       = button_to 'Edit', edit_event_path(event.id), method: 'get', class: "btn btn-outline-primary"
       = button_to 'Delete', event_path(event.id), method: 'delete', class: "btn btn-outline-danger",
