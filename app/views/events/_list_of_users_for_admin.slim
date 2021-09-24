@@ -1,0 +1,4 @@
+- if orders.any?
+  h5 List of customers
+  - orders.group(:user).sum(:quantity).each do |user, quantity|
+    li #{user.email}: #{quantity}
