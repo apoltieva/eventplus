@@ -10,9 +10,10 @@ class Event < ApplicationRecord
   belongs_to :venue
   has_many :orders, dependent: :destroy
   has_many :users, through: :orders
+  belongs_to :performer
+  accepts_nested_attributes_for :performer, reject_if: :all_blank, allow_destroy: true
   has_many_attached :pictures
 
-  scope :future, -> { where('end_time > ?', Time.now) }
   scope :past, -> { where('end_time <= ?', Time.now) }
   scope :future, -> { where('end_time > ?', Time.now) }
   scope :by_user, ->(id) { merge(User.find(id).events) if id }

@@ -59,7 +59,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: eventplus_test
+  url: <%= Settings.db.test_url %>
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -83,4 +83,4 @@ test:
 #
 production:
   <<: *default
-  database: eventplus_production
+  url: <%= Settings.db.production_url %>

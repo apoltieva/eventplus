@@ -1,13 +1,11 @@
 # frozen_string_literal: true
 
-require 'securerandom'
-
 class OrdersController < ApplicationController
   def create
     @order = current_user.orders.build(order_params)
     if @order.save
       flash[:notice] = 'Your tickets will be sent to your email. Thanks for your purchase!'
-      TicketMailer.with(order: @order).mail_tickets.deliver_later
+      TicketSender.send_tickets_for @order
     else
       flash[:alert] = @order.errors.full_messages.join('; ')
     end
@@ -22,6 +20,6 @@ class OrdersController < ApplicationController
   private
 
   def order_params
-    params.permit(:event_id, :quantity).merge!(uuid: SecureRandom.uuid)
+    params.permit(:event_id, :quantity)
   end
 end

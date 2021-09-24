@@ -1,4 +1,5 @@
 h3 = @event.title
+p On stage: #{@event.performer.name}
 p = @event.description
 p = @event.decorate.start_end
 - if user_signed_in? && current_user.events.include?(@event)
@@ -17,9 +18,10 @@ div
   h3 Venue
   h3 = @event.venue.name
   - if @event.venue.address
-    p.u-block-d040-17 = @event.venue.address
+    p.u-block-d040-17 @event.venue.address
   - else
     p.u-block-d040-17 #{@event.venue.latitude}° latitude, #{@event.venue.longitude}° longitude
+  = render 'venues/map'
   - if @event.venue.max_capacity
     p.u-block-d040-17 = @event.venue.max_capacity
   - unless @event.venue.pictures.empty?
@@ -27,3 +29,6 @@ div
       = image_tag(picture, class: 'u-image')
   - if current_user&.admin?
     = button_to 'Edit', edit_event_path(@event.id), method: 'get', class: "btn btn-outline-primary"
+.hidden
+  input#venue_latitude value=(@event.venue.latitude)
+  input#venue_longitude value=(@event.venue.longitude)
