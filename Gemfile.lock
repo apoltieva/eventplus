@@ -80,6 +80,7 @@ GEM
     ast (2.4.2)
     bcrypt (3.1.16)
     bindex (0.8.1)
+    bloomfilter-rb (2.1.2)
     bootsnap (1.7.6)
       msgpack (~> 1.0)
     builder (3.2.4)
@@ -134,10 +135,14 @@ GEM
     factory_bot_rails (6.2.0)
       factory_bot (~> 6.2.0)
       railties (>= 5.0.0)
+    fast-stemmer (1.0.2)
     ffi (1.15.3)
     geocoder (1.6.7)
     globalid (0.5.1)
       activesupport (>= 5.0)
+    graph-rank (0.0.3)
+    highscore (1.2.1)
+      whatlanguage (>= 1.0.0)
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
     image_processing (1.12.1)
@@ -309,6 +314,7 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     sqlite3 (1.4.2)
+    stopwords (0.2)
     temple (0.8.2)
     thor (1.1.0)
     tilt (2.0.10)
@@ -338,6 +344,7 @@ GEM
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
+    whatlanguage (1.0.6)
     will_paginate (3.3.1)
     xpath (3.2.0)
       nokogiri (~> 1.8)
@@ -348,6 +355,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_storage-postgresql
+  bloomfilter-rb
   bootsnap (>= 1.4.4)
   bullet
   byebug
@@ -359,7 +367,10 @@ DEPENDENCIES
   draper
   factory_bot_rails
   faker!
+  fast-stemmer
   geocoder
+  graph-rank
+  highscore
   image_processing (>= 1.2)
   jbuilder (~> 2.7)
   jquery-rails
@@ -383,6 +394,7 @@ DEPENDENCIES
   slim-rails
   spring
   sqlite3 (~> 1.4)
+  stopwords
   turbolinks (~> 5)
   tzinfo-data
   web-console (>= 4.1.0)

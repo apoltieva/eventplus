@@ -134,8 +134,12 @@ main
     color: white;
     text-decoration: none;
 }
+.filter a.keyword { visibility: hidden; }
+.filter a.current {
+    background: orangered;
+    visibility: visible;
+}
 
-.filter a.current { background: orangered; }
 #map {
     width: 600px;
     height: 400px;
@@ -145,3 +149,9 @@ main
 form.button_to { display: inline }
 .event-btn { margin-right: 10px }
 .btn-outline-danger.event-btn { float: right }
+keyword {
+    padding: .2em .4em;
+    margin: 10px;
+    background-color: rgba(110,118,129,0.4);
+    border-radius: 6px;
+}

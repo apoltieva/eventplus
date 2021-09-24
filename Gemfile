@@ -5,6 +5,11 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.0.0'
 
+# gems for NLP
+gem 'stopwords'
+
+gem 'graph-rank'
+
 gem 'jquery-rails'
 
 gem 'jquery-ui-rails'
