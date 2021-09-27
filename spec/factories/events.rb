@@ -18,5 +18,6 @@ FactoryBot.define do
     end
     total_number_of_tickets { Faker::Number.between(from: 0, to: 10_000) }
     association :venue
+    association :performer
   end
 end

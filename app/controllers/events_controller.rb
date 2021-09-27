@@ -4,7 +4,6 @@ class EventsController < ApplicationController
   before_action :find_event, only: %i[destroy update edit show]
   before_action :find_events_num_of_tickets, only: %i[index show]
 
-
   def index
     # location = request.safe_location || 'Kiev, Ukraine'
     location = if !request.remote_ip || request.remote_ip == '127.0.0.1'

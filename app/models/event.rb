@@ -41,6 +41,6 @@ class Event < ApplicationRecord
   private
 
   def set_keywords
-    self.keywords = DescriptionParser.keywords(description.dup)
+    self.keywords = DescriptionParser.keywords(description.dup) if description_changed?
   end
 end

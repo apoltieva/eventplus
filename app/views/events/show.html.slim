@@ -18,7 +18,7 @@ div
   h3 Venue
   h3 = @event.venue.name
   - if @event.venue.address
-    p.u-block-d040-17 @event.venue.address
+    p.u-block-d040-17 = @event.venue.address
   - else
     p.u-block-d040-17 #{@event.venue.latitude}° latitude, #{@event.venue.longitude}° longitude
   = render 'venues/map'

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module EventHelper
   def check_event_info(event)
     expect(page).to have_text(event.title)
