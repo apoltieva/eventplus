@@ -59,13 +59,6 @@ ActiveRecord::Schema.define(version: 2021_09_08_151307) do
     t.index ["venue_id"], name: "index_events_on_venue_id"
   end
 
-  create_table "events_performers", force: :cascade do |t|
-    t.bigint "event_id"
-    t.bigint "performer_id"
-    t.index ["event_id"], name: "index_events_performers_on_event_id"
-    t.index ["performer_id"], name: "index_events_performers_on_performer_id"
-  end
-
   create_table "orders", force: :cascade do |t|
     t.integer "event_id"
     t.integer "user_id"
@@ -77,9 +70,9 @@ ActiveRecord::Schema.define(version: 2021_09_08_151307) do
   end
 
   create_table "performers", force: :cascade do |t|
+    t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "name", null: false
     t.index ["name"], name: "index_performers_on_name", unique: true
   end
 

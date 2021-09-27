@@ -46,14 +46,6 @@ RSpec.describe 'Venues', type: :request do
     context 'with invalid parameters' do
       context 'name errors' do
         after(:each) { expect(flash[:alert].downcase).to include('name') }
-        context 'with existing name' do
-          it 'should explain error' do
-            expect do
-              post venues_path, params: { venue: JSON.parse(build(:venue, name: venue_shared.name)
-                                                .to_json) }
-            end.to change { Venue.count }.by(0)
-          end
-        end
         context 'without name' do
           it 'should explain error' do
             expect do
@@ -119,28 +111,20 @@ RSpec.describe 'Venues', type: :request do
         name = 'New name'
         put venue_path(venue_shared.id), params: { venue: JSON.parse(build(:venue,
                                                                            name: name).to_json) }
-        expect(Venue.find(venue_shared.id).name).to eq(name)
+        expect(venue_shared.reload.name).to eq(name)
       end
     end
     context 'with invalid parameters' do
       context 'with invalid id' do
         it 'should explain error' do
-          put venue_path(Venue.last.id + 1), params: { venue: JSON.parse(build(:venue).to_json) }
+          put venue_path(venue_shared.id + 10_000), params: { venue: JSON.parse(build(:venue).to_json) }
           expect(flash[:alert].downcase).to include('id')
         end
       end
       context 'name errors' do
         after(:each) do
           expect(flash[:alert].downcase).to include('name')
-          expect(Venue.find(venue_shared.id).name).to eq venue_shared.name
-        end
-        context 'with existing name' do
-          it 'should explain error' do
-            v = create(:venue, name: 'Exisitng name')
-            put venue_path(venue_shared.id),
-                params: { venue: JSON.parse(build(:venue, name: v.name)
-                                           .to_json) }
-          end
+          expect(venue_shared.name).to eq venue_shared.reload.name
         end
         context 'without name' do
           it 'should explain error' do
@@ -153,7 +137,7 @@ RSpec.describe 'Venues', type: :request do
       context 'latitude errors' do
         after(:each) do
           expect(flash[:alert].downcase).to include('latitude')
-          expect(Venue.find(venue_shared.id).latitude).to eq venue_shared.latitude
+          expect(venue_shared.latitude).to eq venue_shared.reload.latitude
         end
         context 'without latitude' do
           it 'should explain error' do
@@ -219,8 +203,8 @@ RSpec.describe 'Venues', type: :request do
         end
       end
       context 'with orders for future events' do
+        before(:each) { create(:order, event_id: future_event.id) }
         it 'should explain error' do
-          create(:order, event_id: future_event.id)
           expect { delete venue_path(venue_shared.id) }.to change { Event.count }.by(0)
           expect(response.body)
             .to include("You can't delete venues with future events that have tickets!")
@@ -229,7 +213,7 @@ RSpec.describe 'Venues', type: :request do
     end
     context 'with invalid id' do
       it 'should explain error' do
-        expect { delete venue_path(Venue.last.id + 1) }.to change { Event.count }.by 0
+        expect { delete venue_path(venue_shared.id + 10_000) }.to change { Event.count }.by 0
         expect(flash[:alert].downcase).to include('id')
       end
     end

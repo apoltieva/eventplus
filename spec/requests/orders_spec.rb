@@ -10,10 +10,11 @@ RSpec.describe 'Orders', type: :request do
                    { controller: 'orders', action: 'show', id: '1' })
   end
 
-  let!(:order_shared) { { event_id: create(:event).id, quantity: rand(1..10) } }
   before(:each) { sign_in_as_a_valid_customer }
 
   describe 'POST /orders' do
+    let(:valid_event) { create(:event) }
+    let(:order_shared) { { event_id: valid_event.id, quantity: 3 } }
     context 'with valid parameters' do
       it 'should save the order and send email' do
         assert_enqueued_emails 1 do
@@ -23,11 +24,28 @@ RSpec.describe 'Orders', type: :request do
       end
     end
     context 'with invalid parameters' do
+      context 'quantity errors' do
+        after(:each) { expect(flash[:alert].downcase).to include('quantity') }
+        context 'with invalid quantity' do
+          it 'should not save the order' do
+
+            order_shared[:quantity] = 'dfdff'
+            expect { post orders_path, params: { order: order_shared } }
+              .to change { Order.count }.by 0
+          end
+        end
+        context 'with no quantity' do
+          it 'should not save the order' do
+            expect { post orders_path, params: { order: { event_id: valid_event.id } } }
+              .to change { Order.count }.by 0
+          end
+        end
+      end
       context 'event_id errors' do
         after(:each) { expect(flash[:alert].downcase).to include('event') }
         context 'with invalid event_id' do
           it 'should not save the order' do
-            order_shared['event_id'] = 'dfdff'
+            order_shared[:event_id] = 'dfdff'
             expect { post orders_path, params: { order: order_shared } }
               .to change { Order.count }.by 0
           end
@@ -39,32 +57,16 @@ RSpec.describe 'Orders', type: :request do
           end
         end
       end
-      context 'quantity errors' do
-        after(:each) { expect(flash[:alert].downcase).to include('quantity') }
-        context 'with invalid quantity' do
-          it 'should not save the order' do
-            order_shared['quantity'] = 'dfdff'
-            expect { post orders_path, params: { order: order_shared } }
-              .to change { Order.count }.by 0
-          end
-        end
-        context 'with no quantity' do
-          it 'should not save the order' do
-            expect { post orders_path, params: { order: { event_id: create(:event).id } } }
-              .to change { Order.count }.by 0
-          end
-        end
-      end
     end
   end
 
   describe 'GET /orders/:uuid' do
+    let(:valid_order) { create(:order) }
     context 'with valid uuid' do
       it 'should return json with the order' do
-        order = create(:order)
-        get order_path(order.uuid)
-        expect(response.body).to include(order.id.to_s)
-        expect(response.body).to include(order.user_id.to_s)
+        get order_path(valid_order.uuid)
+        expect(response.body).to include(valid_order.id.to_s)
+        expect(response.body).to include(valid_order.user_id.to_s)
       end
     end
     context 'with invalid uuid' do

@@ -4,7 +4,7 @@ FactoryBot.define do
   factory :event do
     title { Faker::Movie.title }
     description { Faker::Lorem.paragraph }
-    association :performer
+    performer
     start_time do
       Faker::Time.between(
         from: DateTime.new(2001),
@@ -18,6 +18,6 @@ FactoryBot.define do
       )
     end
     total_number_of_tickets { Faker::Number.between(from: 0, to: 10_000) }
-    association :venue
+    venue
   end
 end

@@ -187,11 +187,11 @@ RSpec.describe 'Events', type: :request do
         end
 
         context 'with invalid performer_name' do
+          let(:new_event) { JSON.parse(build(:event, venue_id: venue.id).to_json) }
           it 'should explain invalid performer' do
-            event = JSON.parse(build(:event, venue_id: venue.id).to_json)
-            event['performer_name'] = ''
+            new_event['performer_name'] = ''
             put event_path(event_shared.id), params:
-              { event: event }
+              { event: new_event }
             expect(flash[:alert].downcase).to include('performer')
           end
         end
