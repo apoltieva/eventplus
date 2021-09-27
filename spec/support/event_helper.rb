@@ -27,7 +27,7 @@ module EventHelper
     check_event_info(e)
     if admin
       expect(page).to have_text(user1.email)
-      expect(page).to have_text(user1.email)
+      expect(page).to have_text(user2.email)
       expect(page).to have_text(order1.quantity)
       expect(page).to have_text(order2.quantity)
     end
