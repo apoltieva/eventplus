@@ -1,6 +1,5 @@
 $(document).on 'turbolinks:load', ->
   initMap = ->
-    console.log(document.getElementById('venue_latitude').value)
     location = {
       lat: parseFloat(document.getElementById('venue_latitude').value),
       lng: parseFloat(document.getElementById('venue_longitude').value)

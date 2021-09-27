@@ -5,6 +5,11 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.0.0'
 
+# gems for NLP
+gem 'stopwords'
+
+gem 'graph-rank'
+
 gem 'jquery-rails'
 
 gem 'jquery-ui-rails'
@@ -42,6 +47,8 @@ gem 'geocoder'
 gem 'order_as_specified'
 
 gem 'simple_form'
+
+gem 'bullet'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 6.1.4'
 # Use sqlite3 as the database for Active Record

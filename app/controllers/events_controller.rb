@@ -3,6 +3,7 @@
 class EventsController < ApplicationController
   before_action :find_event, only: %i[destroy update edit show]
   authorize_resource
+  before_action :find_events_num_of_tickets, only: %i[index show]
 
   def index
     # location = request.safe_location || 'Kiev, Ukraine'
@@ -12,23 +13,26 @@ class EventsController < ApplicationController
                  request.safe_location
                end
     if current_user
-      id = current_user.id
-      @events_num_of_tickets = current_user.orders.group(:event_id).sum(:quantity)
+      user_id = current_user.id
       @order = Order.new
-    else
-      @events_num_of_tickets = {}
     end
-    @events = if params[:filter] == 'nearest'
+    @events = case params[:filter]
+              when 'keyword'
+                Event.filter_by_keyword params[:keyword]
+              when 'nearest'
                 coords = Geocoder.search(location).first.coordinates
                 @venues_with_distance = Venue.near(
                   coords, 20_000, units: :km, select: 'venues.id'
                 ).each_with_object({}) { |v, h| h[v.id] = v.distance }
                 Event.nearest(@venues_with_distance.keys)
               else
-                Event.filter_by(params[:filter], id)
+                Event.filter_by(params[:filter], user_id)
               end
-    @events = @events.preload(:venue, :performer, pictures_attachments: :blob)
+    @events = @events.preload(:performer, :venue, pictures_attachments: :blob)
                      .paginate(page: params[:page], per_page: 3)
+
+    keywords = Event.with_keywords.pluck(:keywords).flatten
+    @keywords_rating = keywords.uniq.sort_by { |e| -keywords.count(e) }
     @original_url = request.original_url
     @filter = params[:filter]
     respond_to do |format|
@@ -82,6 +86,14 @@ class EventsController < ApplicationController
   end
 
   private
+
+  def find_events_num_of_tickets
+    @events_num_of_tickets = if current_user
+                               current_user.orders.group(:event_id).sum(:quantity)
+                             else
+                               {}
+                             end
+  end
 
   def find_event
     @event = Event.find(params[:id])

@@ -2,6 +2,7 @@
 
 require 'rails_helper'
 
+<<<<<<< HEAD
 RSpec.shared_examples 'all events' do
   it 'can see all events' do
     expect(page).to have_text('Event+')
@@ -20,10 +21,27 @@ end
 RSpec.describe 'Event management', type: :system do
   include ActionMailer::TestHelper
 
+=======
+RSpec.shared_examples 'all events' do |admin|
+  it 'can see all events' do
+    expect(page).to have_text('Event+')
+    Event.all.future.each do |e|
+      check_event_info(e)
+    end
+  end
+  it 'can see the show page of an event' do
+    visit_first_event(admin)
+  end
+end
+
+RSpec.describe 'Event management', type: :system do
+  include Warden::Test::Helpers
+>>>>>>> main
   before do
     driven_by(:selenium_headless)
   end
 
+<<<<<<< HEAD
   let!(:events) do
     create_list(:event, 2) do |e, i|
       e.start_time = Time.now + (i * 2).days
@@ -122,5 +140,24 @@ RSpec.describe 'Event management', type: :system do
         expect { page.find_by_id(events[0].id.to_s).find_button('Delete').click }.to change { Event.count }.by(0)
       end
     end
+=======
+  before(:each) do
+    create(:event)
+    create(:event)
+    visit events_path
+  end
+  context 'unregistered user' do
+    include_examples 'all events', false
+  end
+  context 'registered user' do
+    include_examples 'all events', false
+  end
+  context 'admin' do
+    before(:each) do
+      @user ||= create(:user, role: 1)
+      login_as @user
+    end
+    include_examples 'all events', true
+>>>>>>> main
   end
 end

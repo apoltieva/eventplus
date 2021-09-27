@@ -138,6 +138,7 @@ GEM
     geocoder (1.6.7)
     globalid (0.5.1)
       activesupport (>= 5.0)
+    graph-rank (0.0.3)
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
     image_processing (1.12.1)
@@ -313,6 +314,7 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     sqlite3 (1.4.2)
+    stopwords (0.2)
     temple (0.8.2)
     thor (1.1.0)
     tilt (2.0.10)
@@ -364,6 +366,7 @@ DEPENDENCIES
   factory_bot_rails
   faker!
   geocoder
+  graph-rank
   image_processing (>= 1.2)
   jbuilder (~> 2.7)
   jquery-rails
@@ -388,6 +391,7 @@ DEPENDENCIES
   slim-rails
   spring
   sqlite3 (~> 1.4)
+  stopwords
   turbolinks (~> 5)
   tzinfo-data
   web-console (>= 4.1.0)

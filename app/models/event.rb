@@ -14,6 +14,8 @@ class Event < ApplicationRecord
   accepts_nested_attributes_for :performer, reject_if: :all_blank, allow_destroy: true
   has_many_attached :pictures
 
+  before_save :set_keywords
+
   scope :past, -> { where('end_time <= ?', Time.now) }
   scope :future, -> { where('end_time > ?', Time.now) }
   scope :by_user, ->(id) { merge(User.find(id).events) if id }
@@ -31,5 +33,14 @@ class Event < ApplicationRecord
     else
       future.order(:start_time)
     end
+  end
+
+  scope :filter_by_keyword, ->(keyword) { where(':kwd = ANY(keywords)', kwd: keyword) }
+  scope :with_keywords, -> { where('array_length(keywords, 1) > 0') }
+
+  private
+
+  def set_keywords
+    self.keywords = DescriptionParser.keywords(description.dup) if description_changed?
   end
 end

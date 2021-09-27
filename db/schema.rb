@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_08_151307) do
+ActiveRecord::Schema.define(version: 2021_09_15_074818) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,6 +55,9 @@ ActiveRecord::Schema.define(version: 2021_09_08_151307) do
     t.integer "ticket_price_cents", default: 0, null: false
     t.string "ticket_price_currency", default: "UAH", null: false
     t.bigint "performer_id"
+    t.integer "orders_count", default: 0, null: false
+    t.string "keywords", array: true
+    t.index ["keywords"], name: "index_events_on_keywords", using: :gin
     t.index ["performer_id"], name: "index_events_on_performer_id"
     t.index ["venue_id"], name: "index_events_on_venue_id"
   end
