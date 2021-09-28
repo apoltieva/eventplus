@@ -1,12 +1,13 @@
 # config valid for current version and patch releases of Capistrano
 lock "~> 3.16.0"
 
-server Settings.server_ip, port: Settings.server_port, user: "deploy", roles: %w{app db web}, primary: true
+server '167.172.35.71', user: "deploy", roles: %w{app db web}, primary: true
 set :application, "eventplus"
-set :repo_url, "git@example.com:apoltieva/eventplus.git"
+set :repo_url, "git@github.com:apoltieva/eventplus.git"
 set :user, 'deploy'
 set :puma_threads, [4, 16]
 set :puma_workers, 0
+set :branch, 'main'
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
@@ -39,8 +40,8 @@ set :puma_init_active_record, true  # Change to false when not using ActiveRecor
 # set :pty, true
 
 # Default value for :linked_files is []
-# append :linked_files, "config/database.yml"
-
+# append :linked_files, %w[config/database.yml config/application.yml config/master.key]
+set :linked_files, %w{config/database.yml config/application.yml config/master.key}
 # Default value for linked_dirs is []
 # append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system"
 
@@ -72,8 +73,8 @@ namespace :deploy do
   desc "Make sure local git is in sync with remote."
   task :check_revision do
     on roles(:app) do
-      unless `git rev-parse HEAD` == `git rev-parse origin/master`
-        puts "WARNING: HEAD is not the same as origin/master"
+      unless `git rev-parse HEAD` == `git rev-parse origin/main`
+        puts "WARNING: HEAD is not the same as origin/main"
         puts "Run `git push` to sync changes."
         exit
       end
@@ -95,7 +96,18 @@ namespace :deploy do
     end
   end
 
+  desc 'Upload YAML files.'
+  task :upload_yml do
+    on roles(:app) do
+      execute "mkdir #{shared_path}/config -p"
+      upload! StringIO.new(File.read("config/database.yml")), "#{shared_path}/config/database.yml"
+      upload! StringIO.new(File.read("config/application.yml")), "#{shared_path}/config/application.yml"
+      upload! StringIO.new(File.read("config/master.key")), "#{shared_path}/config/master.key"
+    end
+  end
+
   before :starting,     :check_revision
+  before :starting,     :upload_yml
   after  :finishing,    :compile_assets
   after  :finishing,    :cleanup
   after  :finishing,    :restart
