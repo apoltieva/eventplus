@@ -2,26 +2,6 @@
 
 require 'rails_helper'
 
-<<<<<<< HEAD
-RSpec.shared_examples 'all events' do
-  it 'can see all events' do
-    expect(page).to have_text('Event+')
-    events.each do |e|
-      expect(page).to have_text(e.title)
-      expect(page).to have_text(e.description[0...100])
-      expect(page).to have_text(e.performer.name)
-      expect(page).to have_text(e.venue.name)
-      expect(page).to have_text(e.total_number_of_tickets)
-      e = e.decorate
-      expect(page).to have_text(e.fee)
-    end
-  end
-end
-
-RSpec.describe 'Event management', type: :system do
-  include ActionMailer::TestHelper
-
-=======
 RSpec.shared_examples 'all events' do |admin|
   it 'can see all events' do
     expect(page).to have_text('Event+')
@@ -35,23 +15,23 @@ RSpec.shared_examples 'all events' do |admin|
 end
 
 RSpec.describe 'Event management', type: :system do
-  include Warden::Test::Helpers
->>>>>>> main
+  include ActionMailer::TestHelper
+
   before do
     driven_by(:selenium_headless)
   end
 
-<<<<<<< HEAD
   let!(:events) do
     create_list(:event, 2) do |e, i|
       e.start_time = Time.now + (i * 2).days
     end
   end
-  before(:each) do
-    visit events_path
-  end
+
   context 'unregistered user' do
-    include_examples 'all events'
+    before(:each) do
+      visit events_path
+    end
+    include_examples 'all events', false
     scenario "can't buy tickets without registering" do
       expect(page).to have_button('Buy', disabled: true)
       expect(page).to have_button('Login')
@@ -68,7 +48,7 @@ RSpec.describe 'Event management', type: :system do
         expect{first_event_div.find_button('Buy').click}.to change {Order.count}.by 1
       end
     end
-    include_examples 'all events'
+    include_examples 'all events', false
     scenario 'can see how many tickets they have bought for each event' do
       expect(page).to have_text('4 tickets')
     end
@@ -102,7 +82,7 @@ RSpec.describe 'Event management', type: :system do
       sign_in_as_a_valid_admin
       visit events_path
     end
-    include_examples 'all events'
+    include_examples 'all events', true
     context 'can CRUD events using appropriate buttons' do
       scenario 'can delete events without tickets for future events' do
         expect { click_button 'Delete', match: :first }.to change { Event.count }.by(-1)
@@ -140,24 +120,5 @@ RSpec.describe 'Event management', type: :system do
         expect { page.find_by_id(events[0].id.to_s).find_button('Delete').click }.to change { Event.count }.by(0)
       end
     end
-=======
-  before(:each) do
-    create(:event)
-    create(:event)
-    visit events_path
-  end
-  context 'unregistered user' do
-    include_examples 'all events', false
-  end
-  context 'registered user' do
-    include_examples 'all events', false
-  end
-  context 'admin' do
-    before(:each) do
-      @user ||= create(:user, role: 1)
-      login_as @user
-    end
-    include_examples 'all events', true
->>>>>>> main
   end
 end
