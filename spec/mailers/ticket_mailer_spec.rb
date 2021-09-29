@@ -4,11 +4,11 @@ require 'rails_helper'
 
 RSpec.describe TicketMailer, type: :mailer do
   describe '#mail_tickets' do
-    specify 'should email the tickets for an event to the user' do
-      user = create(:user)
-      event = create(:event)
-      order = create(:order, event_id: event.id, user_id: user.id)
-      mailer = described_class.with(order: order).mail_tickets
+    let(:user) { create(:user) }
+    let(:event) { create(:event) }
+    let(:order) { create(:order, event: event, user: user) }
+    let(:mailer) { described_class.with(order: order).mail_tickets }
+    it 'should email the tickets for an event to the user' do
       expect(mailer.subject).to eq('Your Event+ tickets')
       expect(mailer.to).to eq([user.email])
       expect(mailer.from).to eq(['eventplus.mailer@gmail.com'])

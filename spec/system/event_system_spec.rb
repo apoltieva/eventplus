@@ -5,12 +5,12 @@ require 'rails_helper'
 RSpec.shared_examples 'all events' do |admin|
   it 'can see all events' do
     expect(page).to have_text('Event+')
-    Event.all.future.each do |e|
+    events.each do |e|
       check_event_info(e)
     end
   end
   it 'can see the show page of an event' do
-    visit_first_event(admin)
+    visit_first_event(admin, events[0])
   end
 end
 

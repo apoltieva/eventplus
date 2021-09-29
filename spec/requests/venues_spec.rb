@@ -46,6 +46,14 @@ RSpec.describe 'Venues', type: :request do
     context 'with invalid parameters' do
       context 'name errors' do
         after(:each) { expect(flash[:alert].downcase).to include('name') }
+        context 'with existing name' do
+          let(:v_with_existing_name) { create(:venue, name: 'Exisitng name') }
+          it 'should explain error' do
+            put venue_path(venue_shared.id),
+                params: { venue: JSON.parse(build(:venue, name: v_with_existing_name.name)
+                                              .to_json) }
+          end
+        end
         context 'without name' do
           it 'should explain error' do
             expect do

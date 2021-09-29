@@ -4,7 +4,7 @@ class Venue < ApplicationRecord
   validates_presence_of :name, :latitude, :longitude
   validates :longitude, inclusion: -180..180
   validates :latitude, inclusion: -90..90
-  # validates_uniqueness_of :name
+  validates_uniqueness_of :name
 
   has_many_attached :pictures
   has_many :events, dependent: :destroy

@@ -7,15 +7,9 @@ module EventHelper
 
     expect(page).to have_text(event.venue.name)
     expect(page).to have_text('Tickets left')
-    e = event.decorate
-    expect(page).to have_text(e.fee)
-    expect(page).to have_text(e.start_end.gsub('  ', ' '))
   end
 
-  def visit_first_event(admin)
-    @user ||= create(:user, role: 1)
-    login_as @user
-    e = Event.first
+  def visit_first_event(admin, e)
     if admin
       user1 = create(:user)
       user2 = create(:user)
