@@ -7,7 +7,7 @@
     - else
       - event.pictures.each do |picture|
         = image_tag(picture, alt: "img.jpg", size: "200x133",
-            class: 'u-image')
+          class: 'u-image')
     - e = event.decorate
     h3.u-block-d040-7 = link_to event.title, event_path(event.id), method: 'get'
     p.u-block-d040-17 On stage: #{event.performer.name}
@@ -28,13 +28,14 @@
     - if num
       h5 You've bought #{num} ticket#{num == "1" ? "" : "s"} for this event
     - if current_user&.customer?
-      - if tickets_left > 0
-        = form_with url: orders_path do |f|
-          = f.hidden_field :event_id, value: event.id
-          = f.number_field :quantity, step: 1, min: 1
-          = f.submit "Buy", class: 'btn btn-success'
-      - else
-        button.btn.btn-secondary disabled="" type="button" Sold Out
+      - unless @filter == "past" || @filter == "user_past"
+        - if tickets_left > 0
+          = form_for @order do |f|
+            = f.hidden_field :event_id, value: event.id
+            = f.number_field :quantity, step: 1, min: 1
+            = f.submit "Buy", class: 'btn btn-success'
+        - else
+          button.btn.btn-secondary disabled="" type="button" Sold Out
     - elsif current_user&.admin?
       = button_to 'Edit', edit_event_path(event.id), method: 'get', class: "btn btn-outline-primary"
       = button_to 'Delete', event_path(event.id), method: 'delete', class: "btn btn-outline-danger",

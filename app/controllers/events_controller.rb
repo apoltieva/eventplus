@@ -2,6 +2,7 @@
 
 class EventsController < ApplicationController
   before_action :find_event, only: %i[destroy update edit show]
+  authorize_resource
   before_action :find_events_num_of_tickets, only: %i[index show]
 
   def index
@@ -13,9 +14,7 @@ class EventsController < ApplicationController
                end
     if current_user
       user_id = current_user.id
-      @events_num_of_tickets = current_user.orders.group(:event_id).sum(:quantity)
-    else
-      @events_num_of_tickets = {}
+      @order = Order.new
     end
     @events = case params[:filter]
               when 'keyword'
@@ -56,20 +55,20 @@ class EventsController < ApplicationController
   def create
     @event = Event.new(event_params)
     if @event.save
-      redirect_to action: 'index', notice: 'Created successfully'
+      flash[:notice] = 'Created successfully'
+      redirect_to action: 'index'
     else
       flash[:alert] = @event.errors.full_messages.join('; ')
       render :new
     end
   end
 
-  def edit
-    authorize! :edit, @event
-  end
+  def edit; end
 
   def update
     if @event.update(event_params)
-      redirect_to action: 'index', notice: 'Updated successfully'
+      flash[:alert] = 'Updated successfully'
+      redirect_to action: 'index'
     else
       flash[:alert] = @event.errors.full_messages.join('; ')
       render :edit
