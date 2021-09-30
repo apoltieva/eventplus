@@ -9,6 +9,7 @@ class Ability
       can :manage, :all
       can :access, Venue
       can :update, Event
+      can :create, Event
     else
       can :read, Event
       can :create, Order

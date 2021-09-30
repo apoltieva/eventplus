@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :venue do
-    name { Faker::Mountain.name }
+    sequence(:name) { |i| "#{Faker::Mountain.name}#{i}" }
     latitude { Faker::Address.latitude }
     longitude { Faker::Address.longitude }
   end

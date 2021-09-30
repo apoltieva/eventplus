@@ -23,13 +23,10 @@ if Event.none?
     Event.create!(title: Faker::Movie.title,
                   description: descr,
                   performer_id: performers.sample.id,
-                  start_time: Faker::Time.between(from: DateTime.new(2021, 8, 3, 4, 5, 6),
-                                                  to: DateTime.new(
-                                                    2021, 12, 3, 4, 5, 6
-                                                  )),
-                  end_time: Faker::Time.between(from: DateTime.new(2022, 2, 3, 4, 5, 6),
-                                                to: DateTime.new(2023,
-                                                                 2, 3, 4, 5, 6)),
+                  start_time: Faker::Time.between(from: Time.now + 2.days,
+                                                  to: Time.now + 10.days),
+                  end_time: Faker::Time.between(from: Time.now + 11.days,
+                                                to: Time.now + 12.days),
                   venue_id: Venue.all.sample.id,
                   total_number_of_tickets: rand(100000),
                   ticket_price_cents: rand(100000)
@@ -53,6 +50,13 @@ Venue.all.each do |v|
     end
   end
 end
-5.times do
-  Admin.create!(email: Faker::Internet.email, password: "123456", confirmed_at: Time.now, role: 1)
+if Admin.none?
+  5.times do
+    Admin.create!(email: Faker::Internet.email, password: "123456", confirmed_at: Time.now, role: 1)
+    end
 end
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> main
