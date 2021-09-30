@@ -1,17 +1,17 @@
 h3 = @event.title
-p On stage: #{@event.performer.name}
-p = @event.description
-p = @event.decorate.start_end
+p.u-block-d040-17 On stage: #{@event.performer.name}
+p.u-block-d040-17 = @event.description
+p.u-block-d040-17 = @event.decorate.start_end
 - if user_signed_in? && current_user.events.include?(@event)
   - num = @events_num_of_tickets.fetch(@event.id) { nil }
   - if num
     h5 You've bought #{num} ticket#{num == "1" ? "" : "s"} for this event
 p.u-block-d040-17 Tickets left: #{@event.total_number_of_tickets - @event.orders_count}
-p Price: #{@event.decorate.fee}
+p.u-block-d040-17 Price: #{@event.decorate.fee}
 - if current_user&.admin?
   = render 'list_of_users_for_admin', orders: @event.orders
-p Pictures:
 - unless @event.pictures.empty?
+  p.u-block-d040-17 Pictures:
   - @event.pictures.each do |picture|
     = image_tag(picture, class: 'u-image')
 div
@@ -23,7 +23,7 @@ div
     p.u-block-d040-17 #{@event.venue.latitude}° latitude, #{@event.venue.longitude}° longitude
   = render 'venues/map'
   - if @event.venue.max_capacity
-    p.u-block-d040-17 = @event.venue.max_capacity
+    p.u-block-d040-17 Venue's maximum capacity #{@event.venue.max_capacity}
   - unless @event.venue.pictures.empty?
     - @event.venue.pictures.each do |picture|
       = image_tag(picture, class: 'u-image')

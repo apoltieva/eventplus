@@ -55,8 +55,3 @@ if Admin.none?
     Admin.create!(email: Faker::Internet.email, password: "123456", confirmed_at: Time.now, role: 1)
     end
 end
-<<<<<<< HEAD
-
-
-=======
->>>>>>> main

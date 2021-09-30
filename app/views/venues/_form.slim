@@ -1,9 +1,9 @@
 = simple_form_for @venue do |f|
   = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
   .form-inputs
-    = f.input :name, label: 'Title of the event', error: 'Name is mandatory, please specify one'
+    = f.input :name, label: 'Title of the venue', error: 'Name is mandatory, please specify one'
     = f.input :latitude, as: :float, input_html: { min: '-90', max: '90', step: :any, id: 'venue_latitude' }
-    = f.input :latitude, as: :float, input_html: { min: '-180', max: '180', step: :any, id: 'venue_longitude' }
+    = f.input :longitude, as: :float, input_html: { min: '-180', max: '180', step: :any, id: 'venue_longitude' }
     = f.input :pictures, as: :file, accept: 'image/png, image/jpeg', input_html: { multiple: true }
     = f.input :max_capacity, as: :integer, input_html: { min: '1', step: '1' }
   .form-actions
