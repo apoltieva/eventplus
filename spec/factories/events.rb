@@ -17,7 +17,7 @@ FactoryBot.define do
         to: DateTime.new(2023)
       )
     end
-    total_number_of_tickets { Faker::Number.between(from: 0, to: 10_000) }
+    total_number_of_tickets { Faker::Number.between(from: 1, to: 10_000) }
     venue
   end
 end
