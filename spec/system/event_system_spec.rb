@@ -44,7 +44,7 @@ RSpec.describe 'Event management', type: :system do
       visit events_path
       assert_enqueued_emails 1 do
         first_event_div = page.find_by_id(events[0].id.to_s)
-        first_event_div.find("#order_quantity").fill_in with: 4
+        first_event_div.find_by_id("order_quantity").fill_in with: 4
         expect{first_event_div.find_button('Buy').click}.to change {Order.count}.by 1
       end
     end
