@@ -1,0 +1,29 @@
+header.navbar
+  nav.navbar.navbar-expand-md.navbar-light.fixed-top
+    .collapse.navbar-collapse#navbarCollapse
+      ul.navbar-nav.mr-auto
+        li.nav-item.active
+          .margin
+            = button_to "Home", root_path, method: 'get', class: "btn btn-light"
+        li.nav-item.active
+          .margin
+            = button_to 'Help', 'help_path', method: 'get', class: "btn btn-light"
+        - if user_signed_in?
+          li.nav-item.active
+            .margin
+              = button_to 'Logout', destroy_user_session_path, method: 'delete', class: "btn btn-light"
+        - else
+          li.nav-item.active
+            .margin
+              = button_to 'Register', new_user_registration_path, method: 'get', class: "btn btn-light"
+          li.nav-item.active
+            .margin
+              = button_to 'Login', '/users/sign_in', method: 'get', class: "btn btn-light"
+        - if current_user&.admin?
+          li.nav-item.active
+            .margin
+              = button_to 'Venues', '/venues', method: 'get', class: "btn btn-outline-light"
+      - if user_signed_in?
+        ul.navbar-nav.flex-row.ml-md-auto.d-none.d-md-flex
+          li.email
+            p = current_user.email
