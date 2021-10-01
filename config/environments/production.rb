@@ -121,7 +121,7 @@ Rails.application.configure do
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
 
   # Default url for devise
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 } # TODO: change to actual host later
+  config.action_mailer.default_url_options = { host: '167.172.35.71' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address: Settings.smtp_settings.address,
