@@ -7,7 +7,6 @@ class EventsController < ApplicationController
 
   def index
     @location = request.safe_location || 'Kiev, Ukraine'
-    @loc = Geocoder.search(@location).first
     # if current_user
     #   user_id = current_user.id
     #   @order = Order.new
