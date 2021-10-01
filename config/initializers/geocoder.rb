@@ -1,8 +1,5 @@
 Geocoder.configure(
-  lookup: { google: {
-    api_key: Rails.application.credentials.google_maps_api_key
-    }
-  },
+  lookup: :yandex,
   # IP address geocoding service (default :ipinfo_io)
   ip_lookup: :db_ip_com,
   db_ip_com: { api_key: 'free'},
