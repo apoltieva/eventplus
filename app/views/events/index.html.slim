@@ -1,5 +1,6 @@
 .u-block-d040-2
   h1 Welcome to Event+ website
+  p = @location
   / .filter
   /   a.all href=events_url class=(!@filter ? 'current' : '') All events
   /   a.past href=events_url(filter: 'nearest') class=(@filter == "nearest" ? 'current' : '') Near you
@@ -10,7 +11,6 @@
   /   a.keyword href='#' class=(@filter == "keyword" ? 'current' : '') With keyword
   / - if current_user&.admin?
   /   = button_to 'Create', new_event_path, method: 'get', class: "btn btn-outline-info"
-  p = @location
   / - if @events.empty?
   /   | No events :(
   / - else
