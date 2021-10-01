@@ -6,40 +6,35 @@ class EventsController < ApplicationController
   before_action :find_events_num_of_tickets, only: %i[index show]
 
   def index
-    location = request.safe_location || 'Kiev, Ukraine'
-    p location
-    # location = if !request.remote_ip || request.remote_ip == '127.0.0.1'
-    #              'Kiev, Ukraine'
-    #            else
-    #              request.safe_location
-    #            end
-    if current_user
-      user_id = current_user.id
-      @order = Order.new
-    end
-    @events = case params[:filter]
-              when 'keyword'
-                Event.filter_by_keyword params[:keyword]
-              when 'nearest'
-                coords = Geocoder.search(location).first.coordinates
-                @venues_with_distance = Venue.near(
-                  coords, 20_000, units: :km, select: 'venues.id'
-                ).each_with_object({}) { |v, h| h[v.id] = v.distance }
-                Event.nearest(@venues_with_distance.keys)
-              else
-                Event.filter_by(params[:filter], user_id)
-              end
-    @events = @events.preload(:performer, :venue, pictures_attachments: :blob)
-                     .paginate(page: params[:page], per_page: 3)
-
-    keywords = Event.with_keywords.pluck(:keywords).flatten
-    @keywords_rating = keywords.uniq.sort_by { |e| -keywords.count(e) }
-    @original_url = request.original_url
-    @filter = params[:filter]
-    respond_to do |format|
-      format.html
-      format.js
-    end
+    @location = request.safe_location || 'Kiev, Ukraine'
+    @loc = Geocoder.search(@location).first
+    # if current_user
+    #   user_id = current_user.id
+    #   @order = Order.new
+    # end
+    # @events = case params[:filter]
+    #           when 'keyword'
+    #             Event.filter_by_keyword params[:keyword]
+    #           when 'nearest'
+    #             coords = Geocoder.search(location).first.coordinates
+    #             @venues_with_distance = Venue.near(
+    #               coords, 20_000, units: :km, select: 'venues.id'
+    #             ).each_with_object({}) { |v, h| h[v.id] = v.distance }
+    #             Event.nearest(@venues_with_distance.keys)
+    #           else
+    #             Event.filter_by(params[:filter], user_id)
+    #           end
+    # @events = @events.preload(:performer, :venue, pictures_attachments: :blob)
+    #                  .paginate(page: params[:page], per_page: 3)
+    #
+    # keywords = Event.with_keywords.pluck(:keywords).flatten
+    # @keywords_rating = keywords.uniq.sort_by { |e| -keywords.count(e) }
+    # @original_url = request.original_url
+    # @filter = params[:filter]
+    # respond_to do |format|
+    #   format.html
+    #   format.js
+    # end
   end
 
   def new

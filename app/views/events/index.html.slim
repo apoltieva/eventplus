@@ -10,6 +10,8 @@
     a.keyword href='#' class=(@filter == "keyword" ? 'current' : '') With keyword
   - if current_user&.admin?
     = button_to 'Create', new_event_path, method: 'get', class: "btn btn-outline-info"
+  p = @location
+  p = @loc
   - if @events.empty?
     | No events :(
   - else
