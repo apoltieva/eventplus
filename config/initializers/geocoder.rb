@@ -1,8 +1,7 @@
 Geocoder.configure(
   lookup: :yandex,
   # IP address geocoding service (default :ipinfo_io)
-  ip_lookup: :db_ip_com,
-  db_ip_com: { api_key: 'free'},
+  ip_lookup: :ipinfo_io,
   timeout: 10,
   units: :km
 )
