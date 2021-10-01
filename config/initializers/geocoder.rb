@@ -4,7 +4,7 @@ Geocoder.configure(
     }
   },
   # IP address geocoding service (default :ipinfo_io)
-  ip_lookup: { db_ip_com: { api_key: 'free' } },
+  ip_lookup: :db_ip_com,
   timeout: 10,
   units: :km
 )
