@@ -28,7 +28,6 @@ RSpec.describe 'Orders', type: :request do
         after(:each) { expect(flash[:alert].downcase).to include('quantity') }
         context 'with invalid quantity' do
           it 'should not save the order' do
-
             order_shared[:quantity] = 'dfdff'
             expect { post orders_path, params: { order: order_shared } }
               .to change { Order.count }.by 0

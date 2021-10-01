@@ -44,8 +44,8 @@ RSpec.describe 'Event management', type: :system do
       visit events_path
       assert_enqueued_emails 1 do
         first_event_div = page.find_by_id(events[0].id.to_s)
-        first_event_div.find_by_id("order_quantity").fill_in with: 4
-        expect{first_event_div.find_button('Buy').click}.to change {Order.count}.by 1
+        first_event_div.find_by_id('order_quantity').fill_in with: 4
+        expect { first_event_div.find_button('Buy').click }.to change { Order.count }.by 1
       end
     end
     include_examples 'all events', false
@@ -65,8 +65,8 @@ RSpec.describe 'Event management', type: :system do
       click_link 'Near you'
       expect(page).to have_text('km from you', minimum: 1)
       create(:order, user_id: @user.id,
-             event: create(:event, title: 'Event in the past', start_time: 3.days.ago, end_time: 2.days.ago),
-             quantity: 3)
+                     event: create(:event, title: 'Event in the past', start_time: 3.days.ago, end_time: 2.days.ago),
+                     quantity: 3)
       click_link 'Your past events'
       expect(page).to have_text('Event in the past')
       expect(page).to have_text('3 tickets')
@@ -110,14 +110,16 @@ RSpec.describe 'Event management', type: :system do
           fill_in 'event_ticket_price', with: 23.35
           fill_in 'event_start_time', with: Time.now + 2.days
           fill_in 'event_end_time', with: Time.now + 3.days
-          expect {click_button 'Create Event'}. to change { Performer.count }.by 1
+          expect { click_button 'Create Event' }.to change { Performer.count }.by 1
         end.to change { Event.count }.by 1
       end
     end
     scenario "can't delete events with tickets for future events", js: true do
       create(:order, event_id: events[0].id)
       dismiss_confirm(/can't delete/i) do
-        expect { page.find_by_id(events[0].id.to_s).find_button('Delete').click }.to change { Event.count }.by(0)
+        expect { page.find_by_id(events[0].id.to_s).find_button('Delete').click }.to change {
+                                                                                       Event.count
+                                                                                     }.by(0)
       end
     end
   end
