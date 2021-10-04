@@ -90,4 +90,4 @@ workflows:
             - setup
           filters:
             branches:
-              only: main
+              only: ci-configuration
