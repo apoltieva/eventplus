@@ -17,10 +17,7 @@ jobs:
       - checkout
 
       - run: gem update --system
-      - run:
-          name: Set ruby version to 3.0.0
-            command: |
-              rvm install 3.0.0
+      - run: rvm install 3.0.0
       - run: gem install bundler
 
       - restore_cache:
@@ -59,10 +56,7 @@ jobs:
     parallelism: 2
     steps:
       - checkout
-      - run:
-          name: Set ruby version to 3.0.0
-            command: |
-              rvm install 3.0.0
+      - run: rvm install 3.0.0
       - restore_cache:
           keys:
             - webpack-{{ .Revision }}
