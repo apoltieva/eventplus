@@ -48,12 +48,12 @@ jobs:
     docker:
       - image: circleci/ruby:3.0.0-node-browsers
         environment:
-          DATABASE_URL: <%= Settings.db.production_url %>
+          DATABASE_URL: $PRODUCTION_URL
       - image: circleci/postgres:14
         environment:
           POSTGRES_USER: eventplus
           POSTGRES_DB: eventplus_test
-          POSTGRES_PASSWORD: <%= Settings.db.password %>
+          POSTGRES_PASSWORD: $DB_PASSWORD
     parallelism: 2
     steps:
       - checkout
