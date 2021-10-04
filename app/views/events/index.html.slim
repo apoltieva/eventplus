@@ -1,6 +1,6 @@
 .u-block-d040-2
   h1 Welcome to Event+ website
-  .filter
+  .filter.flex-shrink-0
     a.all href=events_url class=(!@filter ? 'current' : '') All events
     a.past href=events_url(filter: 'nearest') class=(@filter == "nearest" ? 'current' : '') Near you
     a.past href=events_url(filter: 'past') class=(@filter == "past" ? 'current' : '') Past events

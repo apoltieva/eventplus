@@ -6,12 +6,7 @@ class EventsController < ApplicationController
   before_action :find_events_num_of_tickets, only: %i[index show]
 
   def index
-    # location = request.safe_location || 'Kiev, Ukraine'
-    location = if !request.remote_ip || request.remote_ip == '127.0.0.1'
-                 'Kiev, Ukraine'
-               else
-                 request.safe_location
-               end
+    location = request.safe_location || 'Kiev, Ukraine'
     if current_user
       user_id = current_user.id
       @order = Order.new

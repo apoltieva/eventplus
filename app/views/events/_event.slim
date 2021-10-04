@@ -1,13 +1,14 @@
 .event.u-block-d040-3.card id=(event.id)
   .card-body
-    - if event.pictures.empty?
-      - 2.times do
-        = image_tag 'default-image.jpg', alt: "img.jpg", size: "200x133",
-          class: 'u-image'
-    - else
-      - event.pictures.each do |picture|
-        = image_tag(picture, alt: "img.jpg", size: "200x133",
-          class: 'u-image')
+    .d-none.d-sm-block
+      - if event.pictures.empty?
+        - 2.times do
+          = image_tag 'default-image.jpg', alt: "img.jpg", size: "200x133",
+            class: 'u-image'
+      - else
+        - event.pictures.each do |picture|
+          = image_tag(picture, alt: "img.jpg", size: "200x133",
+            class: 'u-image')
     - e = event.decorate
     h3.u-block-d040-7 = link_to event.title, event_path(event.id), method: 'get'
     p.u-block-d040-17 On stage: #{event.performer.name}
