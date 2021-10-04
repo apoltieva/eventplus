@@ -155,4 +155,8 @@ keyword {
     background-color: rgba(110,118,129,0.4);
     border-radius: 6px;
 }
-nav { background-color: #9c4c7c }
+nav {
+    background: #000000; /* fallback for old browsers */
+    background: -webkit-linear-gradient(270deg, #000000 , #FFD700); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(270deg, #000000 , #FFD700); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}

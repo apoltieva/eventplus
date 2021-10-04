@@ -6,7 +6,8 @@ class EventsController < ApplicationController
   before_action :find_events_num_of_tickets, only: %i[index show]
 
   def index
-    @location = request.safe_location.address
+    @ip = request.ip
+    @location = request.safe_location
     # if current_user
     #   user_id = current_user.id
     #   @order = Order.new
