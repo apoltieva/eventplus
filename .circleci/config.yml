@@ -17,12 +17,16 @@ jobs:
       - checkout
 
       - run: gem update --system
+      - run:
+          name: Set ruby version to 3.0.0
+            command: |
+              rvm install 3.0.0
       - run: gem install bundler
 
       - restore_cache:
           keys:
             - bundle-{{ checksum "Gemfile.lock" }}
-      - run: bundle install --path vendor/bundle
+      - run: bundle install set --local path 'vendor/bundle'
       - save_cache:
           key: bundle-{{ checksum "Gemfile.lock" }}
           paths:
@@ -55,6 +59,10 @@ jobs:
     parallelism: 2
     steps:
       - checkout
+      - run:
+          name: Set ruby version to 3.0.0
+            command: |
+              rvm install 3.0.0
       - restore_cache:
           keys:
             - webpack-{{ .Revision }}
@@ -63,7 +71,7 @@ jobs:
             - bundle-{{ checksum "Gemfile.lock" }}
       - run: gem update --system
       - run: gem install bundler
-      - run: bundle install --path vendor/bundle
+      - run: bundle install set --local path 'vendor/bundle'
       - run: sudo apt install postgresql-client
       - run: dockerize -wait tcp://localhost:5432 -timeout 1m
       - run: bundle exec rake db:create
