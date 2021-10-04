@@ -6,7 +6,6 @@ class EventsController < ApplicationController
   before_action :find_events_num_of_tickets, only: %i[index show]
 
   def index
-    location = request.safe_location || 'Kiev, Ukraine'
     if current_user
       user_id = current_user.id
       @order = Order.new
@@ -15,7 +14,7 @@ class EventsController < ApplicationController
               when 'keyword'
                 Event.filter_by_keyword params[:keyword]
               when 'nearest'
-                coords = Geocoder.search(location).first.coordinates
+                coords = request.safe_location.try(:coordinates) || [50.4547, 30.5238]
                 @venues_with_distance = Venue.near(
                   coords, 20_000, units: :km, select: 'venues.id'
                 ).each_with_object({}) { |v, h| h[v.id] = v.distance }
