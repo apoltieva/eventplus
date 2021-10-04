@@ -38,7 +38,7 @@ jobs:
           paths:
             - ~/.cache/yarn
 
-      - run: ls -R
+      - run: echo Rails.application.credentials.google_maps_api_key
       - run: bundle exec rake webpacker:compile
       - save_cache:
           key: webpack-{{ .Revision }}
