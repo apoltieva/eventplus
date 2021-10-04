@@ -39,17 +39,17 @@ jobs:
             - ~/.cache/yarn
 
 
-#      - run: bundle exec rake webpacker:compile
-#      - save_cache:
-#          key: webpack-{{ .Revision }}
-#          paths:
-#            - home/circleci/project/public/packs-test/
+      - run: bundle exec rake webpacker:compile
+      - save_cache:
+          key: webpack-{{ .Revision }}
+          paths:
+            - home/circleci/project/public/packs-test/
   test:
     docker:
       - image: circleci/ruby:3.0.0-node-browsers
         environment:
           DATABASE_URL: $PRODUCTION_URL
-      - image: circleci/postgres:14
+      - image: postgres:14
         environment:
           POSTGRES_USER: eventplus
           POSTGRES_DB: eventplus_test
