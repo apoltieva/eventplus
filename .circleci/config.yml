@@ -12,12 +12,11 @@ version: 2.1
 jobs:
   setup:
     docker:
-      - image: circleci/ruby:3.0-node-browsers
+      - image: circleci/ruby:3.0.0-node-browsers
     steps:
       - checkout
 
       - run: gem update --system
-      - run: rvm install 3.0.0
       - run: gem install bundler
 
       - restore_cache:
@@ -45,7 +44,7 @@ jobs:
             - /home/apolti/Desktop/eventplus/public/packs-test/
   test:
     docker:
-      - image: circleci/ruby:3.0-node-browsers
+      - image: circleci/ruby:3.0.0-node-browsers
         environment:
           DATABASE_URL: <%= Settings.db.production_url %>
       - image: circleci/postgres:14
@@ -56,7 +55,6 @@ jobs:
     parallelism: 2
     steps:
       - checkout
-      - run: rvm install 3.0.0
       - restore_cache:
           keys:
             - webpack-{{ .Revision }}
