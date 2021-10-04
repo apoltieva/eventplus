@@ -7,7 +7,7 @@ class EventsController < ApplicationController
 
   def index
     @ip = request.ip
-    @location = request.safe_location.address
+    @location = Geocoder.search(@ip).first.address
 
     # if current_user
     #   user_id = current_user.id
