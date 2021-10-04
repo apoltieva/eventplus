@@ -22,7 +22,8 @@ jobs:
       - restore_cache:
           keys:
             - bundle-{{ checksum "Gemfile.lock" }}
-      - run: bundle install --path 'vendor/bundle'
+      - run: bundle config set --local path 'vendor/bundle'
+      - run: bundle install
       - save_cache:
           key: bundle-{{ checksum "Gemfile.lock" }}
           paths:
@@ -31,7 +32,7 @@ jobs:
       - restore_cache:
           keys:
             - yarn-{{ checksum "yarn.lock" }}
-      - run: yarn install --cache-folder /home/apolti/Desktop/eventplus/.cache/yarn
+      - run: yarn install --cache-folder ~/.cache/yarn
       - save_cache:
           key: yarn-{{ checksum "yarn.lock" }}
           paths:
@@ -63,7 +64,8 @@ jobs:
             - bundle-{{ checksum "Gemfile.lock" }}
       - run: gem update --system
       - run: gem install bundler
-      - run: bundle install --path 'vendor/bundle'
+      - run: bundle config set --local path 'vendor/bundle'
+      - run: bundle install
       - run: sudo apt install postgresql-client
       - run: dockerize -wait tcp://localhost:5432 -timeout 1m
       - run: bundle exec rake db:create
