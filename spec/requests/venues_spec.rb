@@ -125,7 +125,8 @@ RSpec.describe 'Venues', type: :request do
     context 'with invalid parameters' do
       context 'with invalid id' do
         it 'should explain error' do
-          put venue_path(venue_shared.id + 10_000), params: { venue: JSON.parse(build(:venue).to_json) }
+          put venue_path(venue_shared.id + 10_000),
+              params: { venue: JSON.parse(build(:venue).to_json) }
           expect(flash[:alert].downcase).to include('id')
         end
       end
