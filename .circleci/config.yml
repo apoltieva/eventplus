@@ -1,0 +1,93 @@
+# Use the latest 2.1 version of CircleCI pipeline process engine.
+# See: https://circleci.com/docs/2.0/configuration-reference
+version: 2.1
+
+# Orbs are reusable packages of CircleCI configuration that you may share across projects, enabling you to create encapsulated, parameterized commands, jobs, and executors that can be used across multiple projects.
+# See: https://circleci.com/docs/2.0/orb-intro/
+# orbs:
+#   ruby: circleci/ruby@0.1.2
+
+# Define a job to be invoked later in a workflow.
+# See: https://circleci.com/docs/2.0/configuration-reference/#jobs
+jobs:
+  setup:
+    docker:
+      - image: circleci/ruby:3.0-node-browsers
+    steps:
+      - checkout
+
+      - run: gem update --system
+      - run: gem install bundler
+
+      - restore_cache:
+          keys:
+            - bundle-{{ checksum "Gemfile.lock" }}
+      - run: bundle install --path vendor/bundle
+      - save_cache:
+          key: bundle-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+
+      - restore_cache:
+          keys:
+            - yarn-{{ checksum "yarn.lock" }}
+      - run: yarn install --cache-folder /home/apolti/Desktop/eventplus/.cache/yarn
+      - save_cache:
+          key: yarn-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+
+      - run: bundle exec rake webpacker:compile
+      - save_cache:
+          key: webpack-{{ .Revision }}
+          paths:
+            - /home/apolti/Desktop/eventplus/public/packs-test/
+  test:
+    docker:
+      - image: circleci/ruby:3.0-node-browsers
+        environment:
+          DATABASE_URL: <%= Settings.db.production_url %>
+      - image: circleci/postgres:14
+        environment:
+          POSTGRES_USER: eventplus
+          POSTGRES_DB: eventplus_test
+          POSTGRES_PASSWORD: <%= Settings.db.password %>
+    parallelism: 2
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - webpack-{{ .Revision }}
+      - restore_cache:
+          keys:
+            - bundle-{{ checksum "Gemfile.lock" }}
+      - run: gem update --system
+      - run: gem install bundler
+      - run: bundle install --path vendor/bundle
+      - run: sudo apt install postgresql-client
+      - run: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run: bundle exec rake db:create
+      - run: bundle exec rake db:schema:load
+      - run: rubocop
+      - run:
+          name: Specs
+          command: |
+            TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+            bundle exec rspec $TESTFILES --profile 10 --format RspecJunitFormatter --out /home/apolti/Desktop/eventplus/spec-timings/rspec.xml
+      - store_test_results:
+          path: /home/apolti/Desktop/eventplus/spec-timings
+
+# Invoke jobs via workflows
+# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
+
+workflows:
+  version: 2
+  setup_and_test:
+    jobs:
+      - setup
+      - test:
+          requires:
+            - setup
+          filters:
+            branches:
+              only: main

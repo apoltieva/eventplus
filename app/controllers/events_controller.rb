@@ -14,7 +14,7 @@ class EventsController < ApplicationController
               when 'keyword'
                 Event.filter_by_keyword params[:keyword]
               when 'nearest'
-                coords = request.safe_location.try(:coordinates) || [50.4547, 30.5238]
+                coords = request.safe_location.coordinates.empty? ? [50.4547, 30.5238] : request.safe_location.coordinates
                 @venues_with_distance = Venue.near(
                   coords, 20_000, units: :km, select: 'venues.id'
                 ).each_with_object({}) { |v, h| h[v.id] = v.distance }
