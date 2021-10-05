@@ -1,0 +1,8 @@
+= form_with model: @order do |f|
+  p Event - #{@order.event.title}
+  = f.hidden_field :event_id, value: @order.event_id
+  = f.number_field :quantity
+  br
+  = f.submit "Buy", class: 'btn btn-success'
+- content_for :head do
+  = stripe_javascript_tag

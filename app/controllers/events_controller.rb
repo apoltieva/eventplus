@@ -6,10 +6,7 @@ class EventsController < ApplicationController
   before_action :find_events_num_of_tickets, only: %i[index show]
 
   def index
-    if current_user
-      user_id = current_user.id
-      @order = Order.new
-    end
+    user_id = current_user.id if current_user
     @events = case params[:filter]
               when 'keyword'
                 Event.filter_by_keyword params[:keyword]
