@@ -54,7 +54,7 @@ jobs:
           POSTGRES_USER: eventplus
           POSTGRES_DB: eventplus_test
           POSTGRES_PASSWORD: $DB_PASSWORD
-#    parallelism: 2
+    parallelism: 2
     steps:
       - checkout
       - restore_cache:
@@ -67,7 +67,7 @@ jobs:
       - run: gem install bundler
       - run: bundle config set --local path 'vendor/bundle'
       - run: bundle install
-      - run: sudo apt install postgresql-client
+      - run: sudo apt-get install postgresql-14
       - run: dockerize -wait tcp://localhost:5432 -timeout 1m
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
