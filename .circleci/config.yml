@@ -49,7 +49,7 @@ jobs:
       - image: circleci/ruby:3.0.0-node-browsers
         environment:
           DATABASE_URL: $PRODUCTION_URL
-      - image: postgres:14
+      - image: circleci/postgres:11
         environment:
           POSTGRES_USER: eventplus
           POSTGRES_DB: eventplus_test
@@ -67,7 +67,7 @@ jobs:
       - run: gem install bundler
       - run: bundle config set --local path 'vendor/bundle'
       - run: bundle install
-      - run: sudo apt-get install postgresql-14
+      - run: sudo apt-get install postgresql-11
       - run: dockerize -wait tcp://localhost:5432 -timeout 1m
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
