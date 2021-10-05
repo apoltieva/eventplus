@@ -67,6 +67,7 @@ jobs:
       - run: gem install bundler
       - run: bundle config set --local path 'vendor/bundle'
       - run: bundle install
+      - run: scp $SERVER_AND_PATH_TO_APPLICATION_YML ~/config
 #      - run: sudo apt-get install postgresql-11
       - run: dockerize -wait tcp://localhost:5432 -timeout 1m
       - run: bundle exec rake db:create
