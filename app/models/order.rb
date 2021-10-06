@@ -12,7 +12,7 @@ class Order < ApplicationRecord
   validates_numericality_of :quantity, greater_than_or_equal_to: 0, only_integer: true
   validates_uniqueness_of :uuid
 
-  enum status: %i[new success failure]
+  enum status: %i[created success failure]
 
   private
 
