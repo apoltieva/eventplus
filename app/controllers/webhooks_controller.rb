@@ -18,16 +18,26 @@ class WebhooksController < ApplicationController
 
     # Handle event
     case event.type
-    when 'checkout.session.async_payment_failed'
-      checkout = event.data.object
+    when 'checkout.session.async_payment_failed' || 'checkout.session.expired'
+      session = event.data.object
+      find_customer_and_order(session)
+      @order.status = :failure
+      FailureMailer.with(customer: @customer)
+                   .inform_about_checkout_failure.deliver_later
     when 'checkout.session.async_payment_succeeded'
       checkout = event.data.object
-    when 'checkout.session.completed'
-      checkout = event.data.object
-    when 'checkout.session.expired'
-      checkout = event.data.object
+      find_customer_and_order(checkout)
+      @order.status = :success
+      TicketSender.send_tickets_for @order
     else
       puts "Unhandled event type: #{event.type}"
     end
+  end
+
+  private
+
+  def find_customer_and_order(session)
+    @customer = Customer.find_by(stripe_id: session.customer)
+    @order = @customer.orders.first
   end
 end

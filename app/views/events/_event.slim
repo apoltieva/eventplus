@@ -31,7 +31,7 @@
     - if current_user&.customer?
       - unless @filter ==  'past' || @filter == 'user_past'
         - if tickets_left > 0
-          = form_with model: Order.new, url: new_order_url, method: :get do |f|
+          = form_with model: Order.new, url: orders_url do |f|
             = f.hidden_field :event_id, value: event.id
             = f.number_field :quantity, step: 1, min: 1
             = f.submit "Buy", class: 'btn btn-success'

@@ -1,4 +1,7 @@
 module StripeCheckout
+  # test
+  Stripe.api_key = Settings.stripe.secret_key
+
   def self.create_session(order)
     Stripe::Checkout::Session
       .create({
@@ -11,7 +14,8 @@ module StripeCheckout
                              }],
                 mode: 'payment',
                 success_url: 'http://localhost:3000/success',
-                cancel_url: 'http://localhost:3000/cancel'
+                cancel_url: 'http://localhost:3000/cancel',
+                customer: order.user.stripe_id
               })
   end
 end
