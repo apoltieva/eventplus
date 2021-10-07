@@ -5,11 +5,10 @@ require 'securerandom'
 class Order < ApplicationRecord
   include Stripe::Callbacks
 
-  before_validation :set_uuid, :set_status
+  before_validation :set_uuid
   belongs_to :user
   belongs_to :event
   after_charge_succeeded do
-
     update_counter_in_event
   end
 
@@ -23,10 +22,6 @@ class Order < ApplicationRecord
 
   def set_uuid
     self.uuid = SecureRandom.uuid
-  end
-
-  def set_status
-    self.status = :created
   end
 
   def update_counter_in_event
