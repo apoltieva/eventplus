@@ -165,7 +165,7 @@ keyword {
     border-radius: 6px;
 }
 nav {
-    background: #000000; /* fallback for old browsers */
-    background: -webkit-linear-gradient(270deg, #000000 , #FFD700); /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(270deg, #000000 , #FFD700); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: #33000d; /* fallback for old browsers */
+    background: -webkit-linear-gradient(270deg, #33000d , #fff5f7); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(270deg, #33000d, #fff5f7); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
