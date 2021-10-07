@@ -13,6 +13,16 @@
  *= require_tree .
  *= require_self
  */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&family=Nunito:wght@200;600;800&display=swap');
+body {
+    font-family: 'Nunito', sans-serif;
+    color: rgba(0, 0, 0, 0.8);
+    font-weight: 500;
+    line-height: 1.58;
+    letter-spacing: -.003em;
+    font-size: 20px;
+}
+h1, h2, h3, h4 { font-family: 'Noto Sans', sans-serif; }
 #logo {
     margin-right: 10px;
 }
@@ -35,6 +45,7 @@
     color: white;
     margin-top: 5px;
     padding-top: 2px;
+    font-weight: 600;
 }
 #map {
     width: 600px;
@@ -146,6 +157,7 @@
     background: crimson;
     color: white;
     text-decoration: none;
+    font-weight: 600;
 }
 .filter a.keyword { visibility: hidden; }
 .filter a.current {
@@ -161,11 +173,16 @@ keyword {
     display: inline-flex;
     padding: .2em .4em;
     margin: 10px;
-    background-color: rgba(110,118,129,0.4);
+    background-color: #efe9f5;
     border-radius: 6px;
 }
+a { color: #fc6f03; }
 nav {
     background: #5c0017; /* fallback for old browsers */
     background: -webkit-linear-gradient(270deg, #5c0017, #ffe5ec); /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(270deg, #5c0017, #ffe5ec); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
+.btn-outline-info { font-weight: bold }
+.btn-outline-light { font-weight: bold }
+.btn-outline-primary { font-weight: bold }
+.btn-outline-danger { font-weight: bold }
