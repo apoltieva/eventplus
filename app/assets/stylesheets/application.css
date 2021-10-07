@@ -13,6 +13,11 @@
  *= require_tree .
  *= require_self
  */
+#logo {
+    height: 20px;
+    width: 100px;
+    background: url("logo.png")
+}
 .margin
 {
     display: inline-flex;

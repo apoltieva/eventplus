@@ -20,6 +20,8 @@ module.exports = function(api) {
       isTestEnv && [
         '@babel/preset-env',
         {
+          "loose": true,
+          "shippedProposals": true,
           targets: {
             node: 'current'
           }
