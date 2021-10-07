@@ -6,8 +6,6 @@ class OrdersController < ApplicationController
     if @order.save
       session = StripeCheckout.create_session(@order)
       redirect_to session.url
-      # flash[:notice] = 'Your tickets will be sent to your email. Thanks for your purchase!'
-      #
     else
       flash[:alert] = @order.errors.full_messages.join('; ')
       redirect_back(fallback_location: root_path)

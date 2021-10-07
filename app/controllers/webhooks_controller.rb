@@ -24,10 +24,11 @@ class WebhooksController < ApplicationController
       @order.status = :failure
       FailureMailer.with(customer: @customer)
                    .inform_about_checkout_failure.deliver_later
-    when 'checkout.session.async_payment_succeeded'
+    when 'charge.succeeded'
       checkout = event.data.object
       find_customer_and_order(checkout)
       @order.status = :success
+      @order.save
       TicketSender.send_tickets_for @order
     else
       puts "Unhandled event type: #{event.type}"
@@ -37,6 +38,7 @@ class WebhooksController < ApplicationController
   private
 
   def find_customer_and_order(session)
+    p session
     @customer = Customer.find_by(stripe_id: session.customer)
     @order = @customer.orders.first
   end
