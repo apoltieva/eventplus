@@ -48,8 +48,6 @@ gem 'order_as_specified'
 
 gem 'simple_form'
 
-gem 'bullet'
-
 gem 'stripe-rails'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 6.1.4'

@@ -28,6 +28,7 @@ set :ssh_options,     { forward_agent: true, user: fetch(:user), keys: %w(~/.ssh
 set :puma_preload_app, true
 set :puma_worker_timeout, nil
 set :puma_init_active_record, true  # Change to false when not using ActiveRecord
+set :bundle_without, %w{test}.join(':')
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
