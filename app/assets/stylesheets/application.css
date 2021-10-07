@@ -14,9 +14,7 @@
  *= require_self
  */
 #logo {
-    height: 20px;
-    width: 100px;
-    background: url("logo.png")
+    margin-right: 10px;
 }
 .margin
 {
