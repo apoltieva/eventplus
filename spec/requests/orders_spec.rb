@@ -1,5 +1,5 @@
-# frozen_string_literal: true
-
+# # frozen_string_literal: true
+#
 require 'rails_helper'
 
 RSpec.describe 'Orders', type: :request do
@@ -9,18 +9,16 @@ RSpec.describe 'Orders', type: :request do
     assert_routing({ path: 'orders/1', method: :get },
                    { controller: 'orders', action: 'show', id: '1' })
   end
-
+#
   before(:each) { sign_in_as_a_valid_customer }
-
+#
   describe 'POST /orders' do
     let(:valid_event) { create(:event) }
     let(:order_shared) { { event_id: valid_event.id, quantity: 3 } }
     context 'with valid parameters' do
-      it 'should save the order and send email' do
-        assert_enqueued_emails 1 do
-          expect { post orders_path, params: { order: order_shared } }
-            .to change { Order.count }.by 1
-        end
+      it 'should save order' do
+        expect { post orders_path, params: { order: order_shared } }
+          .to change { Order.count }.by 1
       end
     end
     context 'with invalid parameters' do
