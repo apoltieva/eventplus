@@ -6,6 +6,7 @@ AllCops:
     - 'doc/**/*.xml'
     - '.pryrc'
     - 'config/**/*'
+    - 'spec/support/event_helper.rb'
 Metrics/BlockLength:
   Exclude:
     - 'config/environments/*.rb'
@@ -18,9 +19,11 @@ Layout/LineLength:
   Exclude:
     - Gemfile
 Metrics/MethodLength:
-  Max: 20
+  Max: 31
   Exclude:
     - Gemfile
+Metrics/AbcSize:
+  Max: 25
 Style/Documentation:
   Enabled: false
 Style/GlobalVars:

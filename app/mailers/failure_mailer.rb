@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FailureMailer < ApplicationMailer
   def inform_about_checkout_failure
     @customer = params[:customer]

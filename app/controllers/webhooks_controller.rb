@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class WebhooksController < ApplicationController
   skip_before_action :verify_authenticity_token
   def create
@@ -16,7 +18,10 @@ class WebhooksController < ApplicationController
       return
     end
 
-    # Handle event
+    handle_event event
+  end
+
+  def self.handle_event(event)
     if event.type == 'checkout.session.completed'
       session = event.data.object
       find_customer_and_order(session)
@@ -31,7 +36,7 @@ class WebhooksController < ApplicationController
       @order.stripe_id = session.id
       @order.save
     else
-      render json: {error: "Unhandled event type: #{event.type}"}, status: :bad_request
+      render json: { error: "Unhandled event type: #{event.type}" }, status: :bad_request
     end
   end
 
