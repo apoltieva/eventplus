@@ -39,7 +39,6 @@ module Checkout
   def self.url
     {
       host: Rails.application.config.action_controller.default_url_options[:host]
-      # port: Rails.application.config.action_controller.default_url_options.fetch(:port) { 3000 }
     }
   end
 end
