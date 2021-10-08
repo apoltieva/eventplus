@@ -8,6 +8,7 @@ module Checkout
     if order.event.ticket_price == 0.0
       order.status = :success
       order.save
+      TicketSender.send_tickets_for order
       OpenStruct.new(url: success_checkout_url)
     else
       Stripe::Checkout::Session
