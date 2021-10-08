@@ -80,7 +80,7 @@ class EventsController < ApplicationController
 
   def find_events_num_of_tickets
     @events_num_of_tickets = if current_user
-                               current_user.orders.where(status: %i[success])
+                               current_user.orders.where(status: %i[created success])
                                            .group(:event_id).sum(:quantity)
                              else
                                {}
