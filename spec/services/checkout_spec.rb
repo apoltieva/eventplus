@@ -21,7 +21,7 @@ RSpec.describe Checkout, type: :model do
         end
       end
       let(:third_party_checkout) { 'https://checkout.stripe.com/pay' }
-      let(:billable_order) { create(:order, event: create(:event, ticket_price_cents: 10)) }
+      let(:billable_order) { create(:order, event: create(:event, ticket_price_cents: 100)) }
       context 'with billable event' do
         it 'allows session to redirect to third-party checkout' do
           expect(Checkout.create_session(billable_order).url
