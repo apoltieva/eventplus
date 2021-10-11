@@ -26,6 +26,7 @@ default: &default
 development:
   <<: *default
   database: eventplus_development
+  url: <%= Settings.db.url %>
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
