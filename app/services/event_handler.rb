@@ -7,7 +7,7 @@ class EventHandler
     when 'charge.succeeded'
       session = event.data.object
       customer, order = find_customer_and_order(session)
-      if session.payment_status == 'paid'
+      if session.paid
         set_status_and_stripe_id(order, :success, session.id)
         TicketSender.send_tickets_for order
       else
