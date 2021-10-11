@@ -8,10 +8,7 @@ class Order < ApplicationRecord
   before_validation :set_uuid
   belongs_to :user
   belongs_to :event
-  after_checkout_session_completed do
-    update_counter_in_event
-  end
-  after_charge_failed do
+  after_stripe_event do
     update_counter_in_event
     raise status
   end
