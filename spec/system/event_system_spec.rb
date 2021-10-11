@@ -65,7 +65,8 @@ RSpec.describe 'Event management', type: :system do
                                    title: 'Event in the past',
                                    start_time: 3.days.ago,
                                    end_time: 2.days.ago),
-                     quantity: 3)
+                     quantity: 3,
+             status: :success)
       click_link 'Your past events'
       expect(page).to have_text('Event in the past')
       expect(page).to have_text('3 tickets')
