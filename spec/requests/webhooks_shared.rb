@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.shared_examples 'handles event processing' do
@@ -45,6 +47,6 @@ RSpec.shared_examples 'handles event processing' do
 
   it 'rejects unknown event types' do
     allow(event).to receive(:type) { 'not_a_valid_event_type' }
-    expect{EventHandler.handle(event)}.to raise_error Exceptions::InvalidEventType
+    expect { EventHandler.handle(event) }.to raise_error Exceptions::InvalidEventType
   end
 end
