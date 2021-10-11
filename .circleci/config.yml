@@ -19,7 +19,7 @@ jobs:
       - run: gem update --system
       - run: gem install bundler
 
-      - run: cp
+      - run: cp ~/config/application.example.yml ~/config/application.yml
 
       - restore_cache:
           keys:
