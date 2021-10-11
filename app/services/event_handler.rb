@@ -19,7 +19,6 @@ class EventHandler
       session = event.data.object
       customer, order = find_customer_and_order(session)
       set_status_and_stripe_id(order, :failure, session.id)
-      logger.log("Charge failed for order: #{order.id} of customer: #{customer.id}")
     else
       raise Exceptions::InvalidEventType
     end
