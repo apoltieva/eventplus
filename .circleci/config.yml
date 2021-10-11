@@ -76,6 +76,7 @@ jobs:
       - run: bundle exec rake db:schema:load
       - run: rubocop
       - run: cp ~/config/application.example.yml ~/config/application.yml
+      - run:
           name: Specs
           command: |
             TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
