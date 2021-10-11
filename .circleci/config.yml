@@ -91,9 +91,8 @@ workflows:
   setup_and_test:
     jobs:
       - setup
+      - rubocop/rubocop
       - test:
-          jobs:
-            - rubocop/rubocop
           requires:
             - setup
           filters:
