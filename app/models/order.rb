@@ -13,6 +13,7 @@ class Order < ApplicationRecord
   end
   after_charge_failed do
     update_counter_in_event
+    raise status
   end
 
   validates_presence_of :event_id, :user_id, :uuid, :quantity

@@ -19,7 +19,6 @@ class EventHandler
       session = event.data.object
       customer, order = find_customer_and_order(session)
       set_status_and_stripe_id(order, :failure, session.id)
-      raise "#{order.status}"
     else
       raise Exceptions::InvalidEventType
     end
