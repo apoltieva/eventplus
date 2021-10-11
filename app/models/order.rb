@@ -10,7 +10,7 @@ class Order < ApplicationRecord
   belongs_to :event
   after_stripe_event do
     update_counter_in_event
-    raise status
+    Rails.logger.info "stripe callback"
   end
 
   validates_presence_of :event_id, :user_id, :uuid, :quantity

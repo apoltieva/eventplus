@@ -4,7 +4,7 @@ require_relative '../../lib/exceptions'
 class EventHandler
   def self.handle(event)
     case event.type
-    when 'checkout.session.completed'
+    when 'charge.succeeded'
       session = event.data.object
       customer, order = find_customer_and_order(session)
       if session.payment_status == 'paid'
