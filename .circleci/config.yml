@@ -19,6 +19,8 @@ jobs:
       - run: gem update --system
       - run: gem install bundler
 
+      - run: cp
+
       - restore_cache:
           keys:
             - bundle-{{ checksum "Gemfile.lock" }}
@@ -38,12 +40,12 @@ jobs:
           paths:
             - ~/.cache/yarn
 
-      - run: ssh $SERVER 'cat /apps/eventplus/current/config/application.yml' > ~/config
-#      - run: bundle exec rake webpacker:compile
-#      - save_cache:
-#          key: webpack-{{ .Revision }}
-#          paths:
-#            - home/circleci/project/public/packs-test/
+      - run: cp ~/config/application.example.yml ~/config/application.yml
+      - run: bundle exec rake webpacker:compile
+      - save_cache:
+          key: webpack-{{ .Revision }}
+          paths:
+            - home/circleci/project/public/packs-test/
   test:
     docker:
       - image: circleci/ruby:3.0.0-node-browsers
@@ -73,7 +75,7 @@ jobs:
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
       - run: rubocop
-      - run:
+      - run: cp ~/config/application.example.yml ~/config/application.yml
           name: Specs
           command: |
             TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
