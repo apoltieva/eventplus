@@ -51,9 +51,9 @@ jobs:
           DATABASE_URL: $PRODUCTION_URL
       - image: circleci/postgres:12.7
         environment:
-          POSTGRES_USER: eventplus
+          POSTGRES_USER: postgres
           POSTGRES_DB: eventplus_test
-          POSTGRES_PASSWORD: $DB_PASSWORD
+          POSTGRES_PASSWORD: ""
     parallelism: 2
     steps:
       - checkout
