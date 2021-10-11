@@ -8,7 +8,7 @@ class Order < ApplicationRecord
   before_validation :set_uuid
   belongs_to :user
   belongs_to :event
-  after_stripe_event do
+  after_charge_succeeded do
     update_counter_in_event
     Rails.logger.info "stripe callback"
   end

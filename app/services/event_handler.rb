@@ -3,29 +3,28 @@ require_relative '../../lib/exceptions'
 
 class EventHandler
   def self.handle(event)
-    raise Exceptions::InvalidEventType
-    # case event.type
-    # when 'charge.succeeded'
-    #   session = event.data.object
-    #   customer, order = find_customer_and_order(session)
-    #   if session.payment_status == 'paid'
-    #     set_status_and_stripe_id(order, :success, session.id)
-    #     TicketSender.send_tickets_for order
-    #   else
-    #     set_status_and_stripe_id(order, :failure, session.id)
-    #     FailureMailer.with(customer: customer)
-    #                  .inform_about_checkout_failure.deliver_later
-    #   end
-    # when 'charge.failed'
-    #   session = event.data.object
-    #   customer, order = find_customer_and_order(session)
-    #   Rails.logger.info "#{order.status} ----- #{Event.all}"
-    #   set_status_and_stripe_id(order, :failure, session.id)
-    #   Rails.logger.info "#{order.status} ----- #{Event.all}"
-    #   Rails.logger.alert "Failed payment for order: #{order.id} of cusotmer: #{customer.id}"
-    # else
-    #   raise Exceptions::InvalidEventType
-    # end
+    case event.type
+    when 'charge.succeeded'
+      session = event.data.object
+      customer, order = find_customer_and_order(session)
+      if session.payment_status == 'paid'
+        set_status_and_stripe_id(order, :success, session.id)
+        TicketSender.send_tickets_for order
+      else
+        set_status_and_stripe_id(order, :failure, session.id)
+        FailureMailer.with(customer: customer)
+                     .inform_about_checkout_failure.deliver_later
+      end
+    when 'charge.failed'
+      session = event.data.object
+      customer, order = find_customer_and_order(session)
+      Rails.logger.info "#{order.status} ----- #{Event.all}"
+      set_status_and_stripe_id(order, :failure, session.id)
+      Rails.logger.info "#{order.status} ----- #{Event.all}"
+      Rails.logger.alert "Failed payment for order: #{order.id} of customer: #{customer.id}"
+    else
+      raise Exceptions::InvalidEventType
+    end
   end
 
   def self.find_customer_and_order(session)
