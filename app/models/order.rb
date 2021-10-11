@@ -12,7 +12,6 @@ class Order < ApplicationRecord
     update_counter_in_event
   end
   after_charge_failed do
-    update_column(:status, :failure)
     update_counter_in_event
   end
 
