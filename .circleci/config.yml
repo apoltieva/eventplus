@@ -79,7 +79,8 @@ jobs:
           name: Specs
           command: |
             TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-            bundle exec rspec $TESTFILES --profile 10 --format RspecJunitFormatter --out /home/apolti/Desktop/eventplus/spec-timings/rspec.xml
+            echo $TESTFILES
+            bundle exec rspec $TESTFILES --profile 10 --format RspecJunitFormatter --out ~/spec-timings/rspec.xml
       - store_test_results:
           path: ~/spec-timings
 
