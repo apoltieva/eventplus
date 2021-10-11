@@ -11,7 +11,10 @@ class Order < ApplicationRecord
   after_checkout_session_completed do
     update_counter_in_event
   end
-  after_charge_failed {update_column(:status, :failure)}
+  after_charge_failed do
+    update_column(:status, :failure)
+    update_counter_in_event
+  end
 
   validates_presence_of :event_id, :user_id, :uuid, :quantity
   validates_numericality_of :quantity, greater_than_or_equal_to: 0, only_integer: true
