@@ -63,6 +63,7 @@ jobs:
       - restore_cache:
           keys:
             - bundle-{{ checksum "Gemfile.lock" }}
+      - run: POSTGRES_HOST_AUTH_METHOD=trust
       - run: gem update --system
       - run: gem install bundler
       - run: bundle config set --local path 'vendor/bundle'
