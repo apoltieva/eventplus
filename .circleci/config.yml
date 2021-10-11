@@ -38,7 +38,7 @@ jobs:
           paths:
             - ~/.cache/yarn
       - run: ls -a
-      - run: cp ~/config/application.example.yml ~/config/application.yml
+      - run: cp ./config/application.example.yml ./config/application.yml
       - run: bundle exec rake webpacker:compile
       - save_cache:
           key: webpack-{{ .Revision }}
@@ -73,7 +73,7 @@ jobs:
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
       - run: rubocop
-      - run: cp ~/config/application.example.yml ~/config/application.yml
+      - run: cp ./config/application.example.yml ./config/application.yml
       - run:
           name: Specs
           command: |
