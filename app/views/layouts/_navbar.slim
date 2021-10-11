@@ -6,9 +6,9 @@ header.navbar
         .margin
           li.nav-item.active
             = button_to "Home", root_path, method: 'get', class: "btn btn-light btn-block"
-        / .margin
-        /   li.nav-item.active
-        /     = button_to 'Help', help_path, method: 'get', class: "btn btn-light btn-block"
+        .margin
+          li.nav-item.active
+            = button_to 'Help', help_path, method: 'get', class: "btn btn-light btn-block"
         - if user_signed_in?
           .margin
             li.nav-item.active
