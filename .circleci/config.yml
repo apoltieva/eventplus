@@ -48,6 +48,7 @@ jobs:
     docker:
       - image: circleci/ruby:3.0.0-node-browsers
         environment:
+          RAILS_ENV: test
           DATABASE_URL: $PRODUCTION_URL
       - image: circleci/postgres:12.7
         environment:
@@ -78,7 +79,7 @@ jobs:
       - run:
           name: Specs
           command: |
-            TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split)
+            TESTFILES="$(circleci tests glob 'spec/**/*_spec.rb' | circleci tests split --split-by=timings)"
             echo $TESTFILES
             bundle exec rspec $TESTFILES --profile 10 --format RspecJunitFormatter --out ~/spec-timings/rspec.xml
       - store_test_results:
