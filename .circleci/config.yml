@@ -67,13 +67,13 @@ jobs:
       - run: gem install bundler
       - run: bundle config set --local path 'vendor/bundle'
       - run: bundle install
-      - run: ssh $SERVER 'cat /apps/eventplus/current/config/application.yml' > ~/config
+      - run: cp ./config/application.example.yml ./config/application.yml
 #      - run: sudo apt-get install postgresql-11
       - run: dockerize -wait tcp://localhost:5432 -timeout 1m
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
       - run: rubocop
-      - run: cp ./config/application.example.yml ./config/application.yml
+
       - run:
           name: Specs
           command: |
