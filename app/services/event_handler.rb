@@ -19,10 +19,10 @@ class EventHandler
       session = event.data.object
       customer, order = find_customer_and_order(session)
       set_status_and_stripe_id(order, :failure, session.id)
-      Rails.logger.alert "Failed payment for order: #{order.id} of customer: #{customer.id}"
+      Rails.logger.info "Failed payment for order: #{order.id} of customer: #{customer.id}"
     when 'payment_intent.canceled'
       session = event.data.object
-      _customer, order = find_customer_and_order(session)
+      order = find_customer_and_order(session)[1]
       set_status_and_stripe_id(order, :failure, session.id)
     else
       raise Exceptions::InvalidEventType

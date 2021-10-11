@@ -9,13 +9,13 @@ RSpec.shared_examples 'handles event processing' do
 
   context 'with valid event type' do
     before(:each) do
-      allow(event).to receive(:type) { 'checkout.session.completed' }
+      allow(event).to receive(:type) { 'charge.succeeded' }
       allow(event).to receive_message_chain('data.object.id') { SecureRandom.uuid }
       allow(event).to receive_message_chain('data.object.customer') { customer.stripe_id }
     end
-    context 'successful payment' do
+    context 'with successful payment' do
       before(:each) do
-        allow(event).to receive_message_chain('data.object.payment_status') { 'paid' }
+        allow(event).to receive_message_chain('data.object.paid') { 'true' }
       end
       it 'sends tickets' do
         assert_enqueued_email_with(TicketMailer, :mail_tickets, args: { order: order }) do
@@ -27,9 +27,9 @@ RSpec.shared_examples 'handles event processing' do
                                                                                .to('success')
       end
     end
-    context 'failed payment' do
+    context 'with failed payment' do
       before(:each) do
-        allow(event).to receive_message_chain('data.object.payment_status') { 'not paid' }
+        allow(event).to receive_message_chain('data.object.paid') { false }
       end
       it 'sends an email notifying about the failure' do
         assert_enqueued_emails 1 do
