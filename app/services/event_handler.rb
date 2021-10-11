@@ -17,10 +17,11 @@ class EventHandler
       end
     when 'charge.failed'
       session = event.data.object
-      _customer, order = find_customer_and_order(session)
-      Rails.logger.info "#{order.status} ----- #{Event.all.pluck(:orders_count)}"
+      customer, order = find_customer_and_order(session)
+      Rails.logger.info "#{order.status} ----- #{Event.all}"
       set_status_and_stripe_id(order, :failure, session.id)
-      Rails.logger.info "#{order.status} ----- #{Event.all.pluck(:orders_count)}"
+      Rails.logger.info "#{order.status} ----- #{Event.all}"
+      Rails.logger.alert "Failed payment for order: #{order.id} of cusotmer: #{cusotmer.id}"
     else
       raise Exceptions::InvalidEventType
     end
