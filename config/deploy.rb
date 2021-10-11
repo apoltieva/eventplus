@@ -7,7 +7,7 @@ set :repo_url, "git@github.com:apoltieva/eventplus.git"
 set :user, 'deploy'
 set :puma_threads, [4, 16]
 set :puma_workers, 0
-set :branch, 'main'
+set :branch, 'payment'
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
@@ -73,7 +73,7 @@ namespace :deploy do
   desc "Make sure local git is in sync with remote."
   task :check_revision do
     on roles(:app) do
-      unless `git rev-parse HEAD` == `git rev-parse origin/main`
+      unless `git rev-parse HEAD` == `git rev-parse origin/payment`
         puts "WARNING: HEAD is not the same as origin/main"
         puts "Run `git push` to sync changes."
         exit
