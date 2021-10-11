@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # # frozen_string_literal: true
 #
 require 'rails_helper'
@@ -9,9 +11,7 @@ RSpec.describe 'Orders', type: :request do
     assert_routing({ path: 'orders/1', method: :get },
                    { controller: 'orders', action: 'show', id: '1' })
   end
-#
   before(:each) { sign_in_as_a_valid_customer }
-#
   describe 'POST /orders' do
     let(:valid_event) { create(:event) }
     let(:order_shared) { { event_id: valid_event.id, quantity: 3 } }

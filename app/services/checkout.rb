@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Checkout
+class Checkout
   # test
   Stripe.api_key = Settings.stripe.secret_key
 

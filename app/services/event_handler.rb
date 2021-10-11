@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+require_relative '../../lib/exceptions'
+
 class EventHandler
   def self.handle(event)
     if event.type == 'checkout.session.completed'
@@ -14,12 +17,12 @@ class EventHandler
       order.stripe_id = session.id
       order.save
     else
-      render json: { error: "Unhandled event type: #{event.type}" }, status: :bad_request
+      raise Exceptions::InvalidEventType
     end
   end
 
   def self.find_customer_and_order(session)
     customer = Customer.find_by(stripe_id: session.customer)
-    [customer, customer.orders.first]
+    [customer, customer.orders.where(status: :created).last]
   end
 end
