@@ -75,6 +75,7 @@ jobs:
       - run: dockerize -wait tcp://localhost:5432 -timeout 1m
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
+      - run: sed -i 's/STRIPE_SECRET_KEY/$STRIPE_SECRET_KEY/g' file.txt
 
       - run:
           name: Specs
