@@ -10,20 +10,9 @@ class EventsController < ApplicationController
       user_id = current_user.id
       @order = Order.new
     end
-    @events = case params[:filter]
-              when 'keyword'
-                Event.filter_by_keyword params[:keyword]
-              when 'nearest'
-                coords = request.safe_location.try(:coordinates) || [50.4547, 30.5238]
-                @venues_with_distance = Venue.near(
-                  coords, 20_000, units: :km, select: 'venues.id'
-                ).each_with_object({}) { |v, h| h[v.id] = v.distance }
-                Event.nearest(@venues_with_distance.keys)
-              else
-                Event.filter_by(params[:filter], user_id)
-              end
-    @events = @events.preload(:performer, :venue, pictures_attachments: :blob)
-                     .paginate(page: params[:page], per_page: 3)
+    @events = fetch_events(user_id)
+              .preload(:performer, :venue, pictures_attachments: :blob)
+              .paginate(page: params[:page], per_page: 3)
 
     keywords = Event.with_keywords.pluck(:keywords).flatten
     @keywords_rating = keywords.uniq.sort_by { |e| -keywords.count(e) }
@@ -80,6 +69,26 @@ class EventsController < ApplicationController
   end
 
   private
+
+  def fetch_events(user_id)
+    case params[:filter]
+    when 'keyword'
+      Event.filter_by_keyword params[:keyword]
+    when 'nearest'
+      coords = if request.safe_location.coordinates.empty?
+                 [50.4547,
+                  30.5238]
+               else
+                 request.safe_location.coordinates
+               end
+      @venues_with_distance = Venue.near(
+        coords, 20_000, units: :km, select: 'venues.id'
+      ).each_with_object({}) { |v, h| h[v.id] = v.distance }
+      Event.nearest(@venues_with_distance.keys)
+    else
+      Event.filter_by(params[:filter], user_id)
+    end
+  end
 
   def find_events_num_of_tickets
     @events_num_of_tickets = if current_user

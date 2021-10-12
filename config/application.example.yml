@@ -1,0 +1,31 @@
+defaults: &defaults
+  server_ip: '167.172.35.71'
+  server_port: 22
+  smtp_settings:
+    address: 'smtp.gmail.com'
+    domain: 'gmail.com'
+    user_name: 'your_mailer@gmail.com'
+    password: 'your_password'
+
+  db:
+    username: postgres
+    password: ""
+    url: postgres://postgres:@localhost:5432/eventplus
+    test_url: postgres://postgres:@localhost:5432/eventplus_test
+    production_url: postgres://postgres:@localhost:5432/eventplus_production
+
+  stripe:
+    publishable_key: your_publishable_key
+    secret_key: your_secret_key
+    endpoint_secret: your_endpoint_secret
+    webhook_secret: your_webhook_secret
+
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

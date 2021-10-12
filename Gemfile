@@ -50,8 +50,7 @@ gem 'simple_form'
 
 gem 'bullet'
 
-gem 'execjs'
-gem 'therubyracer'
+gem 'rubocop', require: false
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 6.1.4'
 # Use sqlite3 as the database for Active Record
@@ -79,8 +78,8 @@ gem 'bootsnap', '>= 1.4.4', require: false
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'bullet'
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
+  gem 'rspec_junit_formatter'
   gem 'rspec-rails'
   gem 'rubocop-rspec', '~> 2.3', require: false
 end

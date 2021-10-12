@@ -1,0 +1,102 @@
+# Use the latest 2.1 version of CircleCI pipeline process engine.
+# See: https://circleci.com/docs/2.0/configuration-reference
+version: 2.1
+
+# Orbs are reusable packages of CircleCI configuration that you may share across projects, enabling you to create encapsulated, parameterized commands, jobs, and executors that can be used across multiple projects.
+# See: https://circleci.com/docs/2.0/orb-intro/
+orbs:
+  rubocop: hanachin/rubocop@0.0.6
+
+# Define a job to be invoked later in a workflow.
+# See: https://circleci.com/docs/2.0/configuration-reference/#jobs
+jobs:
+  setup:
+    docker:
+      - image: circleci/ruby:3.0.0-node-browsers
+    steps:
+      - checkout
+
+      - run: gem update --system
+      - run: gem install bundler
+
+      - restore_cache:
+          keys:
+            - bundle-{{ checksum "Gemfile.lock" }}
+      - run: bundle config set --local path 'vendor/bundle'
+      - run: bundle install
+      - save_cache:
+          key: bundle-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+
+      - restore_cache:
+          keys:
+            - yarn-{{ checksum "yarn.lock" }}
+      - run: yarn install --cache-folder ~/.cache/yarn
+      - save_cache:
+          key: yarn-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - run: ls -a
+      - run: cp ./config/application.example.yml ./config/application.yml
+      - run: bundle exec rake webpacker:compile
+      - save_cache:
+          key: webpack-{{ .Revision }}
+          paths:
+            - home/circleci/project/public/packs-test/
+  test:
+    docker:
+      - image: circleci/ruby:3.0.0-node-browsers
+        environment:
+          RAILS_ENV: test
+          DATABASE_URL: $PRODUCTION_URL
+      - image: circleci/postgres:12.7
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_HOST_AUTH_METHOD: trust
+          POSTGRES_DB: eventplus_test
+          POSTGRES_PASSWORD: ""
+    parallelism: 2
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - webpack-{{ .Revision }}
+      - restore_cache:
+          keys:
+            - bundle-{{ checksum "Gemfile.lock" }}
+      - run: gem update --system
+      - run: gem install bundler
+      - run: bundle config set --local path 'vendor/bundle'
+      - run: bundle install
+      - run: cp ./config/application.example.yml ./config/application.yml
+      - run: sudo apt-get --allow-releaseinfo-change update
+      - run: sudo apt-get install postgresql-client
+      - run: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run: bundle exec rake db:create
+      - run: bundle exec rake db:schema:load
+
+      - run:
+          name: Specs
+          command: |
+            TESTFILES="$(circleci tests glob 'spec/**/*_spec.rb' | circleci tests split --split-by=timings)"
+            echo $TESTFILES
+            bundle exec rspec $TESTFILES --profile 10 --format RspecJunitFormatter --out ~/spec-timings/rspec.xml
+      - store_test_results:
+          path: ~/spec-timings
+
+# Invoke jobs via workflows
+# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
+
+workflows:
+  version: 2
+  setup_and_test:
+    jobs:
+      - setup
+      - rubocop/rubocop
+      - test:
+          requires:
+            - setup
+          filters:
+            branches:
+              only: ci-configuration
