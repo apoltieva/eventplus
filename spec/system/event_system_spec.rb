@@ -61,8 +61,7 @@ RSpec.describe 'Event management', type: :system do
       click_link 'Near you'
       expect(page).to have_text('km from you', minimum: 1)
       create(:order, user_id: @user.id,
-                     event: create(:event,
-                                   title: 'Event in the past',
+             event: create(:event, title: 'Event in the past',
                                    start_time: 3.days.ago,
                                    end_time: 2.days.ago),
                      quantity: 3,
