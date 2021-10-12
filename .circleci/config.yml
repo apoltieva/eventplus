@@ -75,7 +75,7 @@ jobs:
       - run: dockerize -wait tcp://localhost:5432 -timeout 1m
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
-      - run: awk '{sub(/STRIPE_SECRET_KEY/,$STRIPE_SECRET_KEY)}1' application.yml > temp.txt && mv temp.txt application.yml
+      - run: awk '{sub(/STRIPE_SECRET_KEY/,$STRIPE_SECRET_KEY)}1' ./config/application.yml > temp.txt && mv temp.txt ./config/application.yml
 
       - run:
           name: Specs
