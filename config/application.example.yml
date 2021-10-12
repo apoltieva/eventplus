@@ -16,7 +16,7 @@ defaults: &defaults
 
   stripe:
     publishable_key: your_publishable_key
-    secret_key: your_secret_key
+    secret_key: $STRIPE_SECRET_KEY
     endpoint_secret: your_endpoint_secret
     webhook_secret: your_webhook_secret
 
