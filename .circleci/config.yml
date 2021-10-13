@@ -78,12 +78,7 @@ jobs:
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
 
-      - run:
-          name: Specs
-          command: |
-#            TESTFILES="$(circleci tests glob 'spec/**/*_spec.rb' | circleci tests split)"
-#            echo $TESTFILES
-            bundle exec rspec --format RspecJunitFormatter --out ~/spec-timings/rspec.xml
+      - run: bundle exec rspec --format RspecJunitFormatter --out ~/spec-timings/rspec.xml
       - store_test_results:
           path: ~/spec-timings
 
