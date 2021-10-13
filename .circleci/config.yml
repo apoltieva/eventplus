@@ -70,7 +70,6 @@ jobs:
       - run: bundle config set --local path 'vendor/bundle'
       - run: bundle install
       - run: cp ./config/application.example.yml ./config/application.yml
-      - run: echo $STRIPE_SECRET_KEY
       - run: bundle exec rake replace_stripe_key[$STRIPE_SECRET_KEY]
       - run: sudo apt-get --allow-releaseinfo-change update
       - run: sudo apt-get install postgresql-client
