@@ -74,7 +74,6 @@ RSpec.describe 'Events', type: :request do
                                         performer_id: performer.id,
                                         venue_id: venue.id).to_json) }
           end.to change { Event.count }.by(1)
-          assert_redirected_to events_path
         end
       end
 
@@ -140,8 +139,8 @@ RSpec.describe 'Events', type: :request do
             { event: JSON.parse(build(:event, title: title,
                                               performer_id: performer.id,
                                               venue_id: venue.id).to_json) }
-          assert_redirected_to events_path
-          expect(Event.find(event_shared.id).title).to eq(title)
+
+          expect(event_shared.reload.title).to eq(title)
         end
       end
 

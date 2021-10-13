@@ -6,10 +6,7 @@ class EventsController < ApplicationController
   before_action :find_events_num_of_tickets, only: %i[index show]
 
   def index
-    if current_user
-      user_id = current_user.id
-      @order = Order.new
-    end
+    user_id = current_user.id if current_user
     @events = fetch_events(user_id)
               .preload(:performer, :venue, pictures_attachments: :blob)
               .paginate(page: params[:page], per_page: 3)
@@ -76,8 +73,7 @@ class EventsController < ApplicationController
       Event.filter_by_keyword params[:keyword]
     when 'nearest'
       coords = if request.safe_location.coordinates.empty?
-                 [50.4547,
-                  30.5238]
+                 [50.4547, 30.5238]
                else
                  request.safe_location.coordinates
                end
@@ -92,7 +88,8 @@ class EventsController < ApplicationController
 
   def find_events_num_of_tickets
     @events_num_of_tickets = if current_user
-                               current_user.orders.group(:event_id).sum(:quantity)
+                               current_user.orders.where(status: :success)
+                                           .group(:event_id).sum(:quantity)
                              else
                                {}
                              end

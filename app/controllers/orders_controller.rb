@@ -4,12 +4,12 @@ class OrdersController < ApplicationController
   def create
     @order = current_user.orders.build(order_params)
     if @order.save
-      flash[:notice] = 'Your tickets will be sent to your email. Thanks for your purchase!'
-      TicketSender.send_tickets_for @order
+      session = Checkout.create_session(@order)
+      redirect_to session.url
     else
       flash[:alert] = @order.errors.full_messages.join('; ')
+      redirect_back(fallback_location: root_path)
     end
-    redirect_back(fallback_location: root_path)
   end
 
   def show

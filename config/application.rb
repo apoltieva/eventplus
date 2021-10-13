@@ -11,6 +11,10 @@ Bundler.require(*Rails.groups)
 module Eventplus
   class Application < Rails::Application
     require_relative '../lib/settings'
+
+    config.stripe.secret_key = Settings.stripe.secret_key
+    config.stripe.publishable_key = Settings.stripe.publishable_key
+
     config.action_mailer.preview_path = "#{Rails.root}/spec/mailers/preview"
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1

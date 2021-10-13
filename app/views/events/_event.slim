@@ -20,18 +20,18 @@
       .keywords
         - event.keywords.sort_by! {|kwrd| @keywords_rating.index(kwrd)}.each do |kwd|
           keyword
-            strong = link_to kwd, events_url(filter: 'keyword', keyword: kwd), method: 'get'
+            strong = link_to kwd, events_url(filter: 'keyword', keyword: kwd), method: 'get', style: 'color: #9626ff'
     p.u-block-d040-17 = event.description.truncate(500, separator: ' ')
     p.u-block-d040-17 Ticket price: #{e.fee}
-    - tickets_left = event.total_number_of_tickets - event.orders.sum(:quantity)
+    - tickets_left = event.total_number_of_tickets - event.orders.where(status: :success).sum(:quantity)
     p.u-block-d040-17 Tickets left: #{tickets_left}
     - num = @events_num_of_tickets.fetch(event.id) { nil }
     - if num
       h5 You've bought #{pluralize(num, 'ticket')} for this event
     - if current_user&.customer?
-      - unless @filter == "past" || @filter == "user_past"
+      - unless @filter ==  'past' || @filter == 'user_past'
         - if tickets_left > 0
-          = form_for @order do |f|
+          = form_with model: Order.new, url: orders_url do |f|
             = f.hidden_field :event_id, value: event.id
             = f.number_field :quantity, step: 1, min: 1
             = f.submit "Buy", class: 'btn btn-success'

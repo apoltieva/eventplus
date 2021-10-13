@@ -41,16 +41,12 @@ RSpec.describe 'Event management', type: :system do
   context 'registered customer' do
     before(:each) do
       sign_in_as_a_valid_customer
+      create(:order, user_id: @user.id, event: events[0], status: :success, quantity: 4)
       visit events_path
-      assert_enqueued_emails 1 do
-        first_event_div = page.find_by_id(events[0].id.to_s)
-        first_event_div.find_by_id('order_quantity').fill_in with: 4
-        expect { first_event_div.find_button('Buy').click }.to change { Order.count }.by 1
-      end
     end
     include_examples 'all events', false
     scenario 'can see how many tickets they have bought for each event' do
-      expect(page).to have_text('4 tickets')
+      expect(page.find_by_id(events[0].id.to_s)).to have_text('4 tickets')
     end
 
     scenario 'can filter events using tabs “All events”, “Past events”, ' \
@@ -66,16 +62,15 @@ RSpec.describe 'Event management', type: :system do
       expect(page).to have_text('km from you', minimum: 1)
       create(:order, user_id: @user.id,
                      event: create(:event, title: 'Event in the past',
-                                   start_time: 3.days.ago, end_time: 2.days.ago),
-                     quantity: 3)
+                                           start_time: 3.days.ago,
+                                           end_time: 2.days.ago),
+                     quantity: 3,
+                     status: :success)
       click_link 'Your past events'
       expect(page).to have_text('Event in the past')
       expect(page).to have_text('3 tickets')
       click_link 'Past events'
       expect(page).to have_text('Event in the past')
-    end
-    scenario 'can buy several ticket for one event' do
-      expect(page).to have_text 'Your tickets will be sent to your email'
     end
   end
   context 'admin' do
@@ -88,12 +83,12 @@ RSpec.describe 'Event management', type: :system do
       scenario 'can delete events without tickets for future events' do
         expect { click_button 'Delete', match: :first }.to change { Event.count }.by(-1)
       end
+      let(:new_title) { 'New title' }
       scenario 'can edit events' do
         page.find_by_id(events[0].id.to_s).find_button('Edit').click
         expect(page).to(
           have_current_path(edit_event_path(events[0].id))
         )
-        new_title = 'New title'
         fill_in 'event_title', with: new_title
         click_button 'Update Event'
         expect(page).to have_text new_title
@@ -118,9 +113,8 @@ RSpec.describe 'Event management', type: :system do
     scenario "can't delete events with tickets for future events", js: true do
       create(:order, event_id: events[0].id)
       dismiss_confirm(/can't delete/i) do
-        expect { page.find_by_id(events[0].id.to_s).find_button('Delete').click }.to change {
-                                                                                       Event.count
-                                                                                     }.by(0)
+        expect { page.find_by_id(events[0].id.to_s).find_button('Delete').click }
+          .to change { Event.count }.by(0)
       end
     end
   end
