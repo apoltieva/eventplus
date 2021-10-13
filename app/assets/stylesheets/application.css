@@ -176,7 +176,10 @@ keyword {
     background-color: #efe9f5;
     border-radius: 6px;
 }
-a { color: #fc6f03; }
+a {
+    color: #fc6f03;
+    text-decoration: underline;
+}
 nav {
     background: #5c0017; /* fallback for old browsers */
     background: -webkit-linear-gradient(270deg, #5c0017, #ffe5ec); /* Chrome 10-25, Safari 5.1-6 */
