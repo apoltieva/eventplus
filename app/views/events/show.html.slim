@@ -28,6 +28,8 @@ div
     - @event.venue.pictures.each do |picture|
       = image_tag(picture, class: 'u-image')
   - if current_user&.admin?
+    br
+    br
     = button_to 'Edit', edit_event_path(@event.id), method: 'get', class: "btn btn-outline-primary"
 .hidden
   input#venue_latitude value=(@event.venue.latitude)

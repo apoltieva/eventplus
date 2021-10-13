@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'faker'
 
 DESCRIPTIONS = File.read('db/descriptions.txt').split("\n\n\n")
 
