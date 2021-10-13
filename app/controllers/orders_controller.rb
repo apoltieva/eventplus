@@ -21,6 +21,10 @@ class OrdersController < ApplicationController
     end
   end
 
+  def success; end
+
+  def cancel; end
+
   private
 
   def order_params

@@ -65,6 +65,8 @@ class EventsController < ApplicationController
     end
   end
 
+  def help; end
+
   private
 
   def fetch_events(user_id)

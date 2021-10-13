@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   }
   resources :orders, only: %i[create show new]
   resources :webhooks, only: %i[create]
-  get '/success', to: 'pages#success', as: :success_checkout
-  get '/cancel', to: 'pages#cancel', as: :cancel_checkout
-  get '/help', to: 'pages#help', as: :help
+  get '/success', to: 'orders#success', as: :success_checkout
+  get '/cancel', to: 'orders#cancel', as: :cancel_checkout
+  get '/help', to: 'events#help', as: :help
 end
