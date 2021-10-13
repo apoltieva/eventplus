@@ -69,13 +69,13 @@ jobs:
       - run: gem install bundler
       - run: bundle config set --local path 'vendor/bundle'
       - run: bundle install
+      - run: rake replace_stripe_key[$STRIPE_SECRET_KEY]
       - run: cp ./config/application.example.yml ./config/application.yml
       - run: sudo apt-get --allow-releaseinfo-change update
       - run: sudo apt-get install postgresql-client
       - run: dockerize -wait tcp://localhost:5432 -timeout 1m
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
-      - run: awk '{sub(/STRIPE_SECRET_KEY/,$STRIPE_SECRET_KEY)}1' ./config/application.yml > temp.txt && mv temp.txt ./config/application.yml
 
       - run:
           name: Specs
