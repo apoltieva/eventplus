@@ -69,8 +69,8 @@ jobs:
       - run: gem install bundler
       - run: bundle config set --local path 'vendor/bundle'
       - run: bundle install
-      - run: bundle exec rake replace_stripe_key[$STRIPE_SECRET_KEY]
       - run: cp ./config/application.example.yml ./config/application.yml
+      - run: bundle exec rake replace_stripe_key[$STRIPE_SECRET_KEY]
       - run: sudo apt-get --allow-releaseinfo-change update
       - run: sudo apt-get install postgresql-client
       - run: dockerize -wait tcp://localhost:5432 -timeout 1m
