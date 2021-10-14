@@ -9,7 +9,7 @@ class EventsController < ApplicationController
     user_id = current_user.id if current_user
     @events = fetch_events(user_id)
               .preload(:performer, :venue, pictures_attachments: :blob)
-              .paginate(page: params[:page], per_page: 3)
+              .page(params[:page]).per_page(2)
 
     keywords = Event.with_keywords.pluck(:keywords).flatten
     @keywords_rating = keywords.uniq.sort_by { |e| -keywords.count(e) }
@@ -64,6 +64,8 @@ class EventsController < ApplicationController
       render json: { id: @event.id }
     end
   end
+
+  def help; end
 
   private
 

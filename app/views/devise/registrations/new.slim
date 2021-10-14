@@ -16,6 +16,8 @@ h2 Sign up
     = f.label :password_confirmation
     br
     = f.password_field :password_confirmation, autocomplete: "new-password"
+  br
   .actions
     = f.submit "Sign up", class: 'btn btn-primary'
+br
 = render "devise/shared/links"

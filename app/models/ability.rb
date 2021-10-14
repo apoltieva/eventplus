@@ -11,6 +11,9 @@ class Ability
       can :update, Event
       can :create, Event
     else
+      can :help, Event
+      can :success, Order
+      can :cancel, Order
       can :read, Event
       can :create, Order
     end

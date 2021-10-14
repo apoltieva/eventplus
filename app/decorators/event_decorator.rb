@@ -10,6 +10,6 @@ class EventDecorator < Draper::Decorator
   end
 
   def fee
-    object.ticket_price_cents.zero? ? 'FREE' : "#{Money.new(object.ticket_price_cents)} UAH"
+    object.ticket_price_cents.zero? ? 'FREE' : "$#{object.ticket_price}"
   end
 end

@@ -15,7 +15,8 @@ class VenuesController < ApplicationController
   def create
     @venue = Venue.new(venue_params)
     if @venue.save
-      redirect_to action: 'index', notice: 'Created successfully'
+      flash[:alert] = 'Created successfully'
+      redirect_to action: 'index'
     else
       flash[:alert] = @venue.errors.full_messages.join('; ')
       render :new
