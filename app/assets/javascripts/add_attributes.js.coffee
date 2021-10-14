@@ -1,6 +1,10 @@
+#= require jquery
+#= require jquery_ujs
+#= require turbolinks
+
 $(document).on 'turbolinks:load', ->
   existing_performer_html = '<select class="form-control is-valid select required" id="existing_performer" name="event[performer_id]">' +
-    + $('select')[0].innerHTML + '</select>'
+    +$('select')[0].innerHTML + '</select>'
   new_performer_html = '<input class="form-control is-valid string required" type="text" name="event[performer_name]" id="new_performer">'
 
   $("#create").on 'click', (event) ->
