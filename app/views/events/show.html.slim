@@ -31,6 +31,6 @@ div
     br
     br
     = button_to 'Edit', edit_event_path(@event.id), method: 'get', class: "btn btn-outline-primary"
-.hidden
+.d-none
   input#venue_latitude value=(@event.venue.latitude)
   input#venue_longitude value=(@event.venue.longitude)

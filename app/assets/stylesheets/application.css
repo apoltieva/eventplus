@@ -14,6 +14,8 @@
  *= require_self
  */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans&family=Nunito:wght@200;600;800&display=swap');
+
+/*                 Media-independent part            */
 body {
     font-family: 'Nunito', sans-serif;
     color: rgba(0, 0, 0, 0.8);
@@ -22,9 +24,14 @@ body {
     letter-spacing: -.003em;
     font-size: 20px;
 }
+
 h1, h2, h3, h4 { font-family: 'Noto Sans', sans-serif; }
+/*              Pictures               */
 #logo {
     margin-right: 10px;
+}
+.btn-light {
+    background-color: #fff5f5;
 }
 .margin
 {
@@ -47,11 +54,11 @@ h1, h2, h3, h4 { font-family: 'Noto Sans', sans-serif; }
     padding-top: 2px;
     font-weight: 600;
 }
-#map {
-    width: 600px;
-    height: 400px;
-}
 @media (min-width: 1200px) {
+    #map {
+        width: 600px;
+        height: 400px;
+    }
     main { padding: 80px 15px 0; }
     .u-block-d040-2 {
         min-height: 552px;
@@ -70,6 +77,10 @@ h1, h2, h3, h4 { font-family: 'Noto Sans', sans-serif; }
 
 }
 @media (max-width: 1199px) and (min-width: 992px) {
+    #map {
+        width: 600px;
+        height: 400px;
+    }
     main { padding: 80px 15px 0; }
     .u-block-d040-2 {
         min-height: 552px;
@@ -87,6 +98,10 @@ h1, h2, h3, h4 { font-family: 'Noto Sans', sans-serif; }
     }
 }
 @media (max-width: 991px) and (min-width: 768px) {
+    #map {
+        width: 600px;
+        height: 400px;
+    }
     main { padding: 80px 15px 0; }
     .u-block-d040-2 {
         min-height: 552px;
@@ -104,6 +119,10 @@ h1, h2, h3, h4 { font-family: 'Noto Sans', sans-serif; }
     }
 }
 @media (max-width: 767px) and (min-width: 576px) {
+    #map {
+        width: 100%;
+        height: 300px;
+    }
     main { padding: 80px 15px 0; }
     .u-block-d040-2 {
         min-height: 552px;
@@ -121,6 +140,10 @@ h1, h2, h3, h4 { font-family: 'Noto Sans', sans-serif; }
     }
 }
 @media (max-width: 575px) {
+    #map {
+        width: 100%;
+        height: 200px;
+    }
     main { padding: 100px 0 0; }
     #map {
         box-sizing: border-box;
@@ -165,10 +188,7 @@ h1, h2, h3, h4 { font-family: 'Noto Sans', sans-serif; }
     visibility: visible;
 }
 .pagination { visibility: hidden }
-.hidden { visibility: hidden }
-form.button_to { display: inline }
-.event-btn { margin-right: 10px }
-.btn-outline-danger.event-btn { float: right }
+
 keyword {
     display: inline-flex;
     padding: .2em .4em;

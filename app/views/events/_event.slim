@@ -38,9 +38,10 @@
         - else
           button.btn.btn-secondary disabled="" type="button" Sold Out
     - elsif current_user&.admin?
-      = button_to 'Edit', edit_event_path(event.id), method: 'get', class: "btn btn-outline-primary"
-      = button_to 'Delete', event_path(event.id), method: 'delete', class: "btn btn-outline-danger",
-        rel: 'no-follow', remote: true
+      .btn-group
+        = button_to 'Edit', edit_event_path(event.id), method: 'get', class: "btn btn-outline-primary"
+        = button_to 'Delete', event_path(event.id), method: 'delete', class: "btn btn-outline-danger",
+          rel: 'no-follow', remote: true
     - else
       button.btn.btn-secondary [disabled="" type="button" data-toggle="tooltip" data-placement="top"
         title="You need to register or log in to buy tickets"] Buy
