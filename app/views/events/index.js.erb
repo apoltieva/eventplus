@@ -1,2 +1,7 @@
 $('#events').append('<%= escape_javascript render(@events) %>');
-$('.pagination').replaceWith('<%= escape_javascript will_paginate(@events) %>');
+<% if @events.next_page %>
+  $('.pagination').replaceWith('<%= escape_javascript will_paginate(@events) %>');
+<% else %>
+  $('.pagination').remove();
+<% end %>
+
