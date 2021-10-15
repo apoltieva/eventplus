@@ -15,10 +15,7 @@ RSpec.describe Checkout, type: :model do
           ) do
             expect(Checkout.create_session(order_for_free_event).url)
               .to eq Rails.application.routes.url_helpers.success_checkout_url(
-                host: Rails.application.config.action_controller.default_url_options[:host],
-                port: Rails.application.config.action_controller.default_url_options.fetch(:port) do
-                        3000
-                      end
+                host: Rails.application.config.action_controller.default_url_options[:host]
               )
           end
         end
