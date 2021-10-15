@@ -16,5 +16,6 @@
     .eventsGroup#events
       = render @events
     = will_paginate @events
+
 - content_for :head do
   = javascript_include_tag 'delete.js'

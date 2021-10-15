@@ -1,6 +1,12 @@
+#= require turbolinks
+#= require jquery
+#= require jquery_ujs
+#= require_self
+#= require activestorage
+
+
 $(document).on 'turbolinks:load', ->
 
-  # pagination
   if $('.pagination').length
     $(window).scroll ->
       return if(window.pagination_loading)
@@ -15,6 +21,3 @@ $(document).on 'turbolinks:load', ->
     $(window).scroll()
 
   return
-
-
-

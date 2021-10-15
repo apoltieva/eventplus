@@ -1,14 +1,13 @@
-#= require rails-ujs
 #= require turbolinks
 #= require jquery
 #= require jquery_ujs
 #= require_self
 #= require activestorage
 
-$(document).on 'turbolinks:load', ->
-  document.body.addEventListener 'ajax:success', (event) ->
-    $('#' + event.detail[0].id).remove()
-    return
-  document.body.addEventListener 'ajax:error', (event) ->
-    alert event.detail[0].error
-    return
+
+$(document).ajaxSuccess ( event, request, settings ) ->
+  $('#' + JSON.parse(request.responseText).id).remove()
+  return
+$(document).ajaxError ( event, request, settings ) ->
+  alert(JSON.parse(request.responseText).error)
+  return
