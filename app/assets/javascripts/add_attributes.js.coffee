@@ -1,6 +1,9 @@
+#= require rails-ujs
+#= require turbolinks
 #= require jquery
 #= require jquery_ujs
-#= require turbolinks
+#= require_self
+#= require activestorage
 
 $(document).on 'turbolinks:load', ->
   existing_performer_html = '<select class="form-control is-valid select required" id="existing_performer" name="event[performer_id]">' +
