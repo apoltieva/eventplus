@@ -3,7 +3,7 @@
 class CheckoutCreator
   # test
   Stripe.api_key = Settings.stripe.secret_key
-  URL = { host: Rails.application.config.action_controller.default_url_options[:host] }
+  URL = { host: Rails.application.config.action_controller.default_url_options[:host] }.freeze
   SUCCESS_CHECKOUT_URL = Rails.application.routes.url_helpers.success_checkout_url(URL)
   CANCEL_CHECKOUT_URL = Rails.application.routes.url_helpers.cancel_checkout_url(URL)
 

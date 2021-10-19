@@ -26,7 +26,7 @@ RSpec.shared_examples 'handles event processing' do
       end
       it 'changes order status' do
         expect { EventHandler.call(event) }.to change { order.reload.status }.from('created')
-                                                                               .to('success')
+                                                                             .to('success')
       end
     end
     context 'with failed payment' do
@@ -40,7 +40,7 @@ RSpec.shared_examples 'handles event processing' do
       end
       it 'changes order status' do
         expect { EventHandler.call(event) }.to change { order.reload.status }.from('created')
-                                                                               .to('failure')
+                                                                             .to('failure')
       end
     end
   end

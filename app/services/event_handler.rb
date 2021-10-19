@@ -27,8 +27,6 @@ class EventHandler
     end
   end
 
-  private_class_method
-
   def self.set_status_and_stripe_id(order, status, id)
     order.status = status
     order.stripe_id = id
