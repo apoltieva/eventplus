@@ -1,5 +1,7 @@
 .u-block-d040-2
   h1 Welcome to Event+ website
+  - if current_user&.admin?
+    = button_to 'Create', new_event_path, method: 'get', class: "btn btn-outline-info"
   .filter.flex-shrink-0
     a.all href=events_url class=(!@filter ? 'current' : '') All events
     a.past href=events_url(filter: 'nearest') class=(@filter == "nearest" ? 'current' : '') Near you
@@ -8,8 +10,6 @@
       a.user href=events_url(filter: 'user') class=(@filter == "user" ? 'current' : '') Your events
       a.user_past href=events_url(filter: 'user_past') class=(@filter == "user_past" ? 'current' : '') Your past events
     a.keyword href='#' class=(@filter == "keyword" ? 'current' : '') With keyword
-  - if current_user&.admin?
-    = button_to 'Create', new_event_path, method: 'get', class: "btn btn-outline-info"
   - if @events.empty?
     | No events :(
   - else
