@@ -4,7 +4,7 @@ class OrdersController < ApplicationController
   def create
     @order = current_user.orders.build(order_params)
     if @order.save
-      session = Checkout.create_session(@order)
+      session = CheckoutCreator.call(@order)
       redirect_to session.url
     else
       flash[:alert] = @order.errors.full_messages.join('; ')

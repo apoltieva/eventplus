@@ -21,11 +21,11 @@ RSpec.shared_examples 'handles event processing' do
       end
       it 'sends tickets' do
         assert_enqueued_email_with(TicketMailer, :mail_tickets, args: { order: order }) do
-          EventHandler.handle(event)
+          EventHandler.call(event)
         end
       end
       it 'changes order status' do
-        expect { EventHandler.handle(event) }.to change { order.reload.status }.from('created')
+        expect { EventHandler.call(event) }.to change { order.reload.status }.from('created')
                                                                                .to('success')
       end
     end
@@ -35,11 +35,11 @@ RSpec.shared_examples 'handles event processing' do
       end
       it 'sends an email notifying about the failure' do
         assert_enqueued_emails 1 do
-          EventHandler.handle(event)
+          EventHandler.call(event)
         end
       end
       it 'changes order status' do
-        expect { EventHandler.handle(event) }.to change { order.reload.status }.from('created')
+        expect { EventHandler.call(event) }.to change { order.reload.status }.from('created')
                                                                                .to('failure')
       end
     end
@@ -47,6 +47,6 @@ RSpec.shared_examples 'handles event processing' do
 
   it 'rejects unknown event types' do
     allow(event).to receive(:type) { 'not_a_valid_event_type' }
-    expect { EventHandler.handle(event) }.to raise_error Exceptions::InvalidEventType
+    expect { EventHandler.call(event) }.to raise_error Exceptions::InvalidEventType
   end
 end

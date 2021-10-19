@@ -1,15 +1,18 @@
 # frozen_string_literal: true
 
-class Checkout
+class CheckoutCreator
   # test
   Stripe.api_key = Settings.stripe.secret_key
+  URL = { host: Rails.application.config.action_controller.default_url_options[:host] }
+  SUCCESS_CHECKOUT_URL = Rails.application.routes.url_helpers.success_checkout_url(URL)
+  CANCEL_CHECKOUT_URL = Rails.application.routes.url_helpers.cancel_checkout_url(URL)
 
-  def self.create_session(order)
+  def self.call(order)
     if order.event.ticket_price == 0.0
       order.status = :success
       order.save
-      TicketSender.send_tickets_for order
-      OpenStruct.new(url: success_checkout_url)
+      TicketSender.call order
+      OpenStruct.new(url: SUCCESS_CHECKOUT_URL)
     else
       Stripe::Checkout::Session
         .create({
@@ -21,24 +24,10 @@ class Checkout
                     quantity: order.quantity
                   }],
                   mode: 'payment',
-                  success_url: success_checkout_url,
-                  cancel_url: cancel_checkout_url,
+                  success_url: SUCCESS_CHECKOUT_URL,
+                  cancel_url: CANCEL_CHECKOUT_URL,
                   customer: order.user.stripe_id
                 })
     end
-  end
-
-  def self.success_checkout_url
-    Rails.application.routes.url_helpers.success_checkout_url(url)
-  end
-
-  def self.cancel_checkout_url
-    Rails.application.routes.url_helpers.cancel_checkout_url(url)
-  end
-
-  def self.url
-    {
-      host: Rails.application.config.action_controller.default_url_options[:host]
-    }
   end
 end

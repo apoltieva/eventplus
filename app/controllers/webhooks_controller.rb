@@ -17,7 +17,7 @@ class WebhooksController < ApplicationController
       render json: { error: e.message }, status: :bad_request
       return
     end
-    EventHandler.handle event
+    EventHandler.call event
   rescue Exceptions::InvalidEventType
     render json: { error: "Invalid event type #{event.type}" }, status: :bad_request
   end

@@ -3,13 +3,13 @@
 require_relative '../../lib/exceptions'
 
 class EventHandler
-  def self.handle(event)
+  def self.call(event)
     case event.type
     when 'charge.succeeded'
       session, customer, order = create_session_customer_order(event)
       if session.paid
         set_status_and_stripe_id(order, :success, session.id)
-        TicketSender.send_tickets_for order
+        TicketSender.call order
       else
         set_status_and_stripe_id(order, :failure, session.id)
         FailureMailer.with(customer: customer)
@@ -26,6 +26,8 @@ class EventHandler
       raise Exceptions::InvalidEventType
     end
   end
+
+  private_class_method
 
   def self.set_status_and_stripe_id(order, status, id)
     order.status = status
