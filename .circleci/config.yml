@@ -76,7 +76,7 @@ jobs:
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
 
-      - run: bundle exec rspec --format RspecJunitFormatter --out ~/spec-timings/rspec.xml --exclude-pattern "spec/system/*_spec.rb"
+      - run: bundle exec rspec --format RspecJunitFormatter --out ~/spec-timings/rspec.xml
       - store_test_results:
           path: ~/spec-timings
 
