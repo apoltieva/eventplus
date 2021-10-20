@@ -1,3 +1,4 @@
+
 = simple_form_for @event do |f|
   = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
   .form-inputs
@@ -9,8 +10,12 @@
     = link_to 'Create performer', '#', id: 'create'
     = f.input :total_number_of_tickets, as: :integer, input_html: { min: '1', step: '1' }
     = f.input :ticket_price, as: :float, input_html: { min: '0.00', step: '0.01' }, hint: 'Enter "0" for free events'
-    = f.input :start_time, as: :datetime, label: 'Starting time', html5: true
-    = f.input :end_time, as: :datetime, label: 'Ending time', html5: true
+    - if request.user_agent.include? 'Firefox'
+      = f.input :start_time, as: :datetime, label: 'Starting time'
+      = f.input :end_time, as: :datetime, label: 'Ending time'
+    - else
+      = f.input :start_time, as: :datetime, label: 'Starting time', html5: true
+      = f.input :end_time, as: :datetime, label: 'Ending time', html5: true
     = f.input :pictures, as: :file, accept: 'image/png, image/jpeg', input_html: { multiple: true }
     = f.association :venue, collection: Venue.all, priority: @event.venue, include_blank: false
   .form-actions
