@@ -1,6 +1,8 @@
 # README
 The Event+ app is a web application for selling/buying tickets for events.
 
+URL: http://167.172.35.71/
+
 * Ruby version 3.0.0
 * Rails version 6.1.4
 * PostgreSQL 14.0
