@@ -104,8 +104,9 @@ RSpec.describe 'Event management', type: :system do
           page.find_by_id('new_performer').fill_in with: 'New performer'
           fill_in 'event_total_number_of_tickets', with: 2333
           fill_in 'event_ticket_price', with: 23.35
-          fill_in 'event_start_time', with: Time.now + 2.days
-          fill_in 'event_end_time', with: Time.now + 3.days
+          sleep 10
+          find('#event_start_time_3i').find(:option, (Time.now + 1.day).day).select_option
+          find('#event_end_time_1i').find(:option, (Time.now + 1.year).year).select_option
           expect { click_button 'Create Event' }.to change { Performer.count }.by 1
         end.to change { Event.count }.by 1
       end

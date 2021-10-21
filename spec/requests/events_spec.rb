@@ -80,7 +80,7 @@ RSpec.describe 'Events', type: :request do
       context 'with invalid parameters' do
         context 'with invalid event parameters' do
           it 'should explain invalid event parameters' do
-            post events_path, params:
+            post events_path, headers: { HTTP_USER_AGENT: 'Googlebot' }, params:
               { event: JSON.parse(build(:event,
                                         title: nil,
                                         performer_id: performer.id,
@@ -91,7 +91,7 @@ RSpec.describe 'Events', type: :request do
         end
         context 'with invalid venue_id' do
           it 'should explain invalid venue_id' do
-            post events_path, params:
+            post events_path, headers: { HTTP_USER_AGENT: 'Googlebot' }, params:
               { event: JSON.parse(build(:event,
                                         performer_id: performer.id,
                                         venue_id: nil).to_json) }
@@ -114,7 +114,7 @@ RSpec.describe 'Events', type: :request do
           it 'should explain invalid performer' do
             event = JSON.parse(build(:event, venue_id: venue.id).to_json)
             event['performer_name'] = ''
-            post events_path, params:
+            post events_path, headers: { HTTP_USER_AGENT: 'Googlebot' }, params:
               { event: event }
             expect(flash[:alert].downcase).to include('performer')
             expect(response).to render_template :new
@@ -125,7 +125,7 @@ RSpec.describe 'Events', type: :request do
 
     describe 'GET /events/new' do
       it 'should render the correct template' do
-        get new_event_path
+        get new_event_path, headers: { HTTP_USER_AGENT: 'Googlebot' }
         expect(response).to have_http_status :ok
         expect(response).to render_template :new
       end
@@ -156,8 +156,8 @@ RSpec.describe 'Events', type: :request do
         end
         context 'with invalid event parameters' do
           it 'should explain invalid event parameters' do
-            put event_path(event_shared.id), params:
-              { event: JSON.parse(build(:event, title: nil,
+            put event_path(event_shared.id), headers: { HTTP_USER_AGENT: 'Googlebot' },
+                params: { event: JSON.parse(build(:event, title: nil,
                                                 performer_id: performer.id,
                                                 venue_id: venue.id).to_json) }
             expect(response).to render_template :edit
@@ -166,10 +166,10 @@ RSpec.describe 'Events', type: :request do
         end
         context 'with invalid venue_id' do
           it 'should explain invalid venue_id' do
-            put event_path(event_shared.id), params:
-              { event: JSON.parse(build(:event,
-                                        performer_id: performer.id,
-                                        venue_id: nil).to_json) }
+            put event_path(event_shared.id), headers: { HTTP_USER_AGENT: 'Googlebot' },
+                params: { event: JSON.parse(build(:event,
+                                                  performer_id: performer.id,
+                                                  venue_id: nil).to_json) }
             expect(response).to render_template :edit
             expect(flash[:alert].downcase).to include('venue')
           end
@@ -189,8 +189,8 @@ RSpec.describe 'Events', type: :request do
           let(:new_event) { JSON.parse(build(:event, venue_id: venue.id).to_json) }
           it 'should explain invalid performer' do
             new_event['performer_name'] = ''
-            put event_path(event_shared.id), params:
-              { event: new_event }
+            put event_path(event_shared.id), headers: { HTTP_USER_AGENT: 'Googlebot' },
+                params: { event: new_event }
             expect(flash[:alert].downcase).to include('performer')
           end
         end
@@ -200,12 +200,12 @@ RSpec.describe 'Events', type: :request do
     describe 'GET /events/:id/edit' do
       context 'with valid id' do
         it 'should render the correct template' do
-          get edit_event_path(event_shared.id)
+          get edit_event_path(event_shared.id), headers: { HTTP_USER_AGENT: 'Googlebot' }
           expect(response).to have_http_status :ok
           expect(response).to render_template :edit
         end
         it 'should display the event' do
-          get edit_event_path(event_shared.id)
+          get edit_event_path(event_shared.id), headers: { HTTP_USER_AGENT: 'Googlebot' }
           expect(response.body).to include(event_shared.title)
         end
       end

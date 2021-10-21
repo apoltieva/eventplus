@@ -22,6 +22,10 @@ RSpec.configure do |config|
   #   config.after(:each)  { Bullet.end_request }
   # end
 
+  config.before(:each) do
+    Capybara.page.driver.header('user-agent', 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36.')
+  end
+
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
