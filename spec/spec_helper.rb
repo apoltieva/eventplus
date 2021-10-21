@@ -23,7 +23,10 @@ RSpec.configure do |config|
   # end
 
   config.before(:each) do
-    Capybara.page.driver.header('user-agent', 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36.')
+    Capybara.page.driver.header(
+      'user-agent', 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko)' /
+      ' Chrome/41.0.2228.0 Safari/537.36.'
+    )
   end
 
   # rspec-expectations config goes here. You can use an alternate

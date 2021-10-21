@@ -157,9 +157,12 @@ RSpec.describe 'Events', type: :request do
         context 'with invalid event parameters' do
           it 'should explain invalid event parameters' do
             put event_path(event_shared.id), headers: { HTTP_USER_AGENT: 'Googlebot' },
-                params: { event: JSON.parse(build(:event, title: nil,
-                                                performer_id: performer.id,
-                                                venue_id: venue.id).to_json) }
+                                             params: { event: JSON.parse(
+                                               build(:event,
+                                                     title: nil,
+                                                     performer_id: performer.id,
+                                                     venue_id: venue.id).to_json
+                                             ) }
             expect(response).to render_template :edit
             expect(flash[:alert].downcase).to include('title')
           end
@@ -167,9 +170,11 @@ RSpec.describe 'Events', type: :request do
         context 'with invalid venue_id' do
           it 'should explain invalid venue_id' do
             put event_path(event_shared.id), headers: { HTTP_USER_AGENT: 'Googlebot' },
-                params: { event: JSON.parse(build(:event,
-                                                  performer_id: performer.id,
-                                                  venue_id: nil).to_json) }
+                                             params: {
+                                               event: JSON.parse(build(:event,
+                                                                       performer_id: performer.id,
+                                                                       venue_id: nil).to_json)
+                                             }
             expect(response).to render_template :edit
             expect(flash[:alert].downcase).to include('venue')
           end
@@ -190,7 +195,7 @@ RSpec.describe 'Events', type: :request do
           it 'should explain invalid performer' do
             new_event['performer_name'] = ''
             put event_path(event_shared.id), headers: { HTTP_USER_AGENT: 'Googlebot' },
-                params: { event: new_event }
+                                             params: { event: new_event }
             expect(flash[:alert].downcase).to include('performer')
           end
         end
