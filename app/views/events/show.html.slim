@@ -1,6 +1,6 @@
 h3 = @event.title
 p.u-block-d040-17 On stage: #{@event.performer.name}
-p.u-block-d040-17 = @event.description
+= @event.description.to_s
 p.u-block-d040-17 = @event.decorate.start_end
 - if user_signed_in? && current_user.events.include?(@event)
   - num = @events_num_of_tickets.fetch(@event.id) { nil }

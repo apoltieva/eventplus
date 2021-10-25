@@ -12,7 +12,9 @@ class Event < ApplicationRecord
   has_many :users, through: :orders
   belongs_to :performer
   accepts_nested_attributes_for :performer, reject_if: :all_blank, allow_destroy: true
+
   has_many_attached :pictures
+  has_rich_text :description
 
   before_save :set_keywords
 
@@ -38,9 +40,9 @@ class Event < ApplicationRecord
   scope :filter_by_keyword, ->(keyword) { where(':kwd = ANY(keywords)', kwd: keyword) }
   scope :with_keywords, -> { where('array_length(keywords, 1) > 0') }
 
-  # private
+  private
 
   def set_keywords
-    self.keywords = DescriptionParser.keywords(description.dup) if description_changed?
+    self.keywords = DescriptionParser.keywords(description.to_plain_text.squish) if description.body_changed?
   end
 end

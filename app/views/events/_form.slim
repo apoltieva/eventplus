@@ -1,9 +1,8 @@
-
 = simple_form_for @event do |f|
   = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
   .form-inputs
     = f.input :title, label: 'Title of the event', error: 'Title is mandatory, please specify one'
-    = f.input :description, as: :text
+    = f.input :description, as: :rich_text_area, class: 'form-control', input_html: { rows: @event.description.to_plain_text.size }, placeholder: "Enter your event description here..."
     = f.association :performer, collection: Performer.all,
       priority: @event.performer, include_blank: false,
       input_html: { id: 'existing_performer' }

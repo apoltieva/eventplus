@@ -8,8 +8,10 @@ class EventsController < ApplicationController
   def index
     user_id = current_user.id if current_user
     @events = fetch_events(user_id)
-              .preload(:performer, :venue, pictures_attachments: :blob)
+              .preload(:performer, :venue, :rich_text_description,
+                       pictures_attachments: :blob)
               .page(params[:page]).per_page(2)
+
 
     keywords = Event.with_keywords.pluck(:keywords).flatten
     @keywords_rating = keywords.uniq.sort_by { |e| -keywords.count(e) }
