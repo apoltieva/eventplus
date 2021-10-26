@@ -16,6 +16,7 @@
  */
 @import "./actiontext.scss";
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans&family=Nunito:wght@200;600;800&display=swap');
+
 /*                 Media-independent part            */
 body {
     font-family: 'Nunito', sans-serif;
@@ -27,17 +28,12 @@ body {
 }
 
 h1, h2, h3, h4 { font-family: 'Noto Sans', sans-serif; }
-/*              Pictures               */
-#logo {
-    margin-right: 10px;
+.btn-outline-info, .btn-outline-light, .btn-outline-primary, .btn-primary, .btn-outline-danger
+{
+    font-weight: bold
 }
 .btn-light {
     background-color: #fff5f5;
-}
-.margin
-{
-    display: inline-flex;
-    margin-right: 10px
 }
 .container
 {
@@ -48,6 +44,28 @@ h1, h2, h3, h4 { font-family: 'Noto Sans', sans-serif; }
     cursor:pointer;
     margin-right: 10px;
 }
+.field_with_errors
+{
+    color: red;
+}
+.pagination { visibility: hidden }
+a {
+    color: #fc6f03;
+    text-decoration: underline;
+}
+
+/* Navbar */
+#logo { margin-right: 10px; }
+nav {
+    background: #5c0017; /* fallback for old browsers */
+    background: -webkit-linear-gradient(270deg, #5c0017, #ffe5ec); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(270deg, #5c0017, #ffe5ec); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.margin
+{
+    display: inline-flex;
+    margin-right: 10px
+}
 .email
 {
     color: white;
@@ -55,6 +73,38 @@ h1, h2, h3, h4 { font-family: 'Noto Sans', sans-serif; }
     padding-top: 2px;
     font-weight: 600;
 }
+
+/* Event filtering panel */
+.filter {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.filter a {
+    display: inline-flex;
+    text-align: center;
+    padding: .7em 1em;
+    margin: 5px;
+    border-radius: 25px;
+    background: crimson;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+}
+.filter a.keyword { visibility: hidden; }
+.filter a.current {
+    background: orangered;
+    visibility: visible;
+}
+keyword {
+    display: inline-flex;
+    padding: .2em .4em;
+    margin: 10px;
+    background-color: #efe9f5;
+    border-radius: 6px;
+}
+
+
+/*                     Media                                    */
 @media (min-width: 1200px) {
     #map {
         width: 600px;
@@ -137,12 +187,10 @@ h1, h2, h3, h4 { font-family: 'Noto Sans', sans-serif; }
     }
 }
 @media (min-width: 490px) and (max-width: 575px) {
+    main { padding: 100px 0 0; }
     #map {
         width: 100%;
         height: 200px;
-    }
-    main { padding: 100px 0 0; }
-    #map {
         box-sizing: border-box;
     }
     .u-block-d040-2 {
@@ -162,50 +210,3 @@ h1, h2, h3, h4 { font-family: 'Noto Sans', sans-serif; }
 @media (max-width: 489px) {
     main { padding: 150px 0 0; }
 }
-.field_with_errors
-{
-    color: red;
-}
-.filter {
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-.filter a {
-    display: inline-flex;
-    text-align: center;
-    padding: .7em 1em;
-    margin: 5px;
-    border-radius: 25px;
-    background: crimson;
-    color: white;
-    text-decoration: none;
-    font-weight: 600;
-}
-.filter a.keyword { visibility: hidden; }
-.filter a.current {
-    background: orangered;
-    visibility: visible;
-}
-.pagination { visibility: hidden }
-
-keyword {
-    display: inline-flex;
-    padding: .2em .4em;
-    margin: 10px;
-    background-color: #efe9f5;
-    border-radius: 6px;
-}
-a {
-    color: #fc6f03;
-    text-decoration: underline;
-}
-nav {
-    background: #5c0017; /* fallback for old browsers */
-    background: -webkit-linear-gradient(270deg, #5c0017, #ffe5ec); /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(270deg, #5c0017, #ffe5ec); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-}
-.btn-outline-info { font-weight: bold }
-.btn-outline-light { font-weight: bold }
-.btn-outline-primary { font-weight: bold }
-.btn-primary { font-weight: bold }
-.btn-outline-danger { font-weight: bold }

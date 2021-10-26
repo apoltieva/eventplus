@@ -64,6 +64,11 @@ jobs:
       - restore_cache:
           keys:
             - bundle-{{ checksum "Gemfile.lock" }}
+      - run: yarn install --cache-folder ~/.cache/yarn
+      - save_cache:
+         key: yarn-{{ checksum "yarn.lock" }}
+         paths:
+           - ~/.cache/yarn
       - run: gem update --system
       - run: gem install bundler
       - run: bundle config set --local path 'vendor/bundle'
