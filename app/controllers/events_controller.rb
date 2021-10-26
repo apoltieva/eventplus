@@ -12,7 +12,6 @@ class EventsController < ApplicationController
                        pictures_attachments: :blob)
               .page(params[:page]).per_page(2)
 
-
     keywords = Event.with_keywords.pluck(:keywords).flatten
     @keywords_rating = keywords.uniq.sort_by { |e| -keywords.count(e) }
     @original_url = request.original_url

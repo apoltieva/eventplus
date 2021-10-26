@@ -21,9 +21,7 @@ class Event < ApplicationRecord
   scope :past, -> { where('end_time <= ?', Time.now) }
   scope :future, -> { where('end_time > ?', Time.now) }
   scope :by_user, ->(id) { merge(User.find(id).events) if id }
-  scope :nearest, ->(ids) do
-    future.order_as_specified(venue_id: ids)
-  end
+  scope :nearest, ->(ids) { future.order_as_specified(venue_id: ids) }
   scope :filter_by, ->(filter, user_id) do
     case filter
     when 'user'
@@ -36,13 +34,14 @@ class Event < ApplicationRecord
       future.order(:start_time)
     end
   end
-
   scope :filter_by_keyword, ->(keyword) { where(':kwd = ANY(keywords)', kwd: keyword) }
   scope :with_keywords, -> { where('array_length(keywords, 1) > 0') }
 
   private
 
   def set_keywords
-    self.keywords = DescriptionParser.keywords(description.to_plain_text.squish) if description.body_changed?
+    return unless description.body_changed?
+
+    self.keywords = DescriptionParser.keywords(description.to_plain_text.squish)
   end
 end

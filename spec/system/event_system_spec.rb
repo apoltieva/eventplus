@@ -99,7 +99,6 @@ RSpec.describe 'Event management', type: :system do
         expect(page).to have_current_path new_event_path
         expect do
           fill_in 'event_title', with: 'Event title'
-          fill_in 'event_description', with: 'Event description'
           click_link 'Create performer'
           page.find_by_id('new_performer').fill_in with: 'New performer'
           fill_in 'event_total_number_of_tickets', with: 2333
@@ -111,11 +110,9 @@ RSpec.describe 'Event management', type: :system do
       end
     end
     scenario "can't delete events with tickets for future events", js: true do
-      create(:order, event_id: events[0].id)
-      dismiss_confirm(/can't delete/i) do
-        expect { page.find_by_id(events[0].id.to_s).find_button('Delete').click }
-          .to change { Event.count }.by(0)
-      end
+      create(:order, event_id: events[0].id, status: :success)
+      expect { page.find_by_id(events[0].id.to_s).find_button('Delete').click }
+        .to change { Event.count }.by(0)
     end
   end
 end

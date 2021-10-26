@@ -14,7 +14,6 @@
  *= require_self
  *= require actiontext
  */
-@import "trix/dist/trix";
 @import "./actiontext.scss";
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans&family=Nunito:wght@200;600;800&display=swap');
 /*                 Media-independent part            */

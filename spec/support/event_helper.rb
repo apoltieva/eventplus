@@ -3,8 +3,6 @@
 module EventHelper
   def check_event_info(event)
     expect(page).to have_text(event.title)
-    expect(page).to have_text(event.description[0...100])
-
     expect(page).to have_text(event.venue.name)
     expect(page).to have_text('Tickets left')
   end
