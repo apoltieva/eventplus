@@ -9,6 +9,8 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
+    action-cable-testing (0.6.1)
+      actioncable (>= 5.0)
     actioncable (6.1.4)
       actionpack (= 6.1.4)
       activesupport (= 6.1.4)
@@ -256,6 +258,7 @@ GEM
     rb-fsevent (0.11.0)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
+    redis (4.4.0)
     regexp_parser (2.1.1)
     request_store (1.5.0)
       rack (>= 1.4)
@@ -388,6 +391,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  action-cable-testing
   active_storage-postgresql
   bootsnap (>= 1.4.4)
   bullet
@@ -420,6 +424,7 @@ DEPENDENCIES
   rack-mini-profiler (~> 2.0)
   rails (~> 6.1.4)
   rails-controller-testing
+  redis (~> 4.0)
   rqrcode (~> 2.0)
   rspec-rails
   rspec_junit_formatter

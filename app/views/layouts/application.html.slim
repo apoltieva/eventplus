@@ -19,7 +19,7 @@ html class="h-100" lang="en"
     = csp_meta_tag
   body.d-flex.flex-column.h-100
     = render 'layouts/navbar'
-    main.flex-shrink-0 role="main"
+    main.flex-shrink-0 class=(controller.controller_name) role="main"
       - flash.each do |type, msg|
         .alert.alert-info
           = msg

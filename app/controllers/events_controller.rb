@@ -3,7 +3,7 @@
 class EventsController < ApplicationController
   before_action :find_event, only: %i[destroy update edit show]
   authorize_resource
-  before_action :find_events_num_of_tickets, only: %i[index show]
+  before_action :find_events_num_of_tickets, only: %i[index show update]
 
   def index
     user_id = current_user.id if current_user
@@ -50,6 +50,17 @@ class EventsController < ApplicationController
     if @event.update(event_params)
       flash[:alert] = 'Updated successfully'
       redirect_to action: 'index'
+
+      user_id = current_user.id if current_user
+      @events = fetch_events(user_id)
+                .preload(:performer, :venue, :rich_text_description,
+                         pictures_attachments: :blob)
+                .page(params[:page]).per_page(2)
+      keywords = Event.with_keywords.pluck(:keywords).flatten
+      @keywords_rating = keywords.uniq.sort_by { |e| -keywords.count(e) }
+
+      ActionCable.server.broadcast 'events',
+                                   { html: render_to_string('index', layout: false) }
     else
       flash[:alert] = @event.errors.full_messages.join('; ')
       render :edit
