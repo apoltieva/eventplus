@@ -9,8 +9,6 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    action-cable-testing (0.6.1)
-      actioncable (>= 5.0)
     actioncable (6.1.4)
       actionpack (= 6.1.4)
       activesupport (= 6.1.4)
@@ -391,7 +389,6 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  action-cable-testing
   active_storage-postgresql
   bootsnap (>= 1.4.4)
   bullet

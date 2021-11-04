@@ -90,7 +90,7 @@ RSpec.describe 'Event management', type: :system do
           have_current_path(edit_event_path(events[0].id))
         )
         fill_in 'event_title', with: new_title
-        click_button 'Update Event'
+        expect { click_button 'Update Event' }.to have_broadcasted_to('events')
         expect(page).to have_text new_title
         expect(events[0].reload.title).to eq new_title
       end

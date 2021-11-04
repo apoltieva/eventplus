@@ -4,18 +4,10 @@ class EventsController < ApplicationController
   before_action :find_event, only: %i[destroy update edit show]
   authorize_resource
   before_action :find_events_num_of_tickets, only: %i[index show update]
+  before_action :set_variables_for_view, only: %i[index update]
 
   def index
-    user_id = current_user.id if current_user
-    @events = fetch_events(user_id)
-              .preload(:performer, :venue, :rich_text_description,
-                       pictures_attachments: :blob)
-              .page(params[:page]).per_page(2)
-
-    keywords = Event.with_keywords.pluck(:keywords).flatten
-    @keywords_rating = keywords.uniq.sort_by { |e| -keywords.count(e) }
-    @original_url = request.original_url
-    @filter = params[:filter]
+    @events = fetch_preload_and_paginate_events
     respond_to do |format|
       format.html
       format.js
@@ -29,8 +21,7 @@ class EventsController < ApplicationController
   def show
     ActiveRecord::Associations::Preloader
       .new.preload(@event, [{ pictures_attachments: :blob },
-                            { venue:
-                                { pictures_attachments: :blob } }])
+                            { venue: { pictures_attachments: :blob } }])
   end
 
   def create
@@ -51,13 +42,7 @@ class EventsController < ApplicationController
       flash[:alert] = 'Updated successfully'
       redirect_to action: 'index'
 
-      user_id = current_user.id if current_user
-      @events = fetch_events(user_id)
-                .preload(:performer, :venue, :rich_text_description,
-                         pictures_attachments: :blob)
-                .page(params[:page]).per_page(2)
-      keywords = Event.with_keywords.pluck(:keywords).flatten
-      @keywords_rating = keywords.uniq.sort_by { |e| -keywords.count(e) }
+      @events = fetch_preload_and_paginate_events
 
       ActionCable.server.broadcast 'events',
                                    { html: render_to_string('index', layout: false) }
@@ -81,23 +66,24 @@ class EventsController < ApplicationController
 
   private
 
-  def fetch_events(user_id)
-    case params[:filter]
-    when 'keyword'
-      Event.filter_by_keyword params[:keyword]
-    when 'nearest'
-      coords = if request.safe_location.coordinates.empty?
-                 [50.4547, 30.5238]
-               else
-                 request.safe_location.coordinates
-               end
-      @venues_with_distance = Venue.near(
-        coords, 20_000, units: :km, select: 'venues.id'
-      ).each_with_object({}) { |v, h| h[v.id] = v.distance }
-      Event.nearest(@venues_with_distance.keys)
-    else
-      Event.filter_by(params[:filter], user_id)
-    end
+  def set_variables_for_view
+    keywords = Event.with_keywords.pluck(:keywords).flatten
+    @keywords_rating = keywords.uniq.sort_by { |e| -keywords.count(e) }
+    @original_url = request.original_url
+    @filter = params[:filter]
+
+    return unless @filter == 'nearest'
+
+    coords = if request.safe_location.coordinates.empty?
+               [50.4547, 30.5238]
+             else
+               request.safe_location.coordinates
+             end
+    @venues_with_distance = VenuesWithDistanceFinder.call(coords)
+  end
+
+  def fetch_preload_and_paginate_events
+    EventsFinder.new.call(params, request.safe_location, current_user)
   end
 
   def find_events_num_of_tickets
