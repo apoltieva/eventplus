@@ -20,7 +20,7 @@ class Event < ApplicationRecord
 
   scope :past, -> { where('end_time <= ?', Time.now) }
   scope :future, -> { where('end_time > ?', Time.now) }
-  scope :by_user, ->(id) { merge(User.find(id).events) if id }
+  scope :by_user, ->(id) { id ? merge(User.find(id).events) : Event.all }
   scope :nearest, ->(ids) { future.order_as_specified(venue_id: ids) }
   scope :filter_by, ->(filter, user_id) do
     case filter

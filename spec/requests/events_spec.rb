@@ -135,10 +135,12 @@ RSpec.describe 'Events', type: :request do
       context 'with valid parameters' do
         it 'should update the event' do
           title = Faker::Movie.title
-          put event_path(event_shared.id), params:
-            { event: JSON.parse(build(:event, title: title,
-                                              performer_id: performer.id,
-                                              venue_id: venue.id).to_json) }
+          expect do
+            put event_path(event_shared.id), params:
+              { event: JSON.parse(build(:event, title: title,
+                                                performer_id: performer.id,
+                                                venue_id: venue.id).to_json) }
+          end.to have_broadcasted_to('events')
 
           expect(event_shared.reload.title).to eq(title)
         end
