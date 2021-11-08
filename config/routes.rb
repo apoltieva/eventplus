@@ -12,4 +12,6 @@ Rails.application.routes.draw do
   get '/success', to: 'orders#success', as: :success_checkout
   get '/cancel', to: 'orders#cancel', as: :cancel_checkout
   get '/help', to: 'events#help', as: :help
+
+  mount ActionCable.server, at: '/cable'
 end
