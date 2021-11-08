@@ -138,17 +138,17 @@ namespace :deploy do
   after  :finishing,    :restart
 end
 
-namespace :redis do
-  desc "Install the latest release of Redis"
-  task :install, roles: :app do
-    run "#{sudo} apt-get -y install redis-server"
-  end
-  after "deploy:install", "redis:install"
-
-  %w[start stop restart].each do |command|
-    desc "#{command} redis"
-    task command, roles: :web do
-      run "#{sudo} service redis-server #{command}"
-    end
-  end
-end
+# namespace :redis do
+#   desc "Install the latest release of Redis"
+#   task :install, roles: :app do
+#     run "#{sudo} apt-get -y install redis-server"
+#   end
+#   after "deploy:install", "redis:install"
+#
+#   %w[start stop restart].each do |command|
+#     desc "#{command} redis"
+#     task command, roles: :web do
+#       run "#{sudo} service redis-server #{command}"
+#     end
+#   end
+# end
