@@ -112,22 +112,3 @@ namespace :deploy do
   after  :finishing,    :cleanup
   after  :finishing,    :restart
 end
-
-# set :redis_pid, "/var/run/redis/redis-server.pid"
-# set :redis_port, 6379
-namespace :redis do
-  desc "Install the latest release of Redis"
-  task :install, roles: :app do
-    run "#{sudo} apt-get -y install redis-server"
-  end
-  after "deploy:install", "redis:install"
-
-  %w[start stop restart].each do |command|
-    desc "#{command} Redis server."
-    task command do
-      on roles(:app) do
-        execute :sudo, "service redis-server #{command}"
-      end
-    end
-  end
-end
