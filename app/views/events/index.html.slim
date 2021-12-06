@@ -1,5 +1,5 @@
 .u-block-d040-2
-  h1 Welcome to Event+ website
+  h1 = t('.welcome')
   - if current_user&.admin?
     = button_to 'Create', new_event_path, method: 'get', class: "btn btn-outline-info"
   .filter.flex-shrink-0
