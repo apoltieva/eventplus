@@ -8,7 +8,7 @@ class OrdersController < ApplicationController
       redirect_to session.url
     else
       flash[:alert] = @order.errors.full_messages.join('; ')
-      redirect_back(fallback_location: root_path)
+      redirect_back(fallback_location: root_path, locale: I18n.locale)
     end
   end
 

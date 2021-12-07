@@ -1,29 +1,29 @@
 header.navbar
   nav.navbar.navbar-light.fixed-top
-    = link_to image_tag('logo.png', size: "120x40", id: 'logo'), root_path
+    = link_to image_tag('logo.png', size: "120x40", id: 'logo'), root_path, locale: I18n.locale
     ul.navbar-nav.mr-auto
       .btn-group
         .margin
           li.nav-item.active
-            = button_to t('.home'), root_path, method: 'get', class: "btn btn-light btn-block"
+            = button_to t('.home'), root_path(locale: I18n.locale), method: 'get', class: "btn btn-light btn-block"
         .margin
           li.nav-item.active
-            = button_to t('.help'), help_path, method: 'get', class: "btn btn-light btn-block"
+            = button_to t('.help'), help_path(locale: I18n.locale), method: 'get', class: "btn btn-light btn-block"
         - if user_signed_in?
           .margin
             li.nav-item.active
-              = button_to t('.logout'), destroy_user_session_path, method: 'delete', class: "btn btn-light btn-block"
+              = button_to t('.logout'), destroy_user_session_path(locale: I18n.locale), method: 'delete', class: "btn btn-light btn-block"
         - else
           .margin
             li.nav-item.active
-              = button_to t('.register'), new_user_registration_path, method: 'get', class: "btn btn-light btn-block"
+              = button_to t('.register'), new_user_registration_path(locale: I18n.locale), method: 'get', class: "btn btn-light btn-block"
           .margin
             li.nav-item.active
-              = button_to t('.login'), new_user_session_path, method: 'get', class: "btn btn-light btn-block"
+              = button_to t('.login'), new_user_session_path(locale: I18n.locale), method: 'get', class: "btn btn-light btn-block"
         - if current_user&.admin?
           li.nav-item.active
             .margin
-              = button_to 'Venues', '/venues', method: 'get', class: "btn btn-outline-light btn-block"
+              = button_to 'Venues', venues_path(locale: I18n.locale), method: 'get', class: "btn btn-outline-light btn-block"
     - if user_signed_in?
       ul.navbar-nav.flex-row.d-md-flex
         li.email

@@ -10,7 +10,7 @@
           = image_tag(picture, alt: "img.jpg", size: "200x133",
             class: 'u-image')
     - e = event.decorate
-    / h3.u-block-d040-7 = link_to event.title, event_path(event.id), method: 'get'
+    h3.u-block-d040-7 = link_to event.title, event_path(event.id, locale: I18n.locale), method: 'get'
     p.u-block-d040-17 On stage: #{event.performer.name}
     p.u-block-d040-17 Venue: #{event.venue.name}
     - if @venues_with_distance
@@ -39,8 +39,8 @@
           button.btn.btn-secondary disabled="" type="button" Sold Out
     - elsif current_user&.admin?
       .btn-group
-        = button_to 'Edit', edit_event_path(event.id), method: 'get', class: "btn btn-outline-primary"
-        = button_to 'Delete', event_path(event.id), method: 'delete', class: "btn btn-outline-danger",
+        = button_to 'Edit', edit_event_path(event.id, locale: I18n.locale), method: 'get', class: "btn btn-outline-primary"
+        = button_to 'Delete', event_path(event.id, locale: I18n.locale), method: 'delete', class: "btn btn-outline-danger",
           rel: 'no-follow', remote: true
     - else
       button.btn.btn-secondary [disabled="" type="button" data-toggle="tooltip" data-placement="top"
