@@ -1,0 +1,13 @@
+ua:
+  layouts:
+    application:
+      creator: розробник - Анна Полтьєва
+    navbar:
+      home: Додому
+      help: Допомога
+      logout: Вийти
+      register: Зареєструватися
+      login: Увійти
+  events:
+    index:
+      welcome: Вітаємо на сайті Event+
