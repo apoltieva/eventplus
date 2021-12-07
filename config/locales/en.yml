@@ -1,20 +1,20 @@
 en:
+  home: Home
+  help: Help
+  logout: Logout
+  register: Register
+  login: Login
   layouts:
     application:
       creator: creator - Anna Poltieva
-    navbar:
-      home: Home
-      help: Help
-      logout: Logout
-      register: Register
-      login: Login
   events:
     index:
       welcome: Welcome to Event+ website
-      all_events_filter_button: All events
-      near_you_filter_button: Near you
-      past_events_filter_button: Past events
-      your_events_filter_button: Your events
-      your_past_events_filter_button: Your past events
-      with_keyword_button_filter: With keyword
+    filter:
+      all_events: All events
+      near_you: Near you
+      past_events: Past events
+      your_events: Your events
+      your_past_events: Your past events
+      with_keyword: With keyword
 
