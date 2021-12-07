@@ -3,13 +3,13 @@
   - if current_user&.admin?
     = button_to 'Create', new_event_path(locale: I18n.locale), method: 'get', class: "btn btn-outline-info"
   .filter.flex-shrink-0
-    a.all href=events_url(locale: I18n.locale) class=(!@filter ? 'current' : '') All events
-    a.past href=events_url(filter: 'nearest', locale: I18n.locale) class=(@filter == "nearest" ? 'current' : '') Near you
-    a.past href=events_url(filter: 'past', locale: I18n.locale) class=(@filter == "past" ? 'current' : '') Past events
+    a.all href=events_url(locale: I18n.locale) class=(!@filter ? 'current' : '') = t('.all_events_filter_button')
+    a.past href=events_url(filter: 'nearest', locale: I18n.locale) class=(@filter == "nearest" ? 'current' : '') = t('.near_you_filter_button')
+    a.past href=events_url(filter: 'past', locale: I18n.locale) class=(@filter == "past" ? 'current' : '') = t('.past_events_filter_button')
     - if user_signed_in?
-      a.user href=events_url(filter: 'user', locale: I18n.locale) class=(@filter == "user" ? 'current' : '') Your events
-      a.user_past href=events_url(filter: 'user_past', locale: I18n.locale) class=(@filter == "user_past" ? 'current' : '') Your past events
-    a.keyword href=events_url(locale: I18n.locale) class=(@filter == "keyword" ? 'current' : '') With keyword
+      a.user href=events_url(filter: 'user', locale: I18n.locale) class=(@filter == "user" ? 'current' : '') = t('.your_events_filter_button')
+      a.user_past href=events_url(filter: 'user_past', locale: I18n.locale) class=(@filter == "user_past" ? 'current' : '') = t('.your_past_events_filter_button')
+    a.keyword href=events_url(locale: I18n.locale) class=(@filter == "keyword" ? 'current' : '') = t('.With keyword
   - if @events.empty?
     | No events :(
   - else

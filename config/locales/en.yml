@@ -11,3 +11,9 @@ en:
   events:
     index:
       welcome: Welcome to Event+ website
+      all_events_filter_button: All events
+      near_you_filter_button: Near you
+      past_events_filter_button: Past events
+      your_events_filter_button: Your events
+      your_past_events_filter_button: Your past events
+

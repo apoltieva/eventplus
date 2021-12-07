@@ -11,3 +11,8 @@ ua:
   events:
     index:
       welcome: Вітаємо на сайті Event+
+      all_events_filter_button: Всі події
+      near_you_filter_button: Біля Вас
+      past_events_filter_button: Минулі події
+      your_events_filter_button: Ваші події
+      your_past_events_filter_button: Ваші минулі події
