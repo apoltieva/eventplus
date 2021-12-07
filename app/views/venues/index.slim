@@ -17,8 +17,8 @@
           - if venue.max_capacity
             p.u-block-d040-17 Maximum capacity: #{venue.max_capacity}
           .btn-group
-            = button_to 'Edit', edit_venue_path(venue.id), method: 'get', class: "btn btn-outline-primary"
-            = button_to 'Delete', venue_path(venue.id), method: 'delete', class: "btn btn-outline-danger", rel: 'no-follow', remote: true
+            = button_to 'Edit', edit_venue_path(venue.id, locale: I18n.locale), method: 'get', class: "btn btn-outline-primary"
+            = button_to 'Delete', venue_path(venue.id, locale: I18n.locale), method: 'delete', class: "btn btn-outline-danger", rel: 'no-follow', remote: true
 
 - content_for :head do
   = javascript_include_tag 'delete.js'

@@ -15,7 +15,7 @@ module EventHelper
       order2 = create(:order, event_id: event.id, user_id: user2.id)
     end
     click_link event.title
-    expect(page).to have_current_path event_path(event.id)
+    expect(page).to have_current_path event_path(event.id, locale: I18n.locale)
     check_event_info(event)
     return unless admin
 

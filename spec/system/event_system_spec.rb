@@ -87,7 +87,7 @@ RSpec.describe 'Event management', type: :system do
       scenario 'can edit events' do
         page.find_by_id(events[0].id.to_s).find_button('Edit').click
         expect(page).to(
-          have_current_path(edit_event_path(events[0].id))
+          have_current_path(edit_event_path(events[0].id, locale: I18n.default_locale))
         )
         fill_in 'event_title', with: new_title
         expect { click_button 'Update Event' }.to have_broadcasted_to('events')
@@ -96,7 +96,7 @@ RSpec.describe 'Event management', type: :system do
       end
       scenario 'can create new events and a new performer', js: true do
         click_button 'Create'
-        expect(page).to have_current_path new_event_path
+        expect(page).to have_current_path new_event_path(locale: I18n.default_locale)
         expect do
           fill_in 'event_title', with: 'Event title'
           click_link 'Create performer'

@@ -30,7 +30,7 @@ div
   - if current_user&.admin?
     br
     br
-    = button_to 'Edit', edit_event_path(@event.id), method: 'get', class: "btn btn-outline-primary"
+    = button_to 'Edit', edit_event_path(@event.id, locale: I18n.locale), method: 'get', class: "btn btn-outline-primary"
 .d-none
   input#venue_latitude value=(@event.venue.latitude)
   input#venue_longitude value=(@event.venue.longitude)
