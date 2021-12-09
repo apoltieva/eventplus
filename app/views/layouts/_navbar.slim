@@ -26,5 +26,6 @@ header.navbar
               = button_to 'Venues', venues_path(locale: I18n.locale), method: 'get', class: "btn btn-outline-light btn-block"
     - if user_signed_in?
       ul.navbar-nav.flex-row.d-md-flex
-        li.email
-          p = current_user.email
+        li.email = current_user.email
+    = render 'layouts/locales_menu'
+

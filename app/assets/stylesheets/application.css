@@ -65,12 +65,11 @@ nav {
     display: inline-flex;
     margin-right: 10px
 }
-.email
+.email, #locales
 {
     color: white;
-    margin-top: 5px;
-    padding-top: 2px;
     font-weight: 600;
+    padding-right: 10px;
 }
 
 /* Event filtering panel */

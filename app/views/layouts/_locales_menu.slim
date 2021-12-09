@@ -1,0 +1,5 @@
+ul.navbar-nav.flex-row.d-md-flex#locales
+  li
+    = link_to_unless I18n.locale == :en, 'English', root_path(locale: :en)
+    | |
+    = link_to_unless I18n.locale == :uk, 'Українська', root_path(locale: :uk)
